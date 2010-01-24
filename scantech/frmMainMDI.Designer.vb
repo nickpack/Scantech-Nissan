@@ -345,7 +345,7 @@ Partial Class frmMain
         Me.MainMenuStrip = Me.MenuStrip
         Me.MinimumSize = New System.Drawing.Size(700, 500)
         Me.Name = "frmMain"
-        Me.Text = "NISSAN CONSULT 1 DIAGNOSTIC SOFTWARE"
+        Me.Text = "TESTING NISSAN CONSULT 1 DIAGNOSTIC SOFTWARE"
         Me.StatusStrip.ResumeLayout(False)
         Me.StatusStrip.PerformLayout()
         Me.ToolStrip1.ResumeLayout(False)
