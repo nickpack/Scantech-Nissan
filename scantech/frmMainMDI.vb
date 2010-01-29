@@ -60,7 +60,7 @@ Public Class frmMain
             'StatusTimout.Image = My.Resources.CommentHS
         End If
     End Sub
-    Private Sub GridStyleToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GridStyleToolStripMenuItem.Click
+    Private Sub GridStyleToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If LOOP_IN_PROGRESS = True Then Exit Sub
         DISABLE_MENUS()
         USER_FORM_SELECT = 1 'GRID STYLE
@@ -71,7 +71,7 @@ Public Class frmMain
         Me.Refresh()
     End Sub
 
-    Private Sub DiagnosticFaultsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DiagnosticFaultsToolStripMenuItem.Click
+    Private Sub DiagnosticFaultsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         DISABLE_MENUS()
         frmC1Faults.MdiParent = Me : frmC1Faults.Show()
     End Sub
@@ -79,19 +79,19 @@ Public Class frmMain
     Private Sub CreateECUProfileToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CreateECUProfileToolStripMenuItem.Click
         frmECUProfile.Show()
     End Sub
-    Private Sub RegisterTest_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RegisterTest.Click
+    Private Sub RegisterTest_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         frmScannerRegister.MdiParent = Me : frmScannerRegister.Show()
     End Sub
 
-    Private Sub ConductECUTestToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ConductECUTestToolStripMenuItem.Click
+    Private Sub ConductECUTestToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         frmScannerECU.MdiParent = Me : frmScannerECU.Show()
     End Sub
 
-    Private Sub GaugesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GaugesToolStripMenuItem.Click
+    Private Sub GaugesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         MsgBox("Not Implemented at this time")
     End Sub
 
-    Private Sub GraphingToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GraphingToolStripMenuItem.Click
+    Private Sub GraphingToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         MsgBox("Not Implemented at this time")
     End Sub
 
@@ -99,7 +99,7 @@ Public Class frmMain
         MsgBox("Not Implemented at this time")
     End Sub
 
-    Private Sub RegisterDecoderToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RegisterDecoderToolStripMenuItem.Click
+    Private Sub RegisterDecoderToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         frmRegisterDecoder.MdiParent = Me : frmRegisterDecoder.Show()
     End Sub
 

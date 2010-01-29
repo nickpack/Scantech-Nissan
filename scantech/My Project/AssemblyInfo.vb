@@ -9,10 +9,10 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("ScanTech Nissan")> 
-<Assembly: AssemblyDescription("Nissan Consult 1 Scantool Software")> 
+<Assembly: AssemblyDescription("Nissan OBD 1 Scantool Software")> 
 <Assembly: AssemblyCompany("")> 
 <Assembly: AssemblyProduct("ScanTech Nissan")> 
-<Assembly: AssemblyCopyright("Copyright © 2009")> 
+<Assembly: AssemblyCopyright("Copyright Scantech © 2009")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(True)> 

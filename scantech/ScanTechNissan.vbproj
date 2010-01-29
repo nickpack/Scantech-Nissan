@@ -22,7 +22,7 @@
     <ManifestCertificateThumbprint>9F945FCFAFD79DBA333878BA0341B454C8090C07</ManifestCertificateThumbprint>
     <ManifestKeyFile>ScanTechNissan_TemporaryKey.pfx</ManifestKeyFile>
     <GenerateManifests>true</GenerateManifests>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
