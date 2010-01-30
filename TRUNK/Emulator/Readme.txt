@@ -1,0 +1,1 @@
+This ECM Emulator was designed in VB6 and requires VB6 Runtime Files. Port the Nissan Scantech to the Emulator using the Virtual Serial Com port.
