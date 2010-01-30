@@ -60,13 +60,14 @@ Partial Class frmMain
         Me.ConductStationaryTestsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.DiagnosticFaultsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.AlertMonitoringSystemToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ConductRoadTestsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.SpeedTrialToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.RoadDynoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.EngineData = New System.Windows.Forms.ToolStripMenuItem
         Me.tbEcuProfile = New System.Windows.Forms.ToolStripMenuItem
-        Me.SToolStripMenuItem = New System.Windows.Forms.ToolStripSeparator
         Me.CreateECUProfileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ShareUploadECUProfileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.SToolStripMenuItem = New System.Windows.Forms.ToolStripSeparator
         Me.Inspector = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator
         Me.ToolsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.CustomizeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.Settings = New System.Windows.Forms.ToolStripMenuItem
@@ -82,13 +83,18 @@ Partial Class frmMain
         Me.toolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator
         Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip = New System.Windows.Forms.MenuStrip
-        Me.ConductRoadTestsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.SpeedTrialToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.RoadDynoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.StyleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.LogsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator
+        Me.BasicToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.AdvancedToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
         Me.GridStyleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.GaugesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.GraphingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem7 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator
+        Me.MonitorManagerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.AdvancedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RegisterTest = New System.Windows.Forms.ToolStripMenuItem
         Me.ConductECUTestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -322,8 +328,8 @@ Partial Class frmMain
         'DiagnosticFaultsToolStripMenuItem
         '
         Me.DiagnosticFaultsToolStripMenuItem.Name = "DiagnosticFaultsToolStripMenuItem"
-        Me.DiagnosticFaultsToolStripMenuItem.Size = New System.Drawing.Size(190, 26)
-        Me.DiagnosticFaultsToolStripMenuItem.Text = "Self Diagnostics"
+        Me.DiagnosticFaultsToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.DiagnosticFaultsToolStripMenuItem.Text = "ECU Self Diagnostic"
         '
         'AlertMonitoringSystemToolStripMenuItem
         '
@@ -331,51 +337,56 @@ Partial Class frmMain
         Me.AlertMonitoringSystemToolStripMenuItem.Size = New System.Drawing.Size(190, 26)
         Me.AlertMonitoringSystemToolStripMenuItem.Text = "Alert Monitor"
         '
+        'ConductRoadTestsToolStripMenuItem
+        '
+        Me.ConductRoadTestsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SpeedTrialToolStripMenuItem, Me.RoadDynoToolStripMenuItem})
+        Me.ConductRoadTestsToolStripMenuItem.Name = "ConductRoadTestsToolStripMenuItem"
+        Me.ConductRoadTestsToolStripMenuItem.Size = New System.Drawing.Size(190, 26)
+        Me.ConductRoadTestsToolStripMenuItem.Text = "&Road Tests"
+        '
+        'SpeedTrialToolStripMenuItem
+        '
+        Me.SpeedTrialToolStripMenuItem.Name = "SpeedTrialToolStripMenuItem"
+        Me.SpeedTrialToolStripMenuItem.Size = New System.Drawing.Size(157, 26)
+        Me.SpeedTrialToolStripMenuItem.Text = "Speed Trial"
+        '
+        'RoadDynoToolStripMenuItem
+        '
+        Me.RoadDynoToolStripMenuItem.Name = "RoadDynoToolStripMenuItem"
+        Me.RoadDynoToolStripMenuItem.Size = New System.Drawing.Size(157, 26)
+        Me.RoadDynoToolStripMenuItem.Text = "Road Dyno"
+        '
         'EngineData
         '
-        Me.EngineData.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StyleToolStripMenuItem})
+        Me.EngineData.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BasicToolStripMenuItem, Me.AdvancedToolStripMenuItem1, Me.ToolStripMenuItem4, Me.MonitorManagerToolStripMenuItem})
         Me.EngineData.Name = "EngineData"
         Me.EngineData.Size = New System.Drawing.Size(78, 25)
         Me.EngineData.Text = "&Monitor"
         '
         'tbEcuProfile
         '
-        Me.tbEcuProfile.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CreateECUProfileToolStripMenuItem, Me.ShareUploadECUProfileToolStripMenuItem, Me.SToolStripMenuItem, Me.AdvancedToolStripMenuItem})
+        Me.tbEcuProfile.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CreateECUProfileToolStripMenuItem, Me.SToolStripMenuItem, Me.AdvancedToolStripMenuItem})
         Me.tbEcuProfile.Name = "tbEcuProfile"
         Me.tbEcuProfile.Size = New System.Drawing.Size(67, 25)
         Me.tbEcuProfile.Text = "&Profile"
+        '
+        'CreateECUProfileToolStripMenuItem
+        '
+        Me.CreateECUProfileToolStripMenuItem.Name = "CreateECUProfileToolStripMenuItem"
+        Me.CreateECUProfileToolStripMenuItem.Size = New System.Drawing.Size(191, 26)
+        Me.CreateECUProfileToolStripMenuItem.Text = "Profile Manager"
         '
         'SToolStripMenuItem
         '
         Me.SToolStripMenuItem.Name = "SToolStripMenuItem"
         Me.SToolStripMenuItem.Size = New System.Drawing.Size(272, 6)
         '
-        'CreateECUProfileToolStripMenuItem
-        '
-        Me.CreateECUProfileToolStripMenuItem.Image = Global.ScantechNissan.My.Resources.Resources.CommentHS
-        Me.CreateECUProfileToolStripMenuItem.Name = "CreateECUProfileToolStripMenuItem"
-        Me.CreateECUProfileToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F9
-        Me.CreateECUProfileToolStripMenuItem.Size = New System.Drawing.Size(275, 26)
-        Me.CreateECUProfileToolStripMenuItem.Text = "Create/Edit ECU Profile..."
-        '
-        'ShareUploadECUProfileToolStripMenuItem
-        '
-        Me.ShareUploadECUProfileToolStripMenuItem.Image = Global.ScantechNissan.My.Resources.Resources.PageUpHS
-        Me.ShareUploadECUProfileToolStripMenuItem.Name = "ShareUploadECUProfileToolStripMenuItem"
-        Me.ShareUploadECUProfileToolStripMenuItem.Size = New System.Drawing.Size(275, 26)
-        Me.ShareUploadECUProfileToolStripMenuItem.Text = "Share/Upload ECU Profile..."
-        '
         'Inspector
         '
-        Me.Inspector.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripSeparator8})
+        Me.Inspector.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LogsToolStripMenuItem, Me.ToolStripMenuItem3})
         Me.Inspector.Name = "Inspector"
         Me.Inspector.Size = New System.Drawing.Size(71, 25)
         Me.Inspector.Text = "&Inspect"
-        '
-        'ToolStripSeparator8
-        '
-        Me.ToolStripSeparator8.Name = "ToolStripSeparator8"
-        Me.ToolStripSeparator8.Size = New System.Drawing.Size(149, 6)
         '
         'ToolsToolStripMenuItem
         '
@@ -477,58 +488,83 @@ Partial Class frmMain
         Me.MenuStrip.TabIndex = 5
         Me.MenuStrip.Text = "MenuStrip"
         '
-        'ConductRoadTestsToolStripMenuItem
+        'LogsToolStripMenuItem
         '
-        Me.ConductRoadTestsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SpeedTrialToolStripMenuItem, Me.RoadDynoToolStripMenuItem})
-        Me.ConductRoadTestsToolStripMenuItem.Name = "ConductRoadTestsToolStripMenuItem"
-        Me.ConductRoadTestsToolStripMenuItem.Size = New System.Drawing.Size(190, 26)
-        Me.ConductRoadTestsToolStripMenuItem.Text = "&Road Tests"
+        Me.LogsToolStripMenuItem.Name = "LogsToolStripMenuItem"
+        Me.LogsToolStripMenuItem.Size = New System.Drawing.Size(152, 26)
+        Me.LogsToolStripMenuItem.Text = "Logs"
         '
-        'SpeedTrialToolStripMenuItem
+        'ToolStripMenuItem3
         '
-        Me.SpeedTrialToolStripMenuItem.Name = "SpeedTrialToolStripMenuItem"
-        Me.SpeedTrialToolStripMenuItem.Size = New System.Drawing.Size(157, 26)
-        Me.SpeedTrialToolStripMenuItem.Text = "Speed Trial"
+        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(149, 6)
         '
-        'RoadDynoToolStripMenuItem
+        'BasicToolStripMenuItem
         '
-        Me.RoadDynoToolStripMenuItem.Name = "RoadDynoToolStripMenuItem"
-        Me.RoadDynoToolStripMenuItem.Size = New System.Drawing.Size(157, 26)
-        Me.RoadDynoToolStripMenuItem.Text = "Road Dyno"
+        Me.BasicToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GridStyleToolStripMenuItem, Me.GaugesToolStripMenuItem, Me.GraphingToolStripMenuItem})
+        Me.BasicToolStripMenuItem.Name = "BasicToolStripMenuItem"
+        Me.BasicToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
+        Me.BasicToolStripMenuItem.Text = "Basic"
         '
-        'StyleToolStripMenuItem
+        'AdvancedToolStripMenuItem1
         '
-        Me.StyleToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GridStyleToolStripMenuItem, Me.GaugesToolStripMenuItem, Me.GraphingToolStripMenuItem})
-        Me.StyleToolStripMenuItem.Name = "StyleToolStripMenuItem"
-        Me.StyleToolStripMenuItem.Size = New System.Drawing.Size(152, 26)
-        Me.StyleToolStripMenuItem.Text = "Style"
+        Me.AdvancedToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem5, Me.ToolStripMenuItem6, Me.ToolStripMenuItem7})
+        Me.AdvancedToolStripMenuItem1.Name = "AdvancedToolStripMenuItem1"
+        Me.AdvancedToolStripMenuItem1.Size = New System.Drawing.Size(202, 26)
+        Me.AdvancedToolStripMenuItem1.Text = "Advanced"
         '
         'GridStyleToolStripMenuItem
         '
         Me.GridStyleToolStripMenuItem.Name = "GridStyleToolStripMenuItem"
-        Me.GridStyleToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1
-        Me.GridStyleToolStripMenuItem.Size = New System.Drawing.Size(159, 26)
+        Me.GridStyleToolStripMenuItem.Size = New System.Drawing.Size(152, 26)
         Me.GridStyleToolStripMenuItem.Text = "Grid"
         '
         'GaugesToolStripMenuItem
         '
         Me.GaugesToolStripMenuItem.Name = "GaugesToolStripMenuItem"
-        Me.GaugesToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F2
-        Me.GaugesToolStripMenuItem.Size = New System.Drawing.Size(159, 26)
+        Me.GaugesToolStripMenuItem.Size = New System.Drawing.Size(152, 26)
         Me.GaugesToolStripMenuItem.Text = "Gauges"
         '
         'GraphingToolStripMenuItem
         '
         Me.GraphingToolStripMenuItem.Name = "GraphingToolStripMenuItem"
-        Me.GraphingToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3
-        Me.GraphingToolStripMenuItem.Size = New System.Drawing.Size(159, 26)
+        Me.GraphingToolStripMenuItem.Size = New System.Drawing.Size(152, 26)
         Me.GraphingToolStripMenuItem.Text = "Graph"
+        '
+        'ToolStripMenuItem5
+        '
+        Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
+        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(152, 26)
+        Me.ToolStripMenuItem5.Text = "Grid"
+        '
+        'ToolStripMenuItem6
+        '
+        Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
+        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(152, 26)
+        Me.ToolStripMenuItem6.Text = "Gauges"
+        '
+        'ToolStripMenuItem7
+        '
+        Me.ToolStripMenuItem7.Name = "ToolStripMenuItem7"
+        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(152, 26)
+        Me.ToolStripMenuItem7.Text = "Graph"
+        '
+        'ToolStripMenuItem4
+        '
+        Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(199, 6)
+        '
+        'MonitorManagerToolStripMenuItem
+        '
+        Me.MonitorManagerToolStripMenuItem.Name = "MonitorManagerToolStripMenuItem"
+        Me.MonitorManagerToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
+        Me.MonitorManagerToolStripMenuItem.Text = "Monitor Manager"
         '
         'AdvancedToolStripMenuItem
         '
         Me.AdvancedToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RegisterTest, Me.ConductECUTestToolStripMenuItem, Me.RegisterDecoderToolStripMenuItem})
         Me.AdvancedToolStripMenuItem.Name = "AdvancedToolStripMenuItem"
-        Me.AdvancedToolStripMenuItem.Size = New System.Drawing.Size(275, 26)
+        Me.AdvancedToolStripMenuItem.Size = New System.Drawing.Size(191, 26)
         Me.AdvancedToolStripMenuItem.Text = "Advanced"
         '
         'RegisterTest
@@ -617,16 +653,10 @@ Partial Class frmMain
     Friend WithEvents SpeedTrialToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RoadDynoToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents EngineData As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents StyleToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents GridStyleToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents GaugesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents GraphingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents tbEcuProfile As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SToolStripMenuItem As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents CreateECUProfileToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ShareUploadECUProfileToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Inspector As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator8 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CustomizeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Settings As System.Windows.Forms.ToolStripMenuItem
@@ -642,6 +672,18 @@ Partial Class frmMain
     Friend WithEvents toolStripSeparator5 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents AboutToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MenuStrip As System.Windows.Forms.MenuStrip
+    Friend WithEvents LogsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents BasicToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents GridStyleToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents GaugesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents GraphingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AdvancedToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem3 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripMenuItem5 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem6 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem7 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem4 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents MonitorManagerToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents AdvancedToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RegisterTest As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ConductECUTestToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
