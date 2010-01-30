@@ -15,6 +15,7 @@ Public Class frmMain
         'SAVE FORM POSITION
         SAVE_WINDOW_FORM_STATE(Me)
     End Sub
+
     Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SEARCH_SERIAL_PORTS()
         DISABLE_MENUS()
@@ -26,18 +27,24 @@ Public Class frmMain
     Private Sub SerialPort1_DataReceived(ByVal sender As Object, ByVal e As System.IO.Ports.SerialDataReceivedEventArgs)
 
     End Sub
+
     Private Sub ToolBarToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ToolBarToolStripMenuItem.Click
         Me.ToolStrip1.Visible = Me.ToolBarToolStripMenuItem.Checked
     End Sub
+
     Private Sub StatusBarToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles StatusBarToolStripMenuItem.Click
         Me.StatusStrip.Visible = Me.StatusBarToolStripMenuItem.Checked
     End Sub
-    Private Sub tbConnect_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tbConnect.Click
-        frmConnect.MdiParent = Me : frmConnect.Show()
+
+    Private Sub tbConnect_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tbConnect.Click, ConnectToolStripMenuItem.Click
+        frmConnect.MdiParent = Me
+        frmConnect.Show()
     End Sub
+
     Private Sub tbComPort_Validated1(ByVal sender As Object, ByVal e As System.EventArgs) Handles tbComPort.Validated
         SaveSetting("Consult1", "Settings", "Port", tbComPort.Text)
     End Sub
+
     Private Sub tmrPortStatus_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrPortStatus.Tick
         'PORT OPEN STATUS
         If Me.SerialPort1.IsOpen = True Then
@@ -60,6 +67,7 @@ Public Class frmMain
             'StatusTimout.Image = My.Resources.CommentHS
         End If
     End Sub
+
     Private Sub GridStyleToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If LOOP_IN_PROGRESS = True Then Exit Sub
         DISABLE_MENUS()
@@ -79,6 +87,7 @@ Public Class frmMain
     Private Sub CreateECUProfileToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CreateECUProfileToolStripMenuItem.Click
         frmECUProfile.Show()
     End Sub
+
     Private Sub RegisterTest_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         frmScannerRegister.MdiParent = Me : frmScannerRegister.Show()
     End Sub
@@ -105,5 +114,9 @@ Public Class frmMain
 
     Private Sub tmrTimeout_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrTimeout.Tick
         tmrTimeout.Enabled = False
+    End Sub
+
+    Private Sub Exit_Application(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExitToolStripMenuItem1.Click
+        Application.Exit()
     End Sub
 End Class

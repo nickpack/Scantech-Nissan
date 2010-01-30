@@ -39,7 +39,7 @@ Namespace My.Resources
         Friend ReadOnly Property ResourceManager() As Global.System.Resources.ResourceManager
             Get
                 If Object.ReferenceEquals(resourceMan, Nothing) Then
-                    Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("ScantechNissan.Resources", GetType(Resources).Assembly)
+                    Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("Scantech.Consult.OBD1.Nissan.Resources", GetType(Resources).Assembly)
                     resourceMan = temp
                 End If
                 Return resourceMan
@@ -67,9 +67,9 @@ Namespace My.Resources
             End Get
         End Property
         
-        Friend ReadOnly Property Connection_Manager() As System.Drawing.Bitmap
+        Friend ReadOnly Property ConnectionManager() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("Connection_Manager", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("ConnectionManager", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -88,9 +88,9 @@ Namespace My.Resources
             End Get
         End Property
         
-        Friend ReadOnly Property LedYellow__Copy() As System.Drawing.Bitmap
+        Friend ReadOnly Property LedYellow() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("LedYellow- Copy", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("LedYellow", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
