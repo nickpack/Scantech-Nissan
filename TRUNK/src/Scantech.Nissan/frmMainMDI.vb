@@ -17,8 +17,8 @@ Public Class frmMain
     End Sub
 
     Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        'LOAD ALL AVAILABLE COM PORTS TO COMBOX
         SEARCH_SERIAL_PORTS()
-        DISABLE_MENUS()
 
         'LOAD FORM POSITION
         LOAD_WINDOW_FORM_STATE(Me, 10, 10, 700, 500)
@@ -69,10 +69,7 @@ Public Class frmMain
     End Sub
 
     Private Sub GridStyleToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        If LOOP_IN_PROGRESS = True Then Exit Sub
-        DISABLE_MENUS()
-        USER_FORM_SELECT = 1 'GRID STYLE
-        frmRegSelection.MdiParent = Me : frmRegSelection.Show()
+
     End Sub
 
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
@@ -80,7 +77,7 @@ Public Class frmMain
     End Sub
 
     Private Sub DiagnosticFaultsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        DISABLE_MENUS()
+        'DISABLE_MENUS()
         frmC1Faults.MdiParent = Me : frmC1Faults.Show()
     End Sub
 
@@ -118,5 +115,27 @@ Public Class frmMain
 
     Private Sub Exit_Application(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExitToolStripMenuItem1.Click
         Application.Exit()
+    End Sub
+
+    Private Sub GridStyleToolStripMenuItem_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs)
+
+    End Sub
+
+    Public Sub MonitorManagerToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MonitorManagerToolStripMenuItem.Click
+        If LOOP_IN_PROGRESS = True Then Exit Sub
+        'DISABLE_MENUS()
+
+        frmRegSelection.MdiParent = Me : frmRegSelection.Show()
+    End Sub
+
+    Private Sub GridStyleToolStripMenuItem_Click_2(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GridStyleToolStripMenuItem.Click
+        'GRID STYLE
+        USER_FORM_SELECT = 1
+        'RESET GRIDS
+        RESET_GRID_STYLE_FOR_SENSORS() : RESET_GRID_STYLE_FOR_OUTPUT() : RESET_GRID_STYLE_FOR_ACTIVE()
+        'START COMMUNICATION WITH ECM AND REQUEST DATA AND PROCESS THEM
+        REQUEST_C1_SENSOR_DATA()
+        'CLOSE ALL FORM RELATED
+        CLOSE_C1_FORMS()
     End Sub
 End Class

@@ -64,14 +64,6 @@ Partial Class frmMain
         Me.SpeedTrialToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RoadDynoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.EngineData = New System.Windows.Forms.ToolStripMenuItem
-        Me.BasicToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.GridStyleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.GaugesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.GraphingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.AdvancedToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem6 = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripMenuItem7 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator
         Me.MonitorManagerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.tbEcuProfile = New System.Windows.Forms.ToolStripMenuItem
@@ -99,6 +91,9 @@ Partial Class frmMain
         Me.toolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator
         Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip = New System.Windows.Forms.MenuStrip
+        Me.GridStyleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.GaugesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.GraphingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.StatusStrip.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
@@ -358,60 +353,10 @@ Partial Class frmMain
         '
         'EngineData
         '
-        Me.EngineData.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BasicToolStripMenuItem, Me.AdvancedToolStripMenuItem1, Me.ToolStripMenuItem4, Me.MonitorManagerToolStripMenuItem})
+        Me.EngineData.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GridStyleToolStripMenuItem, Me.GaugesToolStripMenuItem, Me.GraphingToolStripMenuItem, Me.ToolStripMenuItem4, Me.MonitorManagerToolStripMenuItem})
         Me.EngineData.Name = "EngineData"
         Me.EngineData.Size = New System.Drawing.Size(78, 25)
         Me.EngineData.Text = "&Monitor"
-        '
-        'BasicToolStripMenuItem
-        '
-        Me.BasicToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GridStyleToolStripMenuItem, Me.GaugesToolStripMenuItem, Me.GraphingToolStripMenuItem})
-        Me.BasicToolStripMenuItem.Name = "BasicToolStripMenuItem"
-        Me.BasicToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
-        Me.BasicToolStripMenuItem.Text = "Basic"
-        '
-        'GridStyleToolStripMenuItem
-        '
-        Me.GridStyleToolStripMenuItem.Name = "GridStyleToolStripMenuItem"
-        Me.GridStyleToolStripMenuItem.Size = New System.Drawing.Size(132, 26)
-        Me.GridStyleToolStripMenuItem.Text = "Grid"
-        '
-        'GaugesToolStripMenuItem
-        '
-        Me.GaugesToolStripMenuItem.Name = "GaugesToolStripMenuItem"
-        Me.GaugesToolStripMenuItem.Size = New System.Drawing.Size(132, 26)
-        Me.GaugesToolStripMenuItem.Text = "Gauges"
-        '
-        'GraphingToolStripMenuItem
-        '
-        Me.GraphingToolStripMenuItem.Name = "GraphingToolStripMenuItem"
-        Me.GraphingToolStripMenuItem.Size = New System.Drawing.Size(132, 26)
-        Me.GraphingToolStripMenuItem.Text = "Graph"
-        '
-        'AdvancedToolStripMenuItem1
-        '
-        Me.AdvancedToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem5, Me.ToolStripMenuItem6, Me.ToolStripMenuItem7})
-        Me.AdvancedToolStripMenuItem1.Name = "AdvancedToolStripMenuItem1"
-        Me.AdvancedToolStripMenuItem1.Size = New System.Drawing.Size(202, 26)
-        Me.AdvancedToolStripMenuItem1.Text = "Advanced"
-        '
-        'ToolStripMenuItem5
-        '
-        Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
-        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(132, 26)
-        Me.ToolStripMenuItem5.Text = "Grid"
-        '
-        'ToolStripMenuItem6
-        '
-        Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
-        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(132, 26)
-        Me.ToolStripMenuItem6.Text = "Gauges"
-        '
-        'ToolStripMenuItem7
-        '
-        Me.ToolStripMenuItem7.Name = "ToolStripMenuItem7"
-        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(132, 26)
-        Me.ToolStripMenuItem7.Text = "Graph"
         '
         'ToolStripMenuItem4
         '
@@ -587,6 +532,24 @@ Partial Class frmMain
         Me.MenuStrip.TabIndex = 5
         Me.MenuStrip.Text = "MenuStrip"
         '
+        'GridStyleToolStripMenuItem
+        '
+        Me.GridStyleToolStripMenuItem.Name = "GridStyleToolStripMenuItem"
+        Me.GridStyleToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
+        Me.GridStyleToolStripMenuItem.Text = "Grid"
+        '
+        'GaugesToolStripMenuItem
+        '
+        Me.GaugesToolStripMenuItem.Name = "GaugesToolStripMenuItem"
+        Me.GaugesToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
+        Me.GaugesToolStripMenuItem.Text = "Gauges"
+        '
+        'GraphingToolStripMenuItem
+        '
+        Me.GraphingToolStripMenuItem.Name = "GraphingToolStripMenuItem"
+        Me.GraphingToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
+        Me.GraphingToolStripMenuItem.Text = "Graph"
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -673,20 +636,15 @@ Partial Class frmMain
     Friend WithEvents AboutToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MenuStrip As System.Windows.Forms.MenuStrip
     Friend WithEvents LogsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents BasicToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents GridStyleToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents GaugesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents GraphingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents AdvancedToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem3 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents ToolStripMenuItem5 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem6 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem7 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem4 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents MonitorManagerToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents AdvancedToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RegisterTest As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ConductECUTestToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RegisterDecoderToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents GridStyleToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents GaugesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents GraphingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

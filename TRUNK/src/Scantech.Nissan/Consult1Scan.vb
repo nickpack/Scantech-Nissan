@@ -226,7 +226,7 @@ resend:
         Do Until USER_REQUEST_STOP = True
             'IF TIMEOUT THEN RETRY CONNECTING
             If frmMain.tmrTimeout.Enabled = False Then
-                DISABLE_MENUS()
+                'DISABLE_MENUS()
                 'INITIALIZE WITh NO MSGBOX
                 If INITIALIZE_ECU(ECU_ID_3, False) = True Then
                     GoTo resend

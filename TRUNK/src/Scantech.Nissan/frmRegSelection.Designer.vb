@@ -31,7 +31,7 @@ Partial Class frmRegSelection
         Me.DataGridViewCheckBoxColumn1 = New System.Windows.Forms.DataGridViewCheckBoxColumn
         Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn
         Me.cmdClose = New System.Windows.Forms.Button
-        Me.cmdOk = New System.Windows.Forms.Button
+        Me.cmdApply = New System.Windows.Forms.Button
         Me.Grid1 = New System.Windows.Forms.DataGridView
         Me.CheckBox = New System.Windows.Forms.DataGridViewCheckBoxColumn
         Me.Sensors = New System.Windows.Forms.DataGridViewTextBoxColumn
@@ -93,15 +93,15 @@ Partial Class frmRegSelection
         Me.cmdClose.Text = "Close"
         Me.cmdClose.UseVisualStyleBackColor = True
         '
-        'cmdOk
+        'cmdApply
         '
-        Me.cmdOk.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdOk.Location = New System.Drawing.Point(710, 8)
-        Me.cmdOk.Name = "cmdOk"
-        Me.cmdOk.Size = New System.Drawing.Size(101, 38)
-        Me.cmdOk.TabIndex = 22
-        Me.cmdOk.Text = "Go"
-        Me.cmdOk.UseVisualStyleBackColor = True
+        Me.cmdApply.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdApply.Location = New System.Drawing.Point(710, 8)
+        Me.cmdApply.Name = "cmdApply"
+        Me.cmdApply.Size = New System.Drawing.Size(101, 38)
+        Me.cmdApply.TabIndex = 22
+        Me.cmdApply.Text = "Apply"
+        Me.cmdApply.UseVisualStyleBackColor = True
         '
         'Grid1
         '
@@ -158,7 +158,7 @@ Partial Class frmRegSelection
         Me.ClientSize = New System.Drawing.Size(828, 488)
         Me.Controls.Add(Me.Grid2)
         Me.Controls.Add(Me.cmdClose)
-        Me.Controls.Add(Me.cmdOk)
+        Me.Controls.Add(Me.cmdApply)
         Me.Controls.Add(Me.Grid1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MaximizeBox = False
@@ -173,7 +173,7 @@ Partial Class frmRegSelection
     End Sub
     Friend WithEvents Grid2 As System.Windows.Forms.DataGridView
     Friend WithEvents cmdClose As System.Windows.Forms.Button
-    Friend WithEvents cmdOk As System.Windows.Forms.Button
+    Friend WithEvents cmdApply As System.Windows.Forms.Button
     Friend WithEvents Grid1 As System.Windows.Forms.DataGridView
     Friend WithEvents DataGridViewCheckBoxColumn1 As System.Windows.Forms.DataGridViewCheckBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn1 As System.Windows.Forms.DataGridViewTextBoxColumn

@@ -34,8 +34,8 @@ Public Class frmConnect
                 End If
             End If
 
-            'IF IT GETS HERE THEN SUCCESS
-            ENABLE_MENUS()
+            'IF IT GETS HERE THEN CONNECTION IS SUCCESS
+            frmMain.MonitorManagerToolStripMenuItem_Click(1, e)
             Me.Close()
             Exit Sub
         End If
@@ -61,7 +61,7 @@ Public Class frmConnect
         lstVehicle.Items.Clear()
 
         'DISABLE MENUS
-        DISABLE_MENUS()
+        'DISABLE_MENUS()
 
         'LIST THE NAMES OF ALL FILES IN THE SPECIFIED DIRECTORY
         For Each dra In diar1

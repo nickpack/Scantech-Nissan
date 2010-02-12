@@ -7,7 +7,7 @@
         CHECK_SUPPORTED_REGISTERS()
     End Sub
 
-    Private Sub cmdOk_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdOk.Click
+    Private Sub cmdApply_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdApply.Click
         Dim X As Integer
 
         'RESET
@@ -57,25 +57,6 @@
 
         'CLEAR ANY BUFFER
         frmMain.SerialPort1.DiscardInBuffer()
-
-        'WHICH FORM DID USER CLICK
-        Select Case USER_FORM_SELECT
-            Case 1 : RESET_GRID_STYLE_FOR_SENSORS() : RESET_GRID_STYLE_FOR_OUTPUT() : RESET_GRID_STYLE_FOR_ACTIVE()
-        End Select
-
-        'DISABLE MENU
-        frmMain.tbEcuProfile.Enabled = False
-
-        'START COMMUNICATION WITH ECM AND REQUEST DATA AND PROCESS THEM
-        REQUEST_C1_SENSOR_DATA()
-
-        'CLOSE ALL FORM RELATED
-        CLOSE_C1_FORMS()
-
-        'ENABLE NECESSARY MENUS
-        ENABLE_MENUS()
-        frmMain.tbEcuProfile.Enabled = True
-
     End Sub
     Private Sub cmdClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdClose.Click
         Me.Close()
