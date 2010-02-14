@@ -3,22 +3,31 @@ using System.ComponentModel;
 
 namespace Scantech.Infrastructure.Models.Registers
 {
-   abstract class RegisterModel : IRegisterModel, IDataErrorInfo
+    abstract class RegisterModel : IRegisterModel, IDataErrorInfo
     {
+        #region Register Constants
+
+        const int NameLengthLimit = 50;
+
+        #endregion
+
         #region IRegisterModel Members
 
         public byte Address { get; set; }
         public string Name { get; set; }
-        public Enum Unit { get; set; } // To be overloaded in the respective Registers
-        public object Value { get; set; } // To be overloaded in the respective Registers
+        public Enum Unit { get; set; } // Overloaded in the respective Registers
+        public object Value { get; set; } // Overloaded in the respective Registers
 
         #endregion
 
-       #region IDataErrorInfo Members
+        #region IDataErrorInfo Members
 
         public string Error
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public string this[string columnName]
@@ -26,13 +35,12 @@ namespace Scantech.Infrastructure.Models.Registers
             get
             {
                 var errorMessage = string.Empty;
-                var nameLengthLimit = 50;
 
                 if (columnName == "Name")
                 {
-                    if (Name.Length > nameLengthLimit)
+                    if (Name.Length > NameLengthLimit)
                     {
-                        errorMessage = string.Format("The name of this register is {0} above the {1} character limit.", (Name.Length - nameLengthLimit).ToString(), nameLengthLimit);
+                        errorMessage = string.Format("The name of this register is {0} above the {1} character limit.", (Name.Length - NameLengthLimit).ToString(), NameLengthLimit);
                     }
                 }
 
