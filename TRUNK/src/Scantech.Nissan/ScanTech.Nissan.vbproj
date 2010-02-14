@@ -7,8 +7,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F3B000C3-F72D-4BE1-B1D8-EF91BE69B823}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <StartupObject>Scantech.Consult.OBD1.Nissan.My.MyApplication</StartupObject>
-    <RootNamespace>Scantech.Consult.OBD1.Nissan</RootNamespace>
+    <StartupObject>Scantech.Nissan.My.MyApplication</StartupObject>
+    <RootNamespace>Scantech.Nissan</RootNamespace>
     <AssemblyName>ScantechNissan</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>

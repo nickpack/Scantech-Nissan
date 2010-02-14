@@ -112,7 +112,7 @@ Partial Class frmMain
         'statusPort
         '
         Me.statusPort.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.statusPort.Image = Global.Scantech.Consult.OBD1.Nissan.My.Resources.Resources.LedBlack
+        Me.statusPort.Image = Global.Scantech.Nissan.My.Resources.Resources.LedBlack
         Me.statusPort.Name = "statusPort"
         Me.statusPort.Size = New System.Drawing.Size(16, 17)
         Me.statusPort.ToolTipText = "Com Port Status"
@@ -120,7 +120,7 @@ Partial Class frmMain
         'StatusTimout
         '
         Me.StatusTimout.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.StatusTimout.Image = Global.Scantech.Consult.OBD1.Nissan.My.Resources.Resources.LedBlack
+        Me.StatusTimout.Image = Global.Scantech.Nissan.My.Resources.Resources.LedBlack
         Me.StatusTimout.Name = "StatusTimout"
         Me.StatusTimout.Size = New System.Drawing.Size(16, 17)
         Me.StatusTimout.ToolTipText = "InBuffer Status"
@@ -555,7 +555,7 @@ Partial Class frmMain
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.BackgroundImage = Global.Scantech.Consult.OBD1.Nissan.My.Resources.Resources.nissanlogo
+        Me.BackgroundImage = Global.Scantech.Nissan.My.Resources.Resources.nissanlogo
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
         Me.ClientSize = New System.Drawing.Size(1094, 504)
         Me.Controls.Add(Me.ToolStrip1)

@@ -64,9 +64,9 @@ Namespace My
     Friend Module MySettingsProperty
         
         <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
-        Friend ReadOnly Property Settings() As Global.Scantech.Consult.OBD1.Nissan.My.MySettings
+        Friend ReadOnly Property Settings() As Global.Scantech.Nissan.My.MySettings
             Get
-                Return Global.Scantech.Consult.OBD1.Nissan.My.MySettings.Default
+                Return Global.Scantech.Nissan.My.MySettings.Default
             End Get
         End Property
     End Module
