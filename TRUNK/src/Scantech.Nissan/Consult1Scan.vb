@@ -1,6 +1,4 @@
-﻿Option Explicit On
-Module Consult1Scan
-
+﻿Module Consult1Scan
     Public SUPPORTED_REGISTERS(255, 1, 2) As Boolean            'FIRST ARRAY REGISTER SUPPORTED, SECOND ARRAY "IS IT LSB AND MSB OR LSB ONLY" True = Both|False = LSB, THIRD ARRAY "0 = SENSOR REGISTER, 1 = IS  DIGITAL OUPUT(ON/OFF), 2 = ACTIVE TEST REGISTER"
     Public REGISTERS_NAME(255, 8) As String                     'FIRST ARRAY REGISTER NAME (X,0), SECOND ARRAY BITMAPPED NAME FOR DIGITAL OUTPUT (1-8)
     Public REGISTERS_SCALE_TYPE(255, 7) As String               'FIRST ARRAY SENSORS UNITS, SECOND IS DIGITAL OUTPUT UNITS (BITMAPPED)
@@ -854,6 +852,7 @@ resend:
                               ByVal KeyValue As String)
 
         WritePrivateProfileString(SectionName, KeyName, KeyValue, INIPath)
+
 
     End Sub
     Public Sub SEARCH_SERIAL_PORTS()

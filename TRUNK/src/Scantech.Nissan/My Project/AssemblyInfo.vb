@@ -10,12 +10,12 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyTitle("ScanTech Nissan")> 
 <Assembly: AssemblyDescription("Nissan OBD 1 Scantool Software")> 
-<Assembly: AssemblyCompany("")> 
+<Assembly: AssemblyCompany("Scantech & TunedForDrift")> 
 <Assembly: AssemblyProduct("ScanTech Nissan")> 
-<Assembly: AssemblyCopyright("Copyright Scantech © 2009")> 
+<Assembly: AssemblyCopyright("Copyright Scantech & TunedForDrift © 2009")> 
 <Assembly: AssemblyTrademark("")> 
 
-<Assembly: ComVisible(True)> 
+<Assembly: ComVisible(False)> 
 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
 <Assembly: Guid("82651266-b1c0-4650-ae07-f9b0f1bd2235")> 
