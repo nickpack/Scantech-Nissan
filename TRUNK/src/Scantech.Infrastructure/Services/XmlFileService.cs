@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 
 namespace Scantech.Infrastructure.Services
 {
-    public class XmlService : Scantech.Infrastructure.Services.IService
+    public class XmlFileService : Scantech.Infrastructure.Services.IService
     {
         public void Write<T>(T model, string fileName)
         {

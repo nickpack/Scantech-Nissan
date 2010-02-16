@@ -42,7 +42,7 @@ Public Class frmMain
     End Sub
 
     Private Sub tbComPort_Validated1(ByVal sender As Object, ByVal e As System.EventArgs) Handles tbComPort.Validated
-        SaveSetting("Consult1", "Settings", "Port", tbComPort.Text)
+        My.Settings.PreferredPort = tbComPort.Text
     End Sub
 
     Private Sub tmrPortStatus_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrPortStatus.Tick

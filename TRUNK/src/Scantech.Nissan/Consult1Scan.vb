@@ -146,6 +146,7 @@ Restart:
             End If
         End If
     End Function
+
     Public Function PROCESS_BUFFER_DATA(ByVal blnRegisterCheck As Boolean) As Boolean
         PROCESS_BUFFER_DATA = False
 
@@ -197,6 +198,7 @@ Restart:
             End If
         End If
     End Function
+
     Public Sub REQUEST_C1_SENSOR_DATA()
         Static Retry As Integer = 1
 resend:
@@ -263,6 +265,7 @@ resend:
         'CLEAR BUFFER
         frmMain.SerialPort1.DiscardInBuffer()
     End Sub
+
     Public Sub REQUEST_ACTIVE_TEST_COMMANDS()
         'SEND ACTIVE TEST COMMAND.  NOTE:  QUERYING SENSOR DATA MUST BE STOPPED BEFORE SENDING ACTIVE TEST COMMANDS
         Dim SelectedRow As Integer = frmC1ActiveTest.Grid2.CurrentCell.RowIndex
@@ -277,6 +280,7 @@ resend:
 
         frmMain.SerialPort1.DiscardInBuffer()                                                               'CLEAR ANY BUFFER
     End Sub
+
     Public Sub REQUEST_C1_CLEAR_FAULTS()
         Dim SEND_BYTE() As Byte = {SEND_CLEAR_FAULTS_BYTE}
         RESET_VARIABLES()
@@ -299,6 +303,7 @@ resend:
         'CLEAR BUFFER
         frmMain.SerialPort1.DiscardInBuffer()
     End Sub
+
     Public Function REQUEST_C1_FAULTS() As String
         Dim SEND_BYTE() As Byte = {SEND_CHECK_FAULTS_BYTE}
         RESET_VARIABLES()
@@ -332,6 +337,7 @@ resend:
         'CLEAR BUFFER
         frmMain.SerialPort1.DiscardInBuffer()
     End Function
+
     Public Sub RESULT_REGISTER_DECODER()
         'SCALE (MSB/LSB OR LSB)
         If Len(DATA_FILTERED_RECEIVED) = 2 Then
@@ -351,6 +357,7 @@ resend:
         DATA_FILTERED_RECEIVED = ""
 
     End Sub
+
     Public Sub RESULT_GRID_STYLE()
         Dim K As Integer
         Dim WhatRowSensors As Integer
@@ -526,6 +533,7 @@ resend:
 
         End Select
     End Function
+
     Function DECODE_DATA_C1_SENSORS_UNIT_TYPE(ByVal ScaleType As Integer, ByVal Units As Integer) As String
         DECODE_DATA_C1_SENSORS_UNIT_TYPE = ""
         Select Case ScaleType
@@ -548,6 +556,7 @@ resend:
                 End If
         End Select
     End Function
+
     Function DECODE_DATA_C1_SENSORS(ByVal ScaleType As Integer, ByVal MSB As Byte, ByVal LSB As Byte, ByVal Units As Integer) As String
         DECODE_DATA_C1_SENSORS = ""
         Select Case ScaleType                                                                           '---THESE ARE MOST COMMON TYPES---
@@ -581,6 +590,7 @@ resend:
 
         End Select
     End Function
+
     Public Sub RESET_GRID_STYLE_FOR_SENSORS()
         frmC1Sensors.MdiParent = frmMain
         frmC1Sensors.Show()
@@ -604,6 +614,7 @@ resend:
             End If
         Next
     End Sub
+
     Public Sub RESET_GRID_STYLE_FOR_OUTPUT()
         frmC1Output.MdiParent = frmMain
         frmC1Output.Show()
@@ -696,6 +707,7 @@ resend:
             frmC1ActiveTest.cmdGo.Enabled = False : frmC1ActiveTest.cmdStop.Enabled = False
         End If
     End Sub
+
     Public Sub GET_FILE_VEHICLE_INFO(ByVal FileName As String)
         Dim KeyValues1(7) As String
         Dim keyname1(7) As String
@@ -722,6 +734,7 @@ resend:
 
         AUTOSCAN = KeyValues1(7)
     End Sub
+
     Public Sub GET_FILE_REGISTERS_INFO(ByVal FileName As String)
         Dim KeyValues1(8) As String
         Dim keyname1(8) As String
@@ -748,6 +761,7 @@ resend:
         INTERBYTE_DELAY = Val(KeyValues1(7))
         TIME_OUT = Val(KeyValues1(8))
     End Sub
+
     Public Sub GET_FILE_REGISTER_PARAMETERS(ByVal FileName As String)
         'THIS IS WHERE WE FLAG THE SUPPORTED REGISTERS BY USING THE FILE (INI FORMAT AT THIS MOMENT.  SUBJECT TO CHANGE IN FUTURE.  MAYBE XML)
         Dim J As Integer
@@ -828,6 +842,7 @@ resend:
             End Select
         Next
     End Sub
+
     Public Sub ReadINIFile(ByVal INIPath As String, _
                              ByVal SectionName As String, ByVal KeyName As String(), _
                              ByRef KeyValue As String())
@@ -847,6 +862,7 @@ resend:
             End If
         Next
     End Sub
+
     Public Sub WriteINIFile(ByVal INIPath As String, _
                               ByVal SectionName As String, ByVal KeyName As String, _
                               ByVal KeyValue As String)
@@ -855,6 +871,7 @@ resend:
 
 
     End Sub
+
     Public Sub SEARCH_SERIAL_PORTS()
         Dim comPorts As Array
         comPorts = IO.Ports.SerialPort.GetPortNames()
@@ -865,14 +882,16 @@ resend:
         Next
 
         'GET PORT FROM REGISTRY
-        frmMain.tbComPort.Text = GetSetting("Consult1", "Settings", "Port", "")
+        frmMain.tbComPort.Text = My.Settings.PreferredPort
     End Sub
+
     Public Sub RESET_VARIABLES()
         DATA_FILTERED_RECEIVED = ""
         IN_BUFFER_BYTE = ""
         FF_BYTE_DETECTOR = False
         REGISTER_DATA_ONLY = False
     End Sub
+
     Public Sub DISABLE_MENUS()
         'DISABLE MENUS
         frmMain.GridStyleToolStripMenuItem.Enabled = False
@@ -880,6 +899,7 @@ resend:
         frmMain.GaugesToolStripMenuItem.Enabled = False
         frmMain.GraphingToolStripMenuItem.Enabled = False
     End Sub
+
     Public Sub ENABLE_MENUS()
         'ENABLE MENUS
         frmMain.GridStyleToolStripMenuItem.Enabled = True
@@ -887,6 +907,7 @@ resend:
         frmMain.GaugesToolStripMenuItem.Enabled = True
         frmMain.GraphingToolStripMenuItem.Enabled = True
     End Sub
+
     Public Sub CLOSE_C1_FORMS()
         frmMain.GridStyleToolStripMenuItem.Checked = False
         frmC1Output.Close()
@@ -894,6 +915,7 @@ resend:
         frmC1ActiveTest.Close()
         frmRegSelection.Close()
     End Sub
+
     Public Sub SAVE_WINDOW_FORM_STATE(ByVal Form As Object)
         'SAVE FORM POSITION
         SaveSetting("Consult1", Form.Name, "Top Position", Form.Top)
@@ -902,6 +924,7 @@ resend:
         SaveSetting("Consult1", Form.Name, "Form Height", Form.Height)
         SaveSetting("Consult1", Form.Name, "Window State", Form.WindowState)
     End Sub
+
     Public Sub LOAD_WINDOW_FORM_STATE(ByVal Form As Object, ByVal TopDefault As Integer, ByVal LeftDefault As Integer, ByVal WidthDefault As Integer, ByVal HeightDefault As Integer)
         'LOAD FORM POSITION
         Form.Top = GetSetting("Consult1", Form.Name, "Top Position", TopDefault)
