@@ -64,6 +64,9 @@ Partial Class frmMain
         Me.SpeedTrialToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RoadDynoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.EngineData = New System.Windows.Forms.ToolStripMenuItem
+        Me.GridStyleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.GaugesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.GraphingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator
         Me.MonitorManagerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.tbEcuProfile = New System.Windows.Forms.ToolStripMenuItem
@@ -91,9 +94,6 @@ Partial Class frmMain
         Me.toolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator
         Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip = New System.Windows.Forms.MenuStrip
-        Me.GridStyleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.GaugesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.GraphingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.StatusStrip.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
@@ -358,6 +358,24 @@ Partial Class frmMain
         Me.EngineData.Size = New System.Drawing.Size(78, 25)
         Me.EngineData.Text = "&Monitor"
         '
+        'GridStyleToolStripMenuItem
+        '
+        Me.GridStyleToolStripMenuItem.Name = "GridStyleToolStripMenuItem"
+        Me.GridStyleToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
+        Me.GridStyleToolStripMenuItem.Text = "Grid"
+        '
+        'GaugesToolStripMenuItem
+        '
+        Me.GaugesToolStripMenuItem.Name = "GaugesToolStripMenuItem"
+        Me.GaugesToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
+        Me.GaugesToolStripMenuItem.Text = "Gauges"
+        '
+        'GraphingToolStripMenuItem
+        '
+        Me.GraphingToolStripMenuItem.Name = "GraphingToolStripMenuItem"
+        Me.GraphingToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
+        Me.GraphingToolStripMenuItem.Text = "Graph"
+        '
         'ToolStripMenuItem4
         '
         Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
@@ -531,24 +549,6 @@ Partial Class frmMain
         Me.MenuStrip.Size = New System.Drawing.Size(1094, 29)
         Me.MenuStrip.TabIndex = 5
         Me.MenuStrip.Text = "MenuStrip"
-        '
-        'GridStyleToolStripMenuItem
-        '
-        Me.GridStyleToolStripMenuItem.Name = "GridStyleToolStripMenuItem"
-        Me.GridStyleToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
-        Me.GridStyleToolStripMenuItem.Text = "Grid"
-        '
-        'GaugesToolStripMenuItem
-        '
-        Me.GaugesToolStripMenuItem.Name = "GaugesToolStripMenuItem"
-        Me.GaugesToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
-        Me.GaugesToolStripMenuItem.Text = "Gauges"
-        '
-        'GraphingToolStripMenuItem
-        '
-        Me.GraphingToolStripMenuItem.Name = "GraphingToolStripMenuItem"
-        Me.GraphingToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
-        Me.GraphingToolStripMenuItem.Text = "Graph"
         '
         'frmMain
         '

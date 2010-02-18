@@ -276,6 +276,12 @@
     <None Include="Resources\LedYellow.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Scantech.Infrastructure\Scantech.Infrastructure.csproj">
+      <Project>{E77C3164-CF4F-48D4-B9DC-C524059E7362}</Project>
+      <Name>Scantech.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="ViewModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

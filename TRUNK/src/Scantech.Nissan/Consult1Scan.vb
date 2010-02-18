@@ -55,7 +55,6 @@
                             Alias "WritePrivateProfileStringA" (ByVal lpApplicationName As String, _
                             ByVal lpKeyName As String, ByVal lpString As String, _
                             ByVal lpFileName As String) As Int32
-
     Function SCAN_REGISTERS(ByVal StartReg As Integer, ByVal EndReg As Integer) As Boolean
         'THIS IS TO VALIDATE THE FILE TO ECU
         Dim xCounter As Integer
@@ -97,8 +96,7 @@
         Next xCounter
 
         'FILE TO ECM IS VALID
-        SCAN_REGISTERS = True
-        frmMain.tsProgress.Visible = False
+        SCAN_REGISTERS = True : frmMain.tsProgress.Visible = False
     End Function
 
     Function INITIALIZE_ECU(ByVal Addr As Byte, ByVal Msg As Boolean) As Boolean
@@ -121,7 +119,7 @@ Restart:
         frmMain.SerialPort1.Write(Buffer, 1, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY) : frmMain.SerialPort1.DiscardInBuffer()
         frmMain.SerialPort1.Write(Buffer, 2, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
 
-        'NO RESPONSE OR BYTES RETURNED
+        'NO RESPONSE OR BYTES RETURNED THEN ALERT USER ONLY IF MSG = TRUE
         If frmMain.SerialPort1.BytesToRead = 0 Then
             If Msg = True Then
                 If MsgBox("NO RESPONSE FROM ECU", MsgBoxStyle.RetryCancel + MsgBoxStyle.Exclamation, _
@@ -145,6 +143,7 @@ Restart:
                 GoTo Restart
             End If
         End If
+
     End Function
 
     Public Function PROCESS_BUFFER_DATA(ByVal blnRegisterCheck As Boolean) As Boolean
@@ -891,23 +890,6 @@ resend:
         FF_BYTE_DETECTOR = False
         REGISTER_DATA_ONLY = False
     End Sub
-
-    Public Sub DISABLE_MENUS()
-        'DISABLE MENUS
-        frmMain.GridStyleToolStripMenuItem.Enabled = False
-        frmMain.DiagnosticFaultsToolStripMenuItem.Enabled = False
-        frmMain.GaugesToolStripMenuItem.Enabled = False
-        frmMain.GraphingToolStripMenuItem.Enabled = False
-    End Sub
-
-    Public Sub ENABLE_MENUS()
-        'ENABLE MENUS
-        frmMain.GridStyleToolStripMenuItem.Enabled = True
-        frmMain.DiagnosticFaultsToolStripMenuItem.Enabled = True
-        frmMain.GaugesToolStripMenuItem.Enabled = True
-        frmMain.GraphingToolStripMenuItem.Enabled = True
-    End Sub
-
     Public Sub CLOSE_C1_FORMS()
         frmMain.GridStyleToolStripMenuItem.Checked = False
         frmC1Output.Close()

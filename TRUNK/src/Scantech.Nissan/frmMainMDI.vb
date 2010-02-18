@@ -37,8 +37,7 @@ Public Class frmMain
     End Sub
 
     Private Sub tbConnect_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tbConnect.Click, ConnectToolStripMenuItem.Click
-        frmConnect.MdiParent = Me
-        frmConnect.Show()
+        frmConnect.MdiParent = Me : frmConnect.Show()
     End Sub
 
     Private Sub tbComPort_Validated1(ByVal sender As Object, ByVal e As System.EventArgs) Handles tbComPort.Validated
@@ -67,15 +66,9 @@ Public Class frmMain
             'StatusTimout.Image = My.Resources.CommentHS
         End If
     End Sub
-
-    Private Sub GridStyleToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
         Me.Refresh()
     End Sub
-
     Private Sub DiagnosticFaultsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'DISABLE_MENUS()
         frmC1Faults.MdiParent = Me : frmC1Faults.Show()
@@ -84,15 +77,6 @@ Public Class frmMain
     Private Sub CreateECUProfileToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CreateECUProfileToolStripMenuItem.Click
         frmECUProfile.Show()
     End Sub
-
-    Private Sub RegisterTest_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        frmScannerRegister.MdiParent = Me : frmScannerRegister.Show()
-    End Sub
-
-    Private Sub ConductECUTestToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        frmScannerECU.MdiParent = Me : frmScannerECU.Show()
-    End Sub
-
     Private Sub GaugesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         MsgBox("Not Implemented at this time")
     End Sub
@@ -104,11 +88,6 @@ Public Class frmMain
     Private Sub AlertMonitoringSystemToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         MsgBox("Not Implemented at this time")
     End Sub
-
-    Private Sub RegisterDecoderToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        frmRegisterDecoder.MdiParent = Me : frmRegisterDecoder.Show()
-    End Sub
-
     Private Sub tmrTimeout_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrTimeout.Tick
         tmrTimeout.Enabled = False
     End Sub
@@ -116,18 +95,13 @@ Public Class frmMain
     Private Sub Exit_Application(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExitToolStripMenuItem1.Click
         Application.Exit()
     End Sub
-
-    Private Sub GridStyleToolStripMenuItem_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
     Public Sub MonitorManagerToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MonitorManagerToolStripMenuItem.Click
+        'DO NOT OPEN FORM IF LOOP IN PROGRESS
         If LOOP_IN_PROGRESS = True Then Exit Sub
         'DISABLE_MENUS()
 
         frmRegSelection.MdiParent = Me : frmRegSelection.Show()
     End Sub
-
     Private Sub GridStyleToolStripMenuItem_Click_2(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GridStyleToolStripMenuItem.Click
         'GRID STYLE
         USER_FORM_SELECT = 1
@@ -137,5 +111,14 @@ Public Class frmMain
         REQUEST_C1_SENSOR_DATA()
         'CLOSE ALL FORM RELATED
         CLOSE_C1_FORMS()
+    End Sub
+    Private Sub RegisterTest_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RegisterTest.Click
+        frmScannerRegister.MdiParent = Me : frmScannerRegister.Show()
+    End Sub
+    Private Sub RegisterDecoderToolStripMenuItem_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RegisterDecoderToolStripMenuItem.Click
+        frmRegisterDecoder.MdiParent = Me : frmRegisterDecoder.Show()
+    End Sub
+    Private Sub ConductECUTestToolStripMenuItem_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ConductECUTestToolStripMenuItem.Click
+        frmScannerECU.MdiParent = Me : frmScannerECU.Show()
     End Sub
 End Class
