@@ -6,8 +6,6 @@
         SaveSetting("Consult1", "C1Faults", "Form Width", Me.Width)
         SaveSetting("Consult1", "C1Faults", "Form Height", Me.Height)
         SaveSetting("Consult1", "C1Faults", "Window State", Me.WindowState)
-        ENABLE_MENUS()
-
     End Sub
     Private Sub frmC1Faults_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Me.Top = GetSetting("Consult1", "C1Faults", "Top Position", 10)

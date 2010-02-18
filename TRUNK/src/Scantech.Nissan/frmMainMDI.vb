@@ -69,11 +69,6 @@ Public Class frmMain
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
         Me.Refresh()
     End Sub
-    Private Sub DiagnosticFaultsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        'DISABLE_MENUS()
-        frmC1Faults.MdiParent = Me : frmC1Faults.Show()
-    End Sub
-
     Private Sub CreateECUProfileToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CreateECUProfileToolStripMenuItem.Click
         frmECUProfile.Show()
     End Sub
@@ -120,5 +115,8 @@ Public Class frmMain
     End Sub
     Private Sub ConductECUTestToolStripMenuItem_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ConductECUTestToolStripMenuItem.Click
         frmScannerECU.MdiParent = Me : frmScannerECU.Show()
+    End Sub
+    Private Sub DiagnosticFaultsToolStripMenuItem_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DiagnosticFaultsToolStripMenuItem.Click
+        frmC1Faults.MdiParent = Me : frmC1Faults.Show()
     End Sub
 End Class

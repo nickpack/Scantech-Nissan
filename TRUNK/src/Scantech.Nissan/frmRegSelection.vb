@@ -1,7 +1,7 @@
 ﻿Public Class frmRegSelection
 
     Private Sub frmRegSelection_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
-        If e.CloseReason = CloseReason.UserClosing Then ENABLE_MENUS()
+        'If e.CloseReason = CloseReason.UserClosing Then ENABLE_MENUS()
     End Sub
     Private Sub frmRegSelection_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         CHECK_SUPPORTED_REGISTERS()
