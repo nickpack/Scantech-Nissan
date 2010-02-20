@@ -282,6 +282,45 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\PauseDisabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PauseNormal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Play1Disabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Play1Normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RecordDisabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RecordNormal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\StepForwardDisabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\StepForwardNormalBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Stop1Disabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Stop1NormalBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\connect-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\disconnect-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\StepBackwardNormalBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="ViewModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

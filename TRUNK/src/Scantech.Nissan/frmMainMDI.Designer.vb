@@ -33,8 +33,18 @@ Partial Class frmMain
         Me.SerialPort1 = New System.IO.Ports.SerialPort(Me.components)
         Me.tmrPortStatus = New System.Windows.Forms.Timer(Me.components)
         Me.tbConnect = New System.Windows.Forms.ToolStripButton
-        Me.tbComPort = New System.Windows.Forms.ToolStripComboBox
+        Me.tsComPort = New System.Windows.Forms.ToolStripComboBox
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip
+        Me.tsDisconnect = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator9 = New System.Windows.Forms.ToolStripSeparator
+        Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator
+        Me.tsRecord = New System.Windows.Forms.ToolStripButton
+        Me.tsPause = New System.Windows.Forms.ToolStripButton
+        Me.tsPlay = New System.Windows.Forms.ToolStripButton
+        Me.tsStop = New System.Windows.Forms.ToolStripButton
+        Me.tsFastBackward = New System.Windows.Forms.ToolStripButton
+        Me.tsFastForward = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator7 = New System.Windows.Forms.ToolStripSeparator
         Me.tmrTimeout = New System.Windows.Forms.Timer(Me.components)
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ConnectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -144,27 +154,128 @@ Partial Class frmMain
         '
         'tbConnect
         '
+        Me.tbConnect.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.tbConnect.Image = Global.Scantech.Nissan.My.Resources.Resources.connect_icon
         Me.tbConnect.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.tbConnect.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tbConnect.Name = "tbConnect"
-        Me.tbConnect.Size = New System.Drawing.Size(67, 26)
-        Me.tbConnect.Text = "CONNECT"
+        Me.tbConnect.Size = New System.Drawing.Size(36, 36)
+        Me.tbConnect.ToolTipText = "CONNECT TO NISSAN CONSULT"
         '
-        'tbComPort
+        'tsComPort
         '
-        Me.tbComPort.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.tbComPort.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tbComPort.Name = "tbComPort"
-        Me.tbComPort.Size = New System.Drawing.Size(121, 29)
+        Me.tsComPort.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.tsComPort.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tsComPort.Name = "tsComPort"
+        Me.tsComPort.Size = New System.Drawing.Size(121, 39)
+        Me.tsComPort.ToolTipText = "SERIAL COM PORT"
         '
         'ToolStrip1
         '
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tbConnect, Me.tbComPort})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tbConnect, Me.tsDisconnect, Me.ToolStripSeparator9, Me.tsComPort, Me.ToolStripSeparator6, Me.tsRecord, Me.tsPause, Me.tsPlay, Me.tsStop, Me.tsFastBackward, Me.tsFastForward, Me.ToolStripSeparator7})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 29)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(1094, 29)
+        Me.ToolStrip1.Size = New System.Drawing.Size(1094, 39)
         Me.ToolStrip1.TabIndex = 19
         Me.ToolStrip1.Text = "ToolStrip1"
+        '
+        'tsDisconnect
+        '
+        Me.tsDisconnect.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.tsDisconnect.Enabled = False
+        Me.tsDisconnect.Image = Global.Scantech.Nissan.My.Resources.Resources.disconnect_icon
+        Me.tsDisconnect.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.tsDisconnect.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsDisconnect.Name = "tsDisconnect"
+        Me.tsDisconnect.Size = New System.Drawing.Size(36, 36)
+        Me.tsDisconnect.Text = "ToolStripButton1"
+        '
+        'ToolStripSeparator9
+        '
+        Me.ToolStripSeparator9.Name = "ToolStripSeparator9"
+        Me.ToolStripSeparator9.Size = New System.Drawing.Size(6, 39)
+        '
+        'ToolStripSeparator6
+        '
+        Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
+        Me.ToolStripSeparator6.Size = New System.Drawing.Size(6, 39)
+        '
+        'tsRecord
+        '
+        Me.tsRecord.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.tsRecord.Enabled = False
+        Me.tsRecord.Image = CType(resources.GetObject("tsRecord.Image"), System.Drawing.Image)
+        Me.tsRecord.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.tsRecord.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsRecord.Name = "tsRecord"
+        Me.tsRecord.Size = New System.Drawing.Size(36, 36)
+        Me.tsRecord.Text = "ToolStripButton4"
+        Me.tsRecord.ToolTipText = "RECORD"
+        '
+        'tsPause
+        '
+        Me.tsPause.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.tsPause.Enabled = False
+        Me.tsPause.Image = CType(resources.GetObject("tsPause.Image"), System.Drawing.Image)
+        Me.tsPause.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.tsPause.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsPause.Name = "tsPause"
+        Me.tsPause.Size = New System.Drawing.Size(36, 36)
+        Me.tsPause.Text = "ToolStripButton1"
+        Me.tsPause.ToolTipText = "PAUSE"
+        '
+        'tsPlay
+        '
+        Me.tsPlay.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.tsPlay.Enabled = False
+        Me.tsPlay.Image = Global.Scantech.Nissan.My.Resources.Resources.PlayNormal
+        Me.tsPlay.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.tsPlay.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsPlay.Name = "tsPlay"
+        Me.tsPlay.Size = New System.Drawing.Size(36, 36)
+        Me.tsPlay.Text = "ToolStripButton3"
+        Me.tsPlay.ToolTipText = "PLAY"
+        '
+        'tsStop
+        '
+        Me.tsStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.tsStop.Enabled = False
+        Me.tsStop.Image = Global.Scantech.Nissan.My.Resources.Resources.StopNormalBlue
+        Me.tsStop.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.tsStop.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsStop.Name = "tsStop"
+        Me.tsStop.Size = New System.Drawing.Size(36, 36)
+        Me.tsStop.Text = "ToolStripButton2"
+        Me.tsStop.ToolTipText = "STOP"
+        '
+        'tsFastBackward
+        '
+        Me.tsFastBackward.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.tsFastBackward.Enabled = False
+        Me.tsFastBackward.Image = Global.Scantech.Nissan.My.Resources.Resources.StepBackwardNormalBlue
+        Me.tsFastBackward.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.tsFastBackward.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsFastBackward.Name = "tsFastBackward"
+        Me.tsFastBackward.Size = New System.Drawing.Size(36, 36)
+        Me.tsFastBackward.Text = "ToolStripButton6"
+        Me.tsFastBackward.ToolTipText = "FAST BACKWARD"
+        '
+        'tsFastForward
+        '
+        Me.tsFastForward.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.tsFastForward.Enabled = False
+        Me.tsFastForward.Image = CType(resources.GetObject("tsFastForward.Image"), System.Drawing.Image)
+        Me.tsFastForward.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.tsFastForward.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsFastForward.Name = "tsFastForward"
+        Me.tsFastForward.Size = New System.Drawing.Size(36, 36)
+        Me.tsFastForward.Text = "ToolStripButton5"
+        Me.tsFastForward.ToolTipText = "FAST FORWARD"
+        '
+        'ToolStripSeparator7
+        '
+        Me.ToolStripSeparator7.Name = "ToolStripSeparator7"
+        Me.ToolStripSeparator7.Size = New System.Drawing.Size(6, 39)
         '
         'tmrTimeout
         '
@@ -179,12 +290,14 @@ Partial Class frmMain
         '
         'ConnectToolStripMenuItem
         '
+        Me.ConnectToolStripMenuItem.Image = Global.Scantech.Nissan.My.Resources.Resources.connect_icon
         Me.ConnectToolStripMenuItem.Name = "ConnectToolStripMenuItem"
         Me.ConnectToolStripMenuItem.Size = New System.Drawing.Size(172, 26)
         Me.ConnectToolStripMenuItem.Text = "&Connect"
         '
         'DisconnectToolStripMenuItem
         '
+        Me.DisconnectToolStripMenuItem.Image = Global.Scantech.Nissan.My.Resources.Resources.disconnect_icon
         Me.DisconnectToolStripMenuItem.Name = "DisconnectToolStripMenuItem"
         Me.DisconnectToolStripMenuItem.Size = New System.Drawing.Size(172, 26)
         Me.DisconnectToolStripMenuItem.Text = "&Disconnect"
@@ -584,7 +697,7 @@ Partial Class frmMain
     Friend WithEvents tmrPortStatus As System.Windows.Forms.Timer
     Friend WithEvents statusPort As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents tbConnect As System.Windows.Forms.ToolStripButton
-    Friend WithEvents tbComPort As System.Windows.Forms.ToolStripComboBox
+    Friend WithEvents tsComPort As System.Windows.Forms.ToolStripComboBox
     Friend WithEvents ToolStrip1 As System.Windows.Forms.ToolStrip
     Friend WithEvents tmrTimeout As System.Windows.Forms.Timer
     Friend WithEvents StatusTimout As System.Windows.Forms.ToolStripStatusLabel
@@ -646,5 +759,15 @@ Partial Class frmMain
     Friend WithEvents GridStyleToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents GaugesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents GraphingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator6 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents tsPause As System.Windows.Forms.ToolStripButton
+    Friend WithEvents tsPlay As System.Windows.Forms.ToolStripButton
+    Friend WithEvents tsFastBackward As System.Windows.Forms.ToolStripButton
+    Friend WithEvents tsRecord As System.Windows.Forms.ToolStripButton
+    Friend WithEvents tsFastForward As System.Windows.Forms.ToolStripButton
+    Friend WithEvents tsStop As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripSeparator7 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents tsDisconnect As System.Windows.Forms.ToolStripButton
+    Friend WithEvents ToolStripSeparator9 As System.Windows.Forms.ToolStripSeparator
 
 End Class

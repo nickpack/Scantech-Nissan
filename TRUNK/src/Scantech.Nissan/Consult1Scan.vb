@@ -104,7 +104,7 @@ Restart:
         'OPEN PORT
         Try
             frmMain.SerialPort1.Close()
-            frmMain.SerialPort1.PortName = frmMain.tbComPort.Text
+            frmMain.SerialPort1.PortName = frmMain.tsComPort.Text
             frmMain.SerialPort1.Open()
         Catch ex As Exception
             If Msg = True Then MsgBox(ex.Message, MsgBoxStyle.OkOnly + MsgBoxStyle.Exclamation, "EXCEPTION ON CONNECTING")
@@ -877,11 +877,11 @@ resend:
 
         'SEARCH PORT AND FILL COMBOBOX
         For i = 0 To UBound(comPorts)
-            frmMain.tbComPort.Items.Add(comPorts(i))
+            frmMain.tsComPort.Items.Add(comPorts(i))
         Next
 
         'GET PORT FROM REGISTRY
-        frmMain.tbComPort.Text = My.Settings.PreferredPort
+        frmMain.tsComPort.Text = My.Settings.PreferredPort
     End Sub
 
     Public Sub RESET_VARIABLES()
