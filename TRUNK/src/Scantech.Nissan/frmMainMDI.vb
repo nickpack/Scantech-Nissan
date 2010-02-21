@@ -121,7 +121,11 @@ Public Class frmMain
         'CLOSE FORMS
         CLOSE_C1_FORMS()
 
-        MenuEnableState(True, False, False, False, False, False, False, True, True, True, True, False, False)
+        'CLOSE PORT
+        Me.SerialPort1.Close()
+
+        'ENABLE/DISABLE FRMMAIN MENU STATE
+        MENUENABLESTATE(True, False, False, False, False, False, False, True, True, True, True, False, False, False, False)
     End Sub
 
     Private Sub DisconnectToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DisconnectToolStripMenuItem.Click

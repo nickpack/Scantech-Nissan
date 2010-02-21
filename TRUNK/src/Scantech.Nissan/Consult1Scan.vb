@@ -893,7 +893,7 @@ resend:
                     ByVal MenuAlert As Boolean, ByVal MenuGrid As Boolean, ByVal MenuGauges As Boolean, _
                     ByVal MenuGraphing As Boolean, ByVal MenuDetectReg As Boolean, ByVal MenuDetectECU As Boolean, _
                     ByVal MenuDecodeReg As Boolean, ByVal tbConnect As Boolean, ByVal tbDisconnect As Boolean, _
-                    ByVal MenuMonitorManager As Boolean)
+                    ByVal MenuMonitorManager As Boolean, ByVal MenuSpeedTrial As Boolean, ByVal MenuDyno As Boolean)
 
         frmMain.ConnectToolStripMenuItem.Enabled = MenuConnect
         frmMain.DisconnectToolStripMenuItem.Enabled = MenuDisconnect
@@ -908,5 +908,7 @@ resend:
         frmMain.tbConnect.Enabled = tbConnect
         frmMain.tbDisconnect.Enabled = tbDisconnect
         frmMain.MonitorManagerToolStripMenuItem.Enabled = MenuMonitorManager
+        frmMain.SpeedTrialToolStripMenuItem.Enabled = MenuSpeedTrial
+        frmMain.RoadDynoToolStripMenuItem.Enabled = MenuDyno
     End Sub
 End Module
