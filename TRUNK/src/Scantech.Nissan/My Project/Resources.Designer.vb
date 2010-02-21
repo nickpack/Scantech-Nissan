@@ -74,13 +74,6 @@ Namespace My.Resources
             End Get
         End Property
         
-        Friend ReadOnly Property ConnectionManager() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("ConnectionManager", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
         Friend ReadOnly Property DisconnectIcon() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("DisconnectIcon", resourceCulture)
@@ -123,9 +116,23 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property PauseHot() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("PauseHot", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property PauseNormal() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("PauseNormal", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property PlayHot() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("PlayHot", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -137,9 +144,23 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property RecordHot() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("RecordHot", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property RecordNormal() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("RecordNormal", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property StepBackwardHotBlue() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("StepBackwardHotBlue", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -151,9 +172,23 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property StepForwardHotBlue() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("StepForwardHotBlue", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property StepForwardNormalBlue() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("StepForwardNormalBlue", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property StopHotBlue() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("StopHotBlue", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

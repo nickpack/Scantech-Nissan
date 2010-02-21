@@ -40,9 +40,9 @@ Partial Class frmMain
         Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator
         Me.tsRecord = New System.Windows.Forms.ToolStripButton
         Me.tsPause = New System.Windows.Forms.ToolStripButton
-        Me.tsPlay = New System.Windows.Forms.ToolStripButton
         Me.tsStop = New System.Windows.Forms.ToolStripButton
         Me.tsFastBackward = New System.Windows.Forms.ToolStripButton
+        Me.tsPlay = New System.Windows.Forms.ToolStripButton
         Me.tsFastForward = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator7 = New System.Windows.Forms.ToolStripSeparator
         Me.tmrTimeout = New System.Windows.Forms.Timer(Me.components)
@@ -172,7 +172,7 @@ Partial Class frmMain
         '
         'ToolStrip1
         '
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tbConnect, Me.tbDisconnect, Me.ToolStripSeparator9, Me.tsComPort, Me.ToolStripSeparator6, Me.tsRecord, Me.tsPause, Me.tsPlay, Me.tsStop, Me.tsFastBackward, Me.tsFastForward, Me.ToolStripSeparator7})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tbConnect, Me.tbDisconnect, Me.ToolStripSeparator9, Me.tsComPort, Me.ToolStripSeparator6, Me.tsRecord, Me.tsPause, Me.tsStop, Me.tsFastBackward, Me.tsPlay, Me.tsFastForward, Me.ToolStripSeparator7})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 29)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.Size = New System.Drawing.Size(1094, 39)
@@ -204,7 +204,7 @@ Partial Class frmMain
         '
         Me.tsRecord.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
         Me.tsRecord.Enabled = False
-        Me.tsRecord.Image = CType(resources.GetObject("tsRecord.Image"), System.Drawing.Image)
+        Me.tsRecord.Image = Global.Scantech.Nissan.My.Resources.Resources.RecordNormal
         Me.tsRecord.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.tsRecord.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsRecord.Name = "tsRecord"
@@ -223,18 +223,6 @@ Partial Class frmMain
         Me.tsPause.Size = New System.Drawing.Size(36, 36)
         Me.tsPause.Text = "ToolStripButton1"
         Me.tsPause.ToolTipText = "PAUSE"
-        '
-        'tsPlay
-        '
-        Me.tsPlay.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.tsPlay.Enabled = False
-        Me.tsPlay.Image = Global.Scantech.Nissan.My.Resources.Resources.PlayNormal
-        Me.tsPlay.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.tsPlay.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsPlay.Name = "tsPlay"
-        Me.tsPlay.Size = New System.Drawing.Size(36, 36)
-        Me.tsPlay.Text = "ToolStripButton3"
-        Me.tsPlay.ToolTipText = "PLAY"
         '
         'tsStop
         '
@@ -259,6 +247,18 @@ Partial Class frmMain
         Me.tsFastBackward.Size = New System.Drawing.Size(36, 36)
         Me.tsFastBackward.Text = "ToolStripButton6"
         Me.tsFastBackward.ToolTipText = "FAST BACKWARD"
+        '
+        'tsPlay
+        '
+        Me.tsPlay.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.tsPlay.Enabled = False
+        Me.tsPlay.Image = Global.Scantech.Nissan.My.Resources.Resources.PlayNormal
+        Me.tsPlay.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.tsPlay.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsPlay.Name = "tsPlay"
+        Me.tsPlay.Size = New System.Drawing.Size(36, 36)
+        Me.tsPlay.Text = "ToolStripButton3"
+        Me.tsPlay.ToolTipText = "PLAY"
         '
         'tsFastForward
         '

@@ -121,20 +121,17 @@
   <data name="PauseNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PauseNormal.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ConnectionManager" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Connection_Manager.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="PlayNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Play1Normal.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ConnectIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\connect-icon.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="nissanlogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\nissan-logo.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="RecordNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RecordNormal.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="LedYellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LedYellow.ico;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ConnectIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\connect-icon.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="LedBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LedBlack.ico;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -142,17 +139,14 @@
   <data name="StopNormalBlue" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Stop1NormalBlue.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="StepBackwardNormalBlue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\StepBackwardNormalBlue.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="LedGreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LedGreen.ico;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="StepForwardNormalBlue" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\StepForwardNormalBlue.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RecordNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RecordNormal.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="StepBackwardNormalBlue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\StepBackwardNormalBlue.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="PageUpHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PageUpHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -162,5 +156,26 @@
   </data>
   <data name="CommentHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CommentHS.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PlayNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Play1Normal.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PauseHot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PauseHot.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PlayHot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PlayHot.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RecordHot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RecordHot.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="StepBackwardHotBlue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\StepBackwardHotBlue.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="StepForwardHotBlue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\StepForwardHotBlue.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="StopHotBlue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\StopHotBlue.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

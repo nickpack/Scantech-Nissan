@@ -47,18 +47,13 @@ Public Class frmMain
             statusPort.Image = My.Resources.LedBlack
         End If
 
-        'BYTES STATUS
+        'INBUFFER BYTES STATUS
         If Me.SerialPort1.IsOpen = True Then
             If Me.SerialPort1.BytesToRead > 0 Then
                 StatusTimout.Image = My.Resources.LedGreen
             Else
                 StatusTimout.Image = My.Resources.LedBlack
             End If
-        End If
-
-        'TIMEOUT STATUS
-        If Me.tmrTimeout.Enabled = False Then
-            'StatusTimout.Image = My.Resources.CommentHS
         End If
     End Sub
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
@@ -115,17 +110,16 @@ Public Class frmMain
         Me.SerialPort1.DiscardInBuffer()
 
         'RESET 
-        USER_REQUEST_STOP = True
-        LOOP_IN_PROGRESS = False
+        USER_REQUEST_STOP = True : LOOP_IN_PROGRESS = False
 
         'CLOSE FORMS
         CLOSE_C1_FORMS()
 
-        'CLOSE PORT
-        Me.SerialPort1.Close()
-
         'ENABLE/DISABLE FRMMAIN MENU STATE
-        MENUENABLESTATE(True, False, False, False, False, False, False, True, True, True, True, False, False, False, False)
+        ENABLE_STATE_FOR_MENUS(True, False, False, False, False, False, False, True, True, True, True, False, False, False, False)
+
+        'ENABLE/DISABLE LOG INSPECTOR
+        ENABLE_STATE_FOR_INSPECTOR(False, False, False, False, False, False)
     End Sub
 
     Private Sub DisconnectToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DisconnectToolStripMenuItem.Click

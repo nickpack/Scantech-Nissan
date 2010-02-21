@@ -11,13 +11,19 @@
         SAVE_WINDOW_FORM_STATE(Me)
 
         'ENABLE/DISABLE FRMMAIN MENU STATE
-        MENUENABLESTATE(False, True, True, True, True, True, True, False, False, False, False, True, True, True, True)
+        ENABLE_STATE_FOR_MENUS(False, True, True, True, True, True, True, False, False, False, False, True, True, True, True)
+
+        'ENABLE/DISABLE LOG INSPECTOR
+        ENABLE_STATE_FOR_INSPECTOR(False, False, False, False, False, False)
     End Sub
     Private Sub frmC1Output_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         'LOAD FORM POSITION
         LOAD_WINDOW_FORM_STATE(Me, 10, 10, 483, 254)
 
         'ENABLE/DISABLE FRMMAIN MENU STATE
-        MENUENABLESTATE(False, True, False, False, False, False, False, False, False, False, False, True, False, False, False)
+        ENABLE_STATE_FOR_MENUS(False, True, False, False, False, False, False, False, False, False, False, True, False, False, False)
+
+        'ENABLE/DISABLE LOG INSPECTOR
+        ENABLE_STATE_FOR_INSPECTOR(True, False, False, False, False, False)
     End Sub
 End Class

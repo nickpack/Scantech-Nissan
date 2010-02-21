@@ -143,7 +143,6 @@ Restart:
                 GoTo Restart
             End If
         End If
-
     End Function
 
     Public Function PROCESS_BUFFER_DATA(ByVal blnRegisterCheck As Boolean) As Boolean
@@ -637,38 +636,29 @@ resend:
                     KeyValues(0) = ""
                     ReadINIFile(LST_VEHICLE_FILE, "ACTIVE TEST REGISTER SCALE TYPE", KeyName, KeyValues)
 
-                    'RETRIEVES ALL SCALE BYTES
-                    If UCase(KeyValues(0)) = "ALL" Then
-                        Dim Y As Integer
-                        For Y = 0 To 255
-                            CBO_ACTIVE_BINDING(X).Add(Y)
-                        Next
-                    Else
-                        Dim G As Integer
-                        Dim StoreData As String = ""
-                        Dim Data As String = ""
-                        For G = 1 To Len(KeyValues(0))
-                            Data = Mid(KeyValues(0), G, 1)
-                            'RETRIEVES SCALE BYTES SEPERATED BY COMMA
-                            If Data = "," Then
-                                CBO_ACTIVE_BINDING(X).Add(StoreData)
-                                StoreData = ""
-                            ElseIf Data = "-" Then
-                                'RETRIEVES SCALE BYTES SPECIFIED BY MINIMUM TO MAXIMUM
-                                Dim StartValue As String
-                                Dim EndValue As String
-                                StartValue = StoreData
-                                EndValue = Mid(KeyValues(0), G + 1)
-                                Dim J As Integer
-                                For J = Val(StartValue) To Val(EndValue)
-                                    CBO_ACTIVE_BINDING(X).Add(J)
-                                Next
-                            Else
-                                StoreData = StoreData & Data
-                            End If
-                        Next
-                    End If
-
+                    Dim G As Integer
+                    Dim StoreData As String = ""
+                    Dim Data As String = ""
+                    For G = 1 To Len(KeyValues(0))
+                        Data = Mid(KeyValues(0), G, 1)
+                        'RETRIEVES SCALE BYTES SEPERATED BY COMMA
+                        If Data = "," Then
+                            CBO_ACTIVE_BINDING(X).Add(StoreData)
+                            StoreData = ""
+                        ElseIf Data = "-" Then
+                            'RETRIEVES SCALE BYTES SPECIFIED BY MINIMUM TO MAXIMUM
+                            Dim StartValue As String
+                            Dim EndValue As String
+                            StartValue = StoreData
+                            EndValue = Mid(KeyValues(0), G + 1)
+                            Dim J As Integer
+                            For J = Val(StartValue) To Val(EndValue)
+                                CBO_ACTIVE_BINDING(X).Add(J)
+                            Next
+                        Else
+                            StoreData = StoreData & Data
+                        End If
+                    Next
                 End If
             End If
         Next X
@@ -889,7 +879,15 @@ resend:
         Form.Height = GetSetting("Consult1", Form.Name, "Form Height", HeightDefault)
         Form.WindowState = GetSetting("Consult1", Form.Name, "Window State", 0)
     End Sub
-    Public Sub MENUENABLESTATE(ByVal MenuConnect As Boolean, ByVal MenuDisconnect As Boolean, ByVal MenuSelfDiag As Boolean, _
+    Public Sub ENABLE_STATE_FOR_INSPECTOR(ByVal LogRecord As Boolean, ByVal LogPause As Boolean, ByVal LogPlay As Boolean, ByVal LogStop As Boolean, ByVal LogBackwarda As Boolean, ByVal LogForward As Boolean)
+        frmMain.tsRecord.Enabled = LogRecord
+        frmMain.tsPause.Enabled = LogPause
+        frmMain.tsPlay.Enabled = LogPlay
+        frmMain.tsStop.Enabled = LogStop
+        frmMain.tsFastBackward.Enabled = LogBackwarda
+        frmMain.tsFastForward.Enabled = LogForward
+    End Sub
+    Public Sub ENABLE_STATE_FOR_MENUS(ByVal MenuConnect As Boolean, ByVal MenuDisconnect As Boolean, ByVal MenuSelfDiag As Boolean, _
                     ByVal MenuAlert As Boolean, ByVal MenuGrid As Boolean, ByVal MenuGauges As Boolean, _
                     ByVal MenuGraphing As Boolean, ByVal MenuDetectReg As Boolean, ByVal MenuDetectECU As Boolean, _
                     ByVal MenuDecodeReg As Boolean, ByVal tbConnect As Boolean, ByVal tbDisconnect As Boolean, _

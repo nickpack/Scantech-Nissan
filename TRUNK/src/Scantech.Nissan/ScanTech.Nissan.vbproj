@@ -324,6 +324,24 @@
     <None Include="Resources\128008-simple-black-square-icon-transport-travel-car-gauge31.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\PauseHot.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PlayHot.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RecordHot.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\StepBackwardHotBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\StepForwardHotBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\StopHotBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="ViewModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

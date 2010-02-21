@@ -97,7 +97,7 @@ Reset:
         frmMain.SerialPort1.Close()
 
         'ENABLE/DISABLE FRMMAIN MENU STATE
-        MENUENABLESTATE(True, False, False, False, False, False, False, True, True, True, True, False, False, False, False)
+        ENABLE_STATE_FOR_MENUS(True, False, False, False, False, False, False, True, True, True, True, False, False, False, False)
     End Sub
 
     Private Sub frmRegisterDecoder_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -105,7 +105,7 @@ Reset:
         Dim D As String
 
         'ENABLE/DISABLE FRMMAIN MENU STATE
-        MENUENABLESTATE(False, False, False, False, False, False, False, False, False, False, False, False, False, False, False)
+        ENABLE_STATE_FOR_MENUS(False, False, False, False, False, False, False, False, False, False, False, False, False, False, False)
 
         'FILL ECU ADDRESS 0X00-0XFF
         For X = 255 To 0 Step -1

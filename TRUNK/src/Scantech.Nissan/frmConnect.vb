@@ -8,9 +8,10 @@ Public Class frmConnect
         GET_FILE_REGISTERS_INFO(LST_VEHICLE_FILE)
         GET_FILE_REGISTER_PARAMETERS(LST_VEHICLE_FILE)
 
-        'INITIALIZE ECU
+        'INITIALIZE ECU AND SUCCESS
         If INITIALIZE_ECU(ECU_ID_3, True) = True Then
-            'SENSOR REGISTER AUTO SCAN  IF SELECTED (FOR VALIDATION)
+
+            'SENSOR REGISTER AUTO SCAN.  IF SELECTED (FOR VALIDATION)
             If chkAutoScan.Checked = True Then
                 'IF INVALID SEND ERROR MESSAGE
                 If SCAN_REGISTERS(START_BYTE_FOR_SENSOR, END_BYTE_FOR_SENSOR) = False Then
@@ -22,7 +23,7 @@ Public Class frmConnect
                 End If
             End If
 
-            'ACTIVE TEST AUTO SCAN   IF SELECTED (FOR VALIDATION)
+            'ACTIVE TEST AUTO SCAN.   IF SELECTED (FOR VALIDATION)
             If chkInclude.Checked = True Then
                 'IF INVALID SEND ERROR MESSAGE
                 If SCAN_REGISTERS(START_BYTE_FOR_ACTIVETEST, END_BYTE_FOR_ACTIVETEST) = False Then
@@ -34,13 +35,15 @@ Public Class frmConnect
                 End If
             End If
 
-            'IF IT GETS HERE THEN CONNECTION IS SUCCESS
+            'IF IT GETS HERE THEN ECU INITIALIZATION AND REGISTER VALIDATION (IF SELECTED) IS SUCCESS
             frmMain.MonitorManagerToolStripMenuItem_Click(1, e)
             Me.Close()
             Exit Sub
+        Else
+            'INITIALIZE ECU FAILED
+            Me.Enabled = True
         End If
 
-        Me.Enabled = True
     End Sub
 
     Private Sub frmConnect_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing

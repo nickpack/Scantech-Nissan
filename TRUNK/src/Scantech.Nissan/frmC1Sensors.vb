@@ -15,4 +15,11 @@
         'LOAD FORM POSITION
         LOAD_WINDOW_FORM_STATE(Me, 10, 10, 684, 180)
     End Sub
+
+    Private Sub frmC1Sensors_Move(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Move
+        'ALIGN TOP LEFT (0,0)
+        'If Me.Left < 10 And Me.Top < 10 Then
+        ' Me.Top = 0 : Me.Left = 0
+        ' End If
+    End Sub
 End Class
