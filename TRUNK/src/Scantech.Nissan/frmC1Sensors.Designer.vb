@@ -192,7 +192,7 @@ Partial Class frmC1Sensors
         Me.Controls.Add(Me.Grid1)
         Me.MinimumSize = New System.Drawing.Size(444, 180)
         Me.Name = "frmC1Sensors"
-        Me.Text = "SENSORS"
+        Me.Text = "ANALOG SENSORS"
         CType(Me.Grid1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

@@ -2,9 +2,12 @@
 
     Private Sub frmRegSelection_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         'If e.CloseReason = CloseReason.UserClosing Then ENABLE_MENUS()
+        MenuEnableState(False, True, True, True, True, True, True, False, False, False, False, True, True)
+
     End Sub
     Private Sub frmRegSelection_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         CHECK_SUPPORTED_REGISTERS()
+        MenuEnableState(False, True, False, False, False, False, False, False, False, False, True, False, False)
     End Sub
 
     Private Sub cmdApply_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdApply.Click
@@ -56,7 +59,7 @@
         'CLEAR ANY BUFFER
         frmMain.SerialPort1.DiscardInBuffer()
 
-        Me.Hide()
+        Me.Close()
     End Sub
     Private Sub cmdClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdClose.Click
         Me.Close()

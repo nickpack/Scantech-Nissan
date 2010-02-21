@@ -36,9 +36,9 @@ Partial Class frmC1Faults
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TreeView1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TreeView1.Location = New System.Drawing.Point(35, 31)
+        Me.TreeView1.Location = New System.Drawing.Point(12, 12)
         Me.TreeView1.Name = "TreeView1"
-        Me.TreeView1.Size = New System.Drawing.Size(392, 262)
+        Me.TreeView1.Size = New System.Drawing.Size(444, 262)
         Me.TreeView1.TabIndex = 0
         '
         'cmdCheck
@@ -46,9 +46,9 @@ Partial Class frmC1Faults
         Me.cmdCheck.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdCheck.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.cmdCheck.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdCheck.Location = New System.Drawing.Point(37, 312)
+        Me.cmdCheck.Location = New System.Drawing.Point(12, 288)
         Me.cmdCheck.Name = "cmdCheck"
-        Me.cmdCheck.Size = New System.Drawing.Size(192, 38)
+        Me.cmdCheck.Size = New System.Drawing.Size(213, 54)
         Me.cmdCheck.TabIndex = 23
         Me.cmdCheck.Text = "Check Faults"
         Me.cmdCheck.UseVisualStyleBackColor = True
@@ -58,9 +58,9 @@ Partial Class frmC1Faults
         Me.cmdClear.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdClear.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.cmdClear.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdClear.Location = New System.Drawing.Point(235, 312)
+        Me.cmdClear.Location = New System.Drawing.Point(243, 288)
         Me.cmdClear.Name = "cmdClear"
-        Me.cmdClear.Size = New System.Drawing.Size(192, 38)
+        Me.cmdClear.Size = New System.Drawing.Size(213, 54)
         Me.cmdClear.TabIndex = 24
         Me.cmdClear.Text = "Clear Faults"
         Me.cmdClear.UseVisualStyleBackColor = True

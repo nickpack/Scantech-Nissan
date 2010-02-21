@@ -22,6 +22,7 @@ Partial Class frmScannerECU
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmScannerECU))
         Me.cmdScanEcu = New System.Windows.Forms.Button
         Me.TreeView1 = New System.Windows.Forms.TreeView
         Me.SuspendLayout()
@@ -56,6 +57,7 @@ Partial Class frmScannerECU
         Me.ClientSize = New System.Drawing.Size(234, 339)
         Me.Controls.Add(Me.cmdScanEcu)
         Me.Controls.Add(Me.TreeView1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MinimumSize = New System.Drawing.Size(250, 375)
         Me.Name = "frmScannerECU"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen

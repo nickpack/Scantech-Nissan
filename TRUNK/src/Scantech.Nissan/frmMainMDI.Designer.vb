@@ -35,7 +35,7 @@ Partial Class frmMain
         Me.tbConnect = New System.Windows.Forms.ToolStripButton
         Me.tsComPort = New System.Windows.Forms.ToolStripComboBox
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip
-        Me.tsDisconnect = New System.Windows.Forms.ToolStripButton
+        Me.tbDisconnect = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator9 = New System.Windows.Forms.ToolStripSeparator
         Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator
         Me.tsRecord = New System.Windows.Forms.ToolStripButton
@@ -125,7 +125,7 @@ Partial Class frmMain
         Me.statusPort.Image = Global.Scantech.Nissan.My.Resources.Resources.LedBlack
         Me.statusPort.Name = "statusPort"
         Me.statusPort.Size = New System.Drawing.Size(16, 17)
-        Me.statusPort.ToolTipText = "Com Port Status"
+        Me.statusPort.ToolTipText = "COM PORT STATUS"
         '
         'StatusTimout
         '
@@ -133,7 +133,7 @@ Partial Class frmMain
         Me.StatusTimout.Image = Global.Scantech.Nissan.My.Resources.Resources.LedBlack
         Me.StatusTimout.Name = "StatusTimout"
         Me.StatusTimout.Size = New System.Drawing.Size(16, 17)
-        Me.StatusTimout.ToolTipText = "InBuffer Status"
+        Me.StatusTimout.ToolTipText = "INBUFFER STATUS"
         '
         'tsProgress
         '
@@ -155,7 +155,7 @@ Partial Class frmMain
         'tbConnect
         '
         Me.tbConnect.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.tbConnect.Image = Global.Scantech.Nissan.My.Resources.Resources.connect_icon
+        Me.tbConnect.Image = Global.Scantech.Nissan.My.Resources.Resources.ConnectIcon
         Me.tbConnect.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.tbConnect.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tbConnect.Name = "tbConnect"
@@ -172,23 +172,23 @@ Partial Class frmMain
         '
         'ToolStrip1
         '
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tbConnect, Me.tsDisconnect, Me.ToolStripSeparator9, Me.tsComPort, Me.ToolStripSeparator6, Me.tsRecord, Me.tsPause, Me.tsPlay, Me.tsStop, Me.tsFastBackward, Me.tsFastForward, Me.ToolStripSeparator7})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tbConnect, Me.tbDisconnect, Me.ToolStripSeparator9, Me.tsComPort, Me.ToolStripSeparator6, Me.tsRecord, Me.tsPause, Me.tsPlay, Me.tsStop, Me.tsFastBackward, Me.tsFastForward, Me.ToolStripSeparator7})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 29)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.Size = New System.Drawing.Size(1094, 39)
         Me.ToolStrip1.TabIndex = 19
         Me.ToolStrip1.Text = "ToolStrip1"
         '
-        'tsDisconnect
+        'tbDisconnect
         '
-        Me.tsDisconnect.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.tsDisconnect.Enabled = False
-        Me.tsDisconnect.Image = Global.Scantech.Nissan.My.Resources.Resources.disconnect_icon
-        Me.tsDisconnect.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.tsDisconnect.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tsDisconnect.Name = "tsDisconnect"
-        Me.tsDisconnect.Size = New System.Drawing.Size(36, 36)
-        Me.tsDisconnect.Text = "ToolStripButton1"
+        Me.tbDisconnect.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.tbDisconnect.Enabled = False
+        Me.tbDisconnect.Image = Global.Scantech.Nissan.My.Resources.Resources.DisconnectIcon
+        Me.tbDisconnect.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.tbDisconnect.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tbDisconnect.Name = "tbDisconnect"
+        Me.tbDisconnect.Size = New System.Drawing.Size(36, 36)
+        Me.tbDisconnect.ToolTipText = "DISCONNECT"
         '
         'ToolStripSeparator9
         '
@@ -290,14 +290,15 @@ Partial Class frmMain
         '
         'ConnectToolStripMenuItem
         '
-        Me.ConnectToolStripMenuItem.Image = Global.Scantech.Nissan.My.Resources.Resources.connect_icon
+        Me.ConnectToolStripMenuItem.Image = Global.Scantech.Nissan.My.Resources.Resources.ConnectIcon
         Me.ConnectToolStripMenuItem.Name = "ConnectToolStripMenuItem"
         Me.ConnectToolStripMenuItem.Size = New System.Drawing.Size(172, 26)
         Me.ConnectToolStripMenuItem.Text = "&Connect"
         '
         'DisconnectToolStripMenuItem
         '
-        Me.DisconnectToolStripMenuItem.Image = Global.Scantech.Nissan.My.Resources.Resources.disconnect_icon
+        Me.DisconnectToolStripMenuItem.Enabled = False
+        Me.DisconnectToolStripMenuItem.Image = Global.Scantech.Nissan.My.Resources.Resources.DisconnectIcon
         Me.DisconnectToolStripMenuItem.Name = "DisconnectToolStripMenuItem"
         Me.DisconnectToolStripMenuItem.Size = New System.Drawing.Size(172, 26)
         Me.DisconnectToolStripMenuItem.Text = "&Disconnect"
@@ -435,12 +436,14 @@ Partial Class frmMain
         '
         'DiagnosticFaultsToolStripMenuItem
         '
+        Me.DiagnosticFaultsToolStripMenuItem.Enabled = False
         Me.DiagnosticFaultsToolStripMenuItem.Name = "DiagnosticFaultsToolStripMenuItem"
         Me.DiagnosticFaultsToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.DiagnosticFaultsToolStripMenuItem.Text = "ECU Self Diagnostic"
         '
         'AlertMonitoringSystemToolStripMenuItem
         '
+        Me.AlertMonitoringSystemToolStripMenuItem.Enabled = False
         Me.AlertMonitoringSystemToolStripMenuItem.Name = "AlertMonitoringSystemToolStripMenuItem"
         Me.AlertMonitoringSystemToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.AlertMonitoringSystemToolStripMenuItem.Text = "Alert Monitor"
@@ -454,12 +457,14 @@ Partial Class frmMain
         '
         'SpeedTrialToolStripMenuItem
         '
+        Me.SpeedTrialToolStripMenuItem.Enabled = False
         Me.SpeedTrialToolStripMenuItem.Name = "SpeedTrialToolStripMenuItem"
         Me.SpeedTrialToolStripMenuItem.Size = New System.Drawing.Size(157, 26)
         Me.SpeedTrialToolStripMenuItem.Text = "Speed Trial"
         '
         'RoadDynoToolStripMenuItem
         '
+        Me.RoadDynoToolStripMenuItem.Enabled = False
         Me.RoadDynoToolStripMenuItem.Name = "RoadDynoToolStripMenuItem"
         Me.RoadDynoToolStripMenuItem.Size = New System.Drawing.Size(157, 26)
         Me.RoadDynoToolStripMenuItem.Text = "Road Dyno"
@@ -473,18 +478,21 @@ Partial Class frmMain
         '
         'GridStyleToolStripMenuItem
         '
+        Me.GridStyleToolStripMenuItem.Enabled = False
         Me.GridStyleToolStripMenuItem.Name = "GridStyleToolStripMenuItem"
         Me.GridStyleToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
         Me.GridStyleToolStripMenuItem.Text = "Grid"
         '
         'GaugesToolStripMenuItem
         '
+        Me.GaugesToolStripMenuItem.Enabled = False
         Me.GaugesToolStripMenuItem.Name = "GaugesToolStripMenuItem"
         Me.GaugesToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
         Me.GaugesToolStripMenuItem.Text = "Gauges"
         '
         'GraphingToolStripMenuItem
         '
+        Me.GraphingToolStripMenuItem.Enabled = False
         Me.GraphingToolStripMenuItem.Name = "GraphingToolStripMenuItem"
         Me.GraphingToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
         Me.GraphingToolStripMenuItem.Text = "Graph"
@@ -496,6 +504,7 @@ Partial Class frmMain
         '
         'MonitorManagerToolStripMenuItem
         '
+        Me.MonitorManagerToolStripMenuItem.Enabled = False
         Me.MonitorManagerToolStripMenuItem.Name = "MonitorManagerToolStripMenuItem"
         Me.MonitorManagerToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
         Me.MonitorManagerToolStripMenuItem.Text = "Monitor Manager"
@@ -528,21 +537,19 @@ Partial Class frmMain
         'RegisterTest
         '
         Me.RegisterTest.Name = "RegisterTest"
-        Me.RegisterTest.ShortcutKeys = System.Windows.Forms.Keys.F7
-        Me.RegisterTest.Size = New System.Drawing.Size(219, 26)
+        Me.RegisterTest.Size = New System.Drawing.Size(200, 26)
         Me.RegisterTest.Text = "Detect Registers"
         '
         'ConductECUTestToolStripMenuItem
         '
         Me.ConductECUTestToolStripMenuItem.Name = "ConductECUTestToolStripMenuItem"
-        Me.ConductECUTestToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F8
-        Me.ConductECUTestToolStripMenuItem.Size = New System.Drawing.Size(219, 26)
+        Me.ConductECUTestToolStripMenuItem.Size = New System.Drawing.Size(200, 26)
         Me.ConductECUTestToolStripMenuItem.Text = "Detect ECU"
         '
         'RegisterDecoderToolStripMenuItem
         '
         Me.RegisterDecoderToolStripMenuItem.Name = "RegisterDecoderToolStripMenuItem"
-        Me.RegisterDecoderToolStripMenuItem.Size = New System.Drawing.Size(219, 26)
+        Me.RegisterDecoderToolStripMenuItem.Size = New System.Drawing.Size(200, 26)
         Me.RegisterDecoderToolStripMenuItem.Text = "Decode Registers"
         '
         'Inspector
@@ -767,7 +774,7 @@ Partial Class frmMain
     Friend WithEvents tsFastForward As System.Windows.Forms.ToolStripButton
     Friend WithEvents tsStop As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator7 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents tsDisconnect As System.Windows.Forms.ToolStripButton
+    Friend WithEvents tbDisconnect As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator9 As System.Windows.Forms.ToolStripSeparator
 
 End Class

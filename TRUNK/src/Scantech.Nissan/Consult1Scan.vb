@@ -56,7 +56,7 @@
                             ByVal lpKeyName As String, ByVal lpString As String, _
                             ByVal lpFileName As String) As Int32
     Function SCAN_REGISTERS(ByVal StartReg As Integer, ByVal EndReg As Integer) As Boolean
-        'THIS IS TO VALIDATE THE FILE TO ECU
+        'THIS IS TO VALIDATE THE INI FILE TO ECU
         Dim xCounter As Integer
         Dim InData As Byte
 
@@ -192,7 +192,7 @@ Restart:
                 '********************************************************************************************************************************
             ElseIf FF_BYTE_DETECTOR = False And REGISTER_DATA_ONLY = False Then
                 If IN_BUFFER_BYTE = "FF" Then                                               'FRAME START BYTE RECEIVED
-                    FF_BYTE_DETECTOR = True                                                 'FLAG FF RECEIVED
+                    FF_BYTE_DETECTOR = True                                                 'FLAG FF_BYTE_DETECTOR TO TRUE
                 End If
             End If
         End If
@@ -203,7 +203,7 @@ Restart:
 resend:
         RESET_VARIABLES()
 
-        'REQUEST SUPPORTED REGISTERS.  NOTE:  MAX 20 REGISTERS ONLY
+        'REQUEST SUPPORTED REGISTERS.  NOTE:  MAX REGISTERS DEFINED IN INI FILE
         Dim x As Integer
         For x = START_BYTE_FOR_SENSOR To END_BYTE_FOR_SENSOR
             If SELECTED_REGISTERS(x) = True Then
@@ -221,12 +221,11 @@ resend:
         'SET TIMEOUT
         frmMain.tmrTimeout.Interval = TIME_OUT : frmMain.tmrTimeout.Enabled = True
 
-        'LOOP UNTIL DATAFILTERED IS FULLFILLED AND SET TRUE IN PROCESS_BUFFER_DATA 
+        'LOOP UNTIL DATAFILTERED IS FULLFILLED AND SET TRUE IN PROCESS_BUFFER_DATA FUNCTION
         Do Until USER_REQUEST_STOP = True
             'IF TIMEOUT THEN RETRY CONNECTING
             If frmMain.tmrTimeout.Enabled = False Then
-                'DISABLE_MENUS()
-                'INITIALIZE WITh NO MSGBOX
+                'REINITIALIZE WITh NO MSGBOX (QUIET MODE)
                 If INITIALIZE_ECU(ECU_ID_3, False) = True Then
                     GoTo resend
                 End If
@@ -284,57 +283,32 @@ resend:
         Dim SEND_BYTE() As Byte = {SEND_CLEAR_FAULTS_BYTE}
         RESET_VARIABLES()
 
-        '0X30 = STOP COMMAND
-        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
-
-        'CLEAR BUFFER
-        frmMain.SerialPort1.DiscardInBuffer()
-
-        'CLEAR FAULT COMMAND FROM INI FILE
-        frmMain.SerialPort1.Write(SEND_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
-
-        '0XFO = START COMMAND
-        frmMain.SerialPort1.Write(SEND_F0_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
-
-        '0X30 = STOP COMMAND
-        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
-
-        'CLEAR BUFFER
-        frmMain.SerialPort1.DiscardInBuffer()
+        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)      '0X30 = STOP COMMAND
+        frmMain.SerialPort1.DiscardInBuffer()                                                               'CLEAR BUFFER
+        frmMain.SerialPort1.Write(SEND_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)         'CLEAR FAULT COMMAND FROM INI FILE
+        frmMain.SerialPort1.Write(SEND_F0_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)      '0XFO = START COMMAND
+        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)      '0X30 = STOP COMMAND
+        frmMain.SerialPort1.DiscardInBuffer()                                                               'CLEAR BUFFER
     End Sub
 
     Public Function REQUEST_C1_FAULTS() As String
         Dim SEND_BYTE() As Byte = {SEND_CHECK_FAULTS_BYTE}
         RESET_VARIABLES()
 
-        '0X30 = STOP COMMAND
-        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
-
-        'CLEAR BUFFER
-        frmMain.SerialPort1.DiscardInBuffer()
-
-        'FAULT COMMAND FROM INI FILE
-        frmMain.SerialPort1.Write(SEND_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
-
-        '0XFO = START COMMAND
-        frmMain.SerialPort1.Write(SEND_F0_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
-
-        'SET TIMEOUT
-        frmMain.tmrTimeout.Enabled = True
+        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)      '0X30 = STOP COMMAND
+        frmMain.SerialPort1.DiscardInBuffer()                                                               'CLEAR BUFFER
+        frmMain.SerialPort1.Write(SEND_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)         'FAULT COMMAND FROM INI FILE
+        frmMain.SerialPort1.Write(SEND_F0_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)      '0XFO = START COMMAND
+        frmMain.tmrTimeout.Enabled = True                                                                   'SET TIMEOUT
 
         'FRAME DATA WILL BE IN DATAFILTERED VARIABLE AND FULLFILLED WHEN SET TRUE
         Do Until frmMain.tmrTimeout.Enabled = False
             If PROCESS_BUFFER_DATA(False) = True Then Exit Do
         Loop
 
-        'ADD PROCESSED DATA
-        REQUEST_C1_FAULTS = DATA_FILTERED_RECEIVED
-
-        '0X30 = STOP COMMAND
-        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
-
-        'CLEAR BUFFER
-        frmMain.SerialPort1.DiscardInBuffer()
+        REQUEST_C1_FAULTS = DATA_FILTERED_RECEIVED                                                          'ADD PROCESSED DATA
+        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)      '0X30 = STOP COMMAND
+        frmMain.SerialPort1.DiscardInBuffer()                                                               'CLEAR BUFFER
     End Function
 
     Public Sub RESULT_REGISTER_DECODER()
@@ -342,11 +316,11 @@ resend:
         If Len(DATA_FILTERED_RECEIVED) = 2 Then
             '2 BYTES
             frmRegisterDecoder.lblScale.Text = DECODE_DATA_C1_SENSORS(frmRegisterDecoder.ComboBox2.Text, 0, "&H" & _
-                            Left(DATA_FILTERED_RECEIVED, 2), 0)
+                Left(DATA_FILTERED_RECEIVED, 2), 0)
         ElseIf Len(DATA_FILTERED_RECEIVED) = 4 Then
             '4 BYTES
             frmRegisterDecoder.lblScale.Text = DECODE_DATA_C1_SENSORS(frmRegisterDecoder.ComboBox2.Text, "&H" & _
-                            Left(DATA_FILTERED_RECEIVED, 2), "&H" & Mid(DATA_FILTERED_RECEIVED, 3, 2), 0)
+                Left(DATA_FILTERED_RECEIVED, 2), "&H" & Mid(DATA_FILTERED_RECEIVED, 3, 2), 0)
         End If
 
         'UNIT
@@ -767,18 +741,18 @@ resend:
         Dim x As Integer
 
         For x = 0 To 255
-            SUPPORTED_REGISTERS(x, 0, 0) = False                                        'RESET REGISTER SUPPORTED ARRAYS
-            SUPPORTED_REGISTERS(x, 0, 1) = False                                        'RESET DIGITAL OUTPUT SUPPORTED ARRAY
-            SUPPORTED_REGISTERS(x, 1, 0) = False                                        'RESET LSB ARRAY
-            SUPPORTED_REGISTERS(x, 0, 2) = False                                        'RESET ACTIVE TEST ARRAY
-            REGISTERS_NAME(x, 0) = ""                                                   'RESET SENSOR NAME
+            SUPPORTED_REGISTERS(x, 0, 0) = False                                                        'RESET REGISTER SUPPORTED ARRAYS
+            SUPPORTED_REGISTERS(x, 0, 1) = False                                                        'RESET DIGITAL OUTPUT SUPPORTED ARRAY
+            SUPPORTED_REGISTERS(x, 1, 0) = False                                                        'RESET LSB ARRAY
+            SUPPORTED_REGISTERS(x, 0, 2) = False                                                        'RESET ACTIVE TEST ARRAY
+            REGISTERS_NAME(x, 0) = ""                                                                   'RESET SENSOR NAME
         Next
 
         'SENSOR REGISTER AND SCALE TYPES (INCLUDING DIGITAL OUTPUT(ON/OFF) (0X00 TO 0X32 MOST COMMON, SOME ABOVE 0X32 ON LATE MODELS)
         For x = START_BYTE_FOR_SENSOR To END_BYTE_FOR_SENSOR
             KeyName(0) = Hex(x)
             KeyValues(0) = ""
-            ReadINIFile(FileName, "SENSOR REGISTERS SUPPORTED NAMES", KeyName, KeyValues)   'READ SENSOR REGISTER NAMES
+            ReadINIFile(FileName, "SENSOR REGISTERS SUPPORTED NAMES", KeyName, KeyValues)               'READ SENSOR REGISTER NAMES
             Select Case UCase(KeyValues(0))
                 Case ""
                 Case "DIGITAL OUTPUT"                                                                   'DIGITAL OUTPUT(ON/OFF) TYPE
@@ -842,7 +816,7 @@ resend:
         Next
     End Sub
 
-    Public Sub ReadINIFile(ByVal INIPath As String, _
+    Public Sub READINIFILE(ByVal INIPath As String, _
                              ByVal SectionName As String, ByVal KeyName As String(), _
                              ByRef KeyValue As String())
         Dim Length As Integer
@@ -862,7 +836,7 @@ resend:
         Next
     End Sub
 
-    Public Sub WriteINIFile(ByVal INIPath As String, _
+    Public Sub WRITEINIFILE(ByVal INIPath As String, _
                               ByVal SectionName As String, ByVal KeyName As String, _
                               ByVal KeyValue As String)
 
@@ -891,11 +865,11 @@ resend:
         REGISTER_DATA_ONLY = False
     End Sub
     Public Sub CLOSE_C1_FORMS()
-        frmMain.GridStyleToolStripMenuItem.Checked = False
         frmC1Output.Close()
         frmC1Sensors.Close()
         frmC1ActiveTest.Close()
         frmRegSelection.Close()
+        frmC1Faults.Close()
     End Sub
 
     Public Sub SAVE_WINDOW_FORM_STATE(ByVal Form As Object)
@@ -914,5 +888,25 @@ resend:
         Form.Width = GetSetting("Consult1", Form.Name, "Form Width", WidthDefault)
         Form.Height = GetSetting("Consult1", Form.Name, "Form Height", HeightDefault)
         Form.WindowState = GetSetting("Consult1", Form.Name, "Window State", 0)
+    End Sub
+    Public Sub MENUENABLESTATE(ByVal MenuConnect As Boolean, ByVal MenuDisconnect As Boolean, ByVal MenuSelfDiag As Boolean, _
+                    ByVal MenuAlert As Boolean, ByVal MenuGrid As Boolean, ByVal MenuGauges As Boolean, _
+                    ByVal MenuGraphing As Boolean, ByVal MenuDetectReg As Boolean, ByVal MenuDetectECU As Boolean, _
+                    ByVal MenuDecodeReg As Boolean, ByVal tbConnect As Boolean, ByVal tbDisconnect As Boolean, _
+                    ByVal MenuMonitorManager As Boolean)
+
+        frmMain.ConnectToolStripMenuItem.Enabled = MenuConnect
+        frmMain.DisconnectToolStripMenuItem.Enabled = MenuDisconnect
+        frmMain.DiagnosticFaultsToolStripMenuItem.Enabled = MenuSelfDiag
+        frmMain.AlertMonitoringSystemToolStripMenuItem.Enabled = MenuAlert
+        frmMain.GridStyleToolStripMenuItem.Enabled = MenuGrid
+        frmMain.GaugesToolStripMenuItem.Enabled = MenuGauges
+        frmMain.GraphingToolStripMenuItem.Enabled = MenuGraphing
+        frmMain.RegisterTest.Enabled = MenuDetectReg
+        frmMain.ConductECUTestToolStripMenuItem.Enabled = MenuDetectECU
+        frmMain.RegisterDecoderToolStripMenuItem.Enabled = MenuDecodeReg
+        frmMain.tbConnect.Enabled = tbConnect
+        frmMain.tbDisconnect.Enabled = tbDisconnect
+        frmMain.MonitorManagerToolStripMenuItem.Enabled = MenuMonitorManager
     End Sub
 End Module

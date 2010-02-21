@@ -9,9 +9,13 @@
 
         'SAVE FORM POSITION
         SAVE_WINDOW_FORM_STATE(Me)
+
+        MenuEnableState(False, True, True, True, True, True, True, False, False, False, False, True, True)
     End Sub
     Private Sub frmC1Output_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         'LOAD FORM POSITION
         LOAD_WINDOW_FORM_STATE(Me, 10, 10, 483, 254)
+
+        MenuEnableState(False, True, False, False, False, False, False, False, False, False, False, True, False)
     End Sub
 End Class

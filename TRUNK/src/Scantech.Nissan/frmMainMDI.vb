@@ -102,4 +102,29 @@ Public Class frmMain
     Private Sub tbComPort_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsComPort.Click
 
     End Sub
+
+    Private Sub AboutToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AboutToolStripMenuItem.Click
+        AboutBox1.Show()
+    End Sub
+
+    Private Sub tbDisconnect_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tbDisconnect.Click
+        'MAKE SURE CONSULT 1 DATA QUERYING IS STOPPED
+        Me.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
+
+        'CLEAR ANY BUFFER
+        Me.SerialPort1.DiscardInBuffer()
+
+        'RESET 
+        USER_REQUEST_STOP = True
+        LOOP_IN_PROGRESS = False
+
+        'CLOSE FORMS
+        CLOSE_C1_FORMS()
+
+        MenuEnableState(True, False, False, False, False, False, False, True, True, True, True, False, False)
+    End Sub
+
+    Private Sub DisconnectToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DisconnectToolStripMenuItem.Click
+        tbDisconnect_Click(1, e)
+    End Sub
 End Class

@@ -54,10 +54,15 @@
 
         'SAVE FORM POSITION
         SAVE_WINDOW_FORM_STATE(Me)
+
+        MenuEnableState(True, False, False, False, False, False, False, True, True, True, True, False, False)
+
     End Sub
 
     Private Sub frmScannerECU_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         'LOAD FORM POSITION
         LOAD_WINDOW_FORM_STATE(Me, 10, 10, 250, 375)
+
+        MenuEnableState(False, False, False, False, False, False, False, False, False, False, False, False, False)
     End Sub
 End Class

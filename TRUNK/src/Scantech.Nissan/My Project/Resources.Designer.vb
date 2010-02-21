@@ -67,9 +67,9 @@ Namespace My.Resources
             End Get
         End Property
         
-        Friend ReadOnly Property connect_icon() As System.Drawing.Bitmap
+        Friend ReadOnly Property ConnectIcon() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("connect-icon", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("ConnectIcon", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -81,9 +81,9 @@ Namespace My.Resources
             End Get
         End Property
         
-        Friend ReadOnly Property disconnect_icon() As System.Drawing.Bitmap
+        Friend ReadOnly Property DisconnectIcon() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("disconnect-icon", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("DisconnectIcon", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
