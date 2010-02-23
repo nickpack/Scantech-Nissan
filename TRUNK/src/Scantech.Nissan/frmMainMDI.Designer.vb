@@ -29,7 +29,7 @@ Partial Class frmMain
         Me.statusPort = New System.Windows.Forms.ToolStripStatusLabel
         Me.StatusTimout = New System.Windows.Forms.ToolStripStatusLabel
         Me.tsProgress = New System.Windows.Forms.ToolStripProgressBar
-        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.tsStatus = New System.Windows.Forms.ToolStripStatusLabel
         Me.SerialPort1 = New System.IO.Ports.SerialPort(Me.components)
         Me.tmrPortStatus = New System.Windows.Forms.Timer(Me.components)
         Me.tbConnect = New System.Windows.Forms.ToolStripButton
@@ -104,6 +104,8 @@ Partial Class frmMain
         Me.toolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator
         Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip = New System.Windows.Forms.MenuStrip
+        Me.tmrLogStatus = New System.Windows.Forms.Timer(Me.components)
+        Me.tmrLogImage = New System.Windows.Forms.Timer(Me.components)
         Me.StatusStrip.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
@@ -112,7 +114,7 @@ Partial Class frmMain
         'StatusStrip
         '
         Me.StatusStrip.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.statusPort, Me.StatusTimout, Me.tsProgress})
+        Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.statusPort, Me.StatusTimout, Me.tsProgress, Me.tsStatus})
         Me.StatusStrip.Location = New System.Drawing.Point(0, 482)
         Me.StatusStrip.Name = "StatusStrip"
         Me.StatusStrip.Size = New System.Drawing.Size(1094, 22)
@@ -142,10 +144,10 @@ Partial Class frmMain
         Me.tsProgress.Size = New System.Drawing.Size(100, 22)
         Me.tsProgress.Visible = False
         '
-        'ToolTip1
+        'tsStatus
         '
-        Me.ToolTip1.IsBalloon = True
-        Me.ToolTip1.Tag = ""
+        Me.tsStatus.Name = "tsStatus"
+        Me.tsStatus.Size = New System.Drawing.Size(0, 17)
         '
         'tmrPortStatus
         '
@@ -670,6 +672,15 @@ Partial Class frmMain
         Me.MenuStrip.TabIndex = 5
         Me.MenuStrip.Text = "MenuStrip"
         '
+        'tmrLogStatus
+        '
+        Me.tmrLogStatus.Enabled = True
+        '
+        'tmrLogImage
+        '
+        Me.tmrLogImage.Enabled = True
+        Me.tmrLogImage.Interval = 500
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -698,7 +709,6 @@ Partial Class frmMain
 
     End Sub
     Friend WithEvents StatusStrip As System.Windows.Forms.StatusStrip
-    Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
     Friend WithEvents SerialPort1 As System.IO.Ports.SerialPort
     Friend WithEvents tsProgress As System.Windows.Forms.ToolStripProgressBar
     Friend WithEvents tmrPortStatus As System.Windows.Forms.Timer
@@ -776,5 +786,8 @@ Partial Class frmMain
     Friend WithEvents ToolStripSeparator7 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents tbDisconnect As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator9 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents tmrLogStatus As System.Windows.Forms.Timer
+    Friend WithEvents tsStatus As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents tmrLogImage As System.Windows.Forms.Timer
 
 End Class

@@ -45,6 +45,7 @@
 
     Public FileName As String                                   'INI FILE NAME FOR ECU PROFILE
     Public TIME_OUT As Integer
+    Public LOG_BUTTONS_STATUS As String
 
     Private Declare Unicode Function GetPrivateProfileString Lib "kernel32.dll" _
                             Alias "GetPrivateProfileStringW" (ByVal lpApplicationName As String, _
@@ -879,13 +880,14 @@ resend:
         Form.Height = GetSetting("Consult1", Form.Name, "Form Height", HeightDefault)
         Form.WindowState = GetSetting("Consult1", Form.Name, "Window State", 0)
     End Sub
-    Public Sub ENABLE_STATE_FOR_INSPECTOR(ByVal LogRecord As Boolean, ByVal LogPause As Boolean, ByVal LogPlay As Boolean, ByVal LogStop As Boolean, ByVal LogBackwarda As Boolean, ByVal LogForward As Boolean)
-        frmMain.tsRecord.Enabled = LogRecord
-        frmMain.tsPause.Enabled = LogPause
-        frmMain.tsPlay.Enabled = LogPlay
-        frmMain.tsStop.Enabled = LogStop
-        frmMain.tsFastBackward.Enabled = LogBackwarda
-        frmMain.tsFastForward.Enabled = LogForward
+    Public Sub ENABLE_STATE_FOR_INSPECTOR(ByVal LogRecord As Integer, ByVal LogPause As Integer, ByVal LogPlay As Integer, ByVal LogStop As Integer, ByVal LogBackward As Integer, ByVal LogForward As Integer)
+        '0=FALSE: 1=TRUE: 2=SKIP
+        If LogRecord <> 2 Then frmMain.tsRecord.Enabled = LogRecord
+        If LogPause <> 2 Then frmMain.tsPause.Enabled = LogPause
+        If LogPlay <> 2 Then frmMain.tsPlay.Enabled = LogPlay
+        If LogStop <> 2 Then frmMain.tsStop.Enabled = LogStop
+        If LogBackward <> 2 Then frmMain.tsFastBackward.Enabled = LogBackward
+        If LogForward <> 2 Then frmMain.tsFastForward.Enabled = LogForward
     End Sub
     Public Sub ENABLE_STATE_FOR_MENUS(ByVal MenuConnect As Boolean, ByVal MenuDisconnect As Boolean, ByVal MenuSelfDiag As Boolean, _
                     ByVal MenuAlert As Boolean, ByVal MenuGrid As Boolean, ByVal MenuGauges As Boolean, _

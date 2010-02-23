@@ -119,10 +119,96 @@ Public Class frmMain
         ENABLE_STATE_FOR_MENUS(True, False, False, False, False, False, False, True, True, True, True, False, False, False, False)
 
         'ENABLE/DISABLE LOG INSPECTOR
-        ENABLE_STATE_FOR_INSPECTOR(False, False, False, False, False, False)
+        ENABLE_STATE_FOR_INSPECTOR(0, 0, 0, 0, 0, 0)
     End Sub
 
     Private Sub DisconnectToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DisconnectToolStripMenuItem.Click
         tbDisconnect_Click(1, e)
+    End Sub
+
+    Private Sub tsRecord_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsRecord.Click
+        LOG_BUTTONS_STATUS = "Record" : ENABLE_STATE_FOR_INSPECTOR(2, 1, 0, 1, 0, 0)
+    End Sub
+
+    Private Sub tsPause_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsPause.Click
+        LOG_BUTTONS_STATUS = "Pause" : ENABLE_STATE_FOR_INSPECTOR(2, 1, 2, 2, 2, 2)
+    End Sub
+
+    Private Sub tsStop_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsStop.Click
+        LOG_BUTTONS_STATUS = "Stop" : ENABLE_STATE_FOR_INSPECTOR(2, 0, 2, 0, 2, 2)
+    End Sub
+
+    Private Sub tsFastBackward_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsFastBackward.Click
+        LOG_BUTTONS_STATUS = "FastBackward" : ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1)
+    End Sub
+
+    Private Sub tsPlay_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsPlay.Click
+        LOG_BUTTONS_STATUS = "Play" : ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1)
+    End Sub
+
+    Private Sub tsFastForward_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsFastForward.Click
+        LOG_BUTTONS_STATUS = "FastForward" : ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1)
+    End Sub
+
+    Private Sub tmrLogStatus_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrLogStatus.Tick
+        Select Case LOG_BUTTONS_STATUS
+            Case "Record" : tsStatus.Text = "Recording" : tmrLogImage.Interval = 500
+            Case "Pause" : tsStatus.Text = "Pause" : tmrLogImage.Interval = 250
+            Case "Stop" : tsStatus.Text = "Stop"
+            Case "FastBackward" : tsStatus.Text = "Fast Backward" : tmrLogImage.Interval = 100
+            Case "Play" : tsStatus.Text = "Playing"
+            Case "FastForward" : tsStatus.Text = "Fast Forward" : tmrLogImage.Interval = 100
+            Case Else : tsStatus.Text = ""
+        End Select
+    End Sub
+
+    Private Sub tmrLogImage_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrLogImage.Tick
+        Static X As Boolean
+        Static PrevStatus As String
+
+        'SET ALL BUTTONS TO NORMAL IMAGE IF SELECTION HAS BEEN CHANGED
+        If PrevStatus <> LOG_BUTTONS_STATUS Then
+            tsRecord.Image = My.Resources.RecordNormal
+            tsPause.Image = My.Resources.PauseNormal
+            tsFastBackward.Image = My.Resources.StepBackwardNormalBlue
+            tsFastForward.Image = My.Resources.StepForwardNormalBlue
+            tsPlay.Image = My.Resources.PlayNormal
+        End If
+
+        'PREVIOUS BUTTON SELECTED
+        PrevStatus = LOG_BUTTONS_STATUS
+
+        'FLASH BUTTON IMAGE AT AN INTERVAL IF SELECTED
+        Select Case LOG_BUTTONS_STATUS
+            Case "Record"
+                If X = True Then
+                    tsRecord.Image = My.Resources.RecordHot
+                Else
+                    tsRecord.Image = My.Resources.RecordNormal
+                End If
+            Case "Pause"
+                If X = True Then
+                    tsPause.Image = My.Resources.PauseHot
+                Else
+                    tsPause.Image = My.Resources.PauseNormal
+                End If
+            Case "Stop"
+
+            Case "FastBackward"
+                If X = True Then
+                    tsFastBackward.Image = My.Resources.StepBackwardHotBlue
+                Else
+                    tsFastBackward.Image = My.Resources.StepBackwardNormalBlue
+                End If
+            Case "Play" : tsPlay.Image = My.Resources.PlayHot
+            Case "FastForward"
+                If X = True Then
+                    tsFastForward.Image = My.Resources.StepForwardHotBlue
+                Else
+                    tsFastForward.Image = My.Resources.StepForwardNormalBlue
+                End If
+        End Select
+
+        X = Not X
     End Sub
 End Class
