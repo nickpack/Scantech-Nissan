@@ -321,9 +321,6 @@
     <None Include="Resources\StepBackwardNormalBlue.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\128008-simple-black-square-icon-transport-travel-car-gauge31.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\PauseHot.png" />
   </ItemGroup>
   <ItemGroup>

@@ -9,7 +9,7 @@
         CHECK_SUPPORTED_REGISTERS()
 
         'ENABLE/DISABLE FRMMAIN MENU STATE
-        ENABLE_STATE_FOR_MENUS(False, True, False, False, False, False, False, False, False, False, True, False, False, False, False)
+        ENABLE_STATE_FOR_MENUS(False, True, False, False, False, False, False, False, False, False, False, True, False, False, False)
     End Sub
 
     Private Sub cmdApply_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdApply.Click

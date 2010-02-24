@@ -64,10 +64,9 @@ Partial Class frmECUProfile
         Dim TreeNode34 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("2 = (bit 1 = RICH, bit 0 = LEAN)")
         Dim TreeNode35 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("3 = (bit 1 = LEAN, bit 0 = RICH)")
         Dim TreeNode36 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Available Digital Output Scale Type", New System.Windows.Forms.TreeNode() {TreeNode32, TreeNode33, TreeNode34, TreeNode35})
-        Dim TreeNode37 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("ALL = 0-255")
-        Dim TreeNode38 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("X-Y = Lowest Byte to Highest Byte")
-        Dim TreeNode39 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("1,2,3,4... Comma In Between")
-        Dim TreeNode40 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Available Active Test Scale Byte", New System.Windows.Forms.TreeNode() {TreeNode37, TreeNode38, TreeNode39})
+        Dim TreeNode37 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("X-Y = Lowest Byte to Highest Byte")
+        Dim TreeNode38 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("1,2,3,4... Comma In Between")
+        Dim TreeNode39 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Available Active Test Scale Byte", New System.Windows.Forms.TreeNode() {TreeNode37, TreeNode38})
         Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
         Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
         Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
@@ -394,22 +393,18 @@ Partial Class frmECUProfile
         TreeNode36.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         TreeNode36.Text = "Available Digital Output Scale Type"
         TreeNode37.ForeColor = System.Drawing.Color.Blue
-        TreeNode37.Name = "Node1"
+        TreeNode37.Name = "Node2"
         TreeNode37.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        TreeNode37.Text = "ALL = 0-255"
+        TreeNode37.Text = "X-Y = Lowest Byte to Highest Byte"
         TreeNode38.ForeColor = System.Drawing.Color.Blue
-        TreeNode38.Name = "Node2"
+        TreeNode38.Name = "Node3"
         TreeNode38.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        TreeNode38.Text = "X-Y = Lowest Byte to Highest Byte"
-        TreeNode39.ForeColor = System.Drawing.Color.Blue
-        TreeNode39.Name = "Node3"
-        TreeNode39.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        TreeNode39.Text = "1,2,3,4... Comma In Between"
-        TreeNode40.Name = "Node0"
-        TreeNode40.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        TreeNode40.Text = "Available Active Test Scale Byte"
-        TreeNode40.ToolTipText = "1,2,3,4.... Use Comma In between"
-        Me.TreeView2.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode23, TreeNode31, TreeNode36, TreeNode40})
+        TreeNode38.Text = "1,2,3,4... Comma In Between"
+        TreeNode39.Name = "Node0"
+        TreeNode39.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        TreeNode39.Text = "Available Active Test Scale Byte"
+        TreeNode39.ToolTipText = "1,2,3,4.... Use Comma In between"
+        Me.TreeView2.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode23, TreeNode31, TreeNode36, TreeNode39})
         Me.TreeView2.Size = New System.Drawing.Size(251, 276)
         Me.TreeView2.TabIndex = 4
         Me.TreeView2.Visible = False
