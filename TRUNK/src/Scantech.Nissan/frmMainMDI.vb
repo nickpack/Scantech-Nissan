@@ -107,6 +107,26 @@ Public Class frmMain
 
     Private Sub tbDisconnect_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tbDisconnect.Click
         CLOSE_C1_FORMS()
+
+        'ENABLE/DISABLE FRMMAIN MENU STATE
+        ENABLE_STATE_FOR_MENUS(True, False, False, False, False, False, False, True, True, True, True, False, False, False, False)
+
+        'ENABLE/DISABLE LOG INSPECTOR
+        ENABLE_STATE_FOR_INSPECTOR(0, 0, 0, 0, 0, 0)
+
+        'FILE INFO: TOTAL FRAME RECORDS
+        If LOG_BUTTONS_STATUS = "Record" Then
+            FilePutObject(1, RECORD_NUMBER - 3001, 2502 * 100)
+        End If
+
+        'RESET 
+        LOG_BUTTONS_STATUS = "" : tsStatus.Text = "" : tsStatus2.Text = "" : tsStatus3.Text = ""
+
+        'RESET SELECTED REGISTERS
+        Dim X As Integer
+        For X = 0 To 255
+            SELECTED_REGISTERS(X) = False
+        Next
     End Sub
 
     Private Sub DisconnectToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DisconnectToolStripMenuItem.Click

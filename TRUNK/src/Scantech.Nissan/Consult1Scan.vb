@@ -1,5 +1,5 @@
 ﻿Module Consult1Scan
-    Public SUPPORTED_REGISTERS(255, 1, 2) As Boolean            'FIRST ARRAY REGISTER SUPPORTED, SECOND ARRAY "IS IT LSB AND MSB OR LSB ONLY" True = Both|False = LSB, THIRD ARRAY "0 = SENSOR REGISTER, 1 = IS  DIGITAL OUPUT(ON/OFF), 2 = ACTIVE TEST REGISTER"
+    Public SUPPORTED_REGISTERS(255, 1, 2) As Boolean            'FIRST ARRAY REGISTER SUPPORTED, SECOND ARRAY "IS IT LSB AND MSB OR LSB ONLY" SUPPORTED_REGISTERS(X,1,X) (True) = Both | SUPPORTED_REGISTERS(X,1,X) (False) = LSB ONLY, THIRD ARRAY "0 = ANALOG SENSOR REGISTER, 1 = IS  DIGITAL OUPUT(ON/OFF), 2 = ACTIVE TEST REGISTER"
     Public REGISTERS_NAME(255, 8) As String                     'FIRST ARRAY REGISTER NAME (X,0), SECOND ARRAY BITMAPPED NAME FOR DIGITAL OUTPUT (1-8)
     Public REGISTERS_SCALE_TYPE(255, 7) As String               'FIRST ARRAY SENSORS UNITS, SECOND IS DIGITAL OUTPUT UNITS (BITMAPPED)
     Public REGISTERS_UNIT_TYPE(255) As String                   'UNIT TYPE
@@ -240,17 +240,12 @@ resend:
             End If
 
             If PROCESS_BUFFER_DATA(True) = True Then
-                'LOG FUNCTION STATUS
-                Select Case LOG_BUTTONS_STATUS
-                    Case "Record"
-                        'REGISTER FRAME DATA
-                        FilePutObject(1, DATA_FILTERED_RECEIVED, (RECORD_NUMBER) * 100) : RECORD_NUMBER = RECORD_NUMBER + 1
-                        'FRAME RECORD NUMBER
-                        frmMain.tsStatus2.Text = "Frame # " & RECORD_NUMBER - 3000
-                    Case "Stop"
-                        'FILE INFO: TOTAL FRAME RECORDS
-                        FilePutObject(1, RECORD_NUMBER - 3001, 2502 * 100)
-                End Select
+                'IF LOG STATUS IS RECORDING
+                If LOG_BUTTONS_STATUS = "Record" Then
+                    FilePutObject(1, DATA_FILTERED_RECEIVED, (RECORD_NUMBER) * 100)     'REGISTER FRAME DATA
+                    RECORD_NUMBER = RECORD_NUMBER + 1                                   'UPDATE COUNTER
+                    frmMain.tsStatus2.Text = "Frame # " & RECORD_NUMBER - 3000          'FRAME RECORD NUMBER
+                End If
 
                 'RESET TIMEOUT
                 frmMain.tmrTimeout.Enabled = False : frmMain.tmrTimeout.Enabled = True
@@ -262,27 +257,17 @@ resend:
                 End Select
             End If
 
+            'SEND ACTIVE TEST (TRIGGERED BY COMMAND BUTTON IN FRMC1ACTIVE)
             If BLN_ACTIVE_TEST_COMMAND_REQUEST(0) = True Then
-                'SEND ACTIVE TEST (TRIGGERED BY COMMAND BUTTON IN FRMC1ACTIVE)
                 BLN_ACTIVE_TEST_COMMAND_REQUEST(0) = False
                 REQUEST_ACTIVE_TEST_COMMANDS()
                 GoTo Resend
             ElseIf BLN_ACTIVE_TEST_COMMAND_REQUEST(1) = True Then
                 BLN_ACTIVE_TEST_COMMAND_REQUEST(1) = False
-                '0X30 = STOP COMMAND
                 frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
                 GoTo Resend
             End If
         Loop
-
-        'RESET
-        LOOP_IN_PROGRESS = False
-
-        '0X30 = STOP COMMAND
-        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
-
-        'CLEAR BUFFER
-        frmMain.SerialPort1.DiscardInBuffer()
     End Sub
 
     Public Sub REQUEST_ACTIVE_TEST_COMMANDS()
@@ -874,14 +859,14 @@ resend:
         DATA_FILTERED_RECEIVED = "" : IN_BUFFER_BYTE = "" : FF_BYTE_DETECTOR = False : REGISTER_DATA_ONLY = False
     End Sub
     Public Sub CLOSE_C1_FORMS()
+        'RESET 
+        USER_REQUEST_STOP = True : LOOP_IN_PROGRESS = False
+
         'MAKE SURE CONSULT 1 DATA QUERYING IS STOPPED
         frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
 
         'CLEAR ANY BUFFER
         frmMain.SerialPort1.DiscardInBuffer()
-
-        'RESET 
-        USER_REQUEST_STOP = True : LOOP_IN_PROGRESS = False
 
         'CLOSE THE FORMS
         frmC1Output.Close()
@@ -889,21 +874,6 @@ resend:
         frmC1ActiveTest.Close()
         frmRegSelection.Close()
         frmC1Faults.Close()
-
-        'ENABLE/DISABLE FRMMAIN MENU STATE
-        ENABLE_STATE_FOR_MENUS(True, False, False, False, False, False, False, True, True, True, True, False, False, False, False)
-
-        'ENABLE/DISABLE LOG INSPECTOR
-        ENABLE_STATE_FOR_INSPECTOR(0, 0, 0, 0, 0, 0)
-
-        'RESET 
-        LOG_BUTTONS_STATUS = "" : frmMain.tsStatus.Text = "" : frmMain.tsStatus2.Text = "" : frmMain.tsStatus3.Text = ""
-
-        'RESET SELECTED REGISTERS
-        Dim X As Integer
-        For X = 0 To 255
-            SELECTED_REGISTERS(X) = False
-        Next
     End Sub
 
     Public Sub SAVE_WINDOW_FORM_STATE(ByVal Form As Object)
@@ -968,7 +938,7 @@ resend:
             FileIO.FileSystem.DeleteFile(Application.StartupPath & "\Logs\Untitled.c1logs")
         End If
 
-
+        'WRITE FILE INFO TO THE RECORDS
         FileOpen(1, Application.StartupPath & "\Logs\Untitled.c1logs", OpenMode.Binary)     'CREATE FILE UNTITLED.C1LOGS
         FilePutObject(1, "ScantechNissanLogs", 2501 * 100)                                  'FILE INFO: FILE TYPE
         FilePutObject(1, VEHICLE_YEAR, 2503 * 100)                                          'FILE INFO: VEHICLE YEAR
@@ -980,6 +950,11 @@ resend:
         FilePutObject(1, "1.0", 2509 * 100)                                                 'FILE INFO: LOG VERSION
     End Sub
     Public Sub LOG_CREATE_SELECTED_REGISTERS_FILE(ByVal Record As Integer)
+        'BYTE 1 TO 3 IDENTIFIERS
+        'FIRST BYTE  - REGISTER BYTE ADDRESS
+        'SECOND BYTE - LSB/MSB = 11 : LSB ONLY = XX
+        'THIRD BYTE  - BITMAPPED = b? : NOT BITMAPPED = XX
+        'AFTER "SPACE" REGISTER NAME
 
         Dim X As Integer
         For X = START_BYTE_FOR_SENSOR To END_BYTE_FOR_SENSOR
@@ -987,16 +962,11 @@ resend:
             If SELECTED_REGISTERS(X) = True Then
                 If SUPPORTED_REGISTERS(X, 0, 1) = False Then
                     'ANALOG SENSORS
-
-                    'FIRST BYTE  -REGISTER BYTE ADDRESS
-                    'SECOND BYTE - LSB/MSB = 11 : LSB ONLY = XX
-                    'THIRD BYTE  - BITMAPPED = b? : NOT BITMAPPED = XX
-                    'AFTER "SPACE" REGISTER NAME
                     If SUPPORTED_REGISTERS(X, 1, 0) = False Then
                         If SUPPORTED_REGISTERS(X + 1, 1, 0) = True Then
                             FilePutObject(1, D & "11XX " & REGISTERS_NAME(X, 0), Record * 100) : Record = Record + 1 'LSB/MSB
                         Else
-                            FilePutObject(1, D & "XXXX " & REGISTERS_NAME(X, 0), Record * 100) : Record = Record + 1 'LSBONLY
+                            FilePutObject(1, D & "XXXX " & REGISTERS_NAME(X, 0), Record * 100) : Record = Record + 1 'LSB ONLY
                         End If
                     End If
                 Else
