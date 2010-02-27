@@ -29,6 +29,13 @@
     Public ECU_ID_2 As Byte = &HFF                              'ALWAYS 0XFF
     Public ECU_ID_3 As Byte                                     'ADDRESS VARIES ACCORDING TO ECU TYPE
 
+    Public VEHICLE_YEAR As String                               'VEHICLE INFO VARIABLES
+    Public VEHICLE_MAKE As String
+    Public VEHICLE_MODEL As String
+    Public VEHICLE_CYLINDERS As String
+    Public VEHICLE_ENGINE_LITER As String
+    Public VEHICLE_MODULE As String
+
     Public IN_BUFFER_BYTE As String                             'INBUFFER DATA VARIABLE
     Public DATA_FILTERED_RECEIVED As String                     'USED FOR DECODING
     Public FF_BYTE_DETECTOR As Boolean                          '0XFF BYTE DETECTOR
@@ -704,9 +711,14 @@ resend:
             frmConnect.trvVehicleInfo.Nodes.Add(keyname1(X)).Nodes.Add(KeyValues1(X)).ForeColor = Color.Blue
         Next X
 
-        'ECU INIT ADDRESS
+        'STORE VEHICLE INFO IN VARIABLES
+        VEHICLE_YEAR = KeyValues1(0)
+        VEHICLE_MAKE = KeyValues1(1)
+        VEHICLE_MODEL = KeyValues1(2)
+        VEHICLE_CYLINDERS = KeyValues1(3)
+        VEHICLE_ENGINE_LITER = KeyValues1(4)
         ECU_ID_3 = "&H" & KeyValues1(5)
-
+        VEHICLE_MODULE = KeyValues1(6)
         AUTOSCAN = KeyValues1(7)
     End Sub
 
@@ -867,11 +879,36 @@ resend:
         REGISTER_DATA_ONLY = False
     End Sub
     Public Sub CLOSE_C1_FORMS()
+        'MAKE SURE CONSULT 1 DATA QUERYING IS STOPPED
+        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
+
+        'CLEAR ANY BUFFER
+        frmMain.SerialPort1.DiscardInBuffer()
+
+        'RESET 
+        USER_REQUEST_STOP = True : LOOP_IN_PROGRESS = False
+
+        'CLOSE THE FORMS
         frmC1Output.Close()
         frmC1Sensors.Close()
         frmC1ActiveTest.Close()
         frmRegSelection.Close()
         frmC1Faults.Close()
+
+        'ENABLE/DISABLE FRMMAIN MENU STATE
+        ENABLE_STATE_FOR_MENUS(True, False, False, False, False, False, False, True, True, True, True, False, False, False, False)
+
+        'ENABLE/DISABLE LOG INSPECTOR
+        ENABLE_STATE_FOR_INSPECTOR(0, 0, 0, 0, 0, 0)
+
+        'RESET 
+        LOG_BUTTONS_STATUS = "" : frmMain.tsStatus.Text = "" : frmMain.tsStatus2.Text = "" : frmMain.tsStatus3.Text = ""
+
+        'RESET SELECTED REGISTERS
+        Dim X As Integer
+        For X = 0 To 255
+            SELECTED_REGISTERS(X) = False
+        Next
     End Sub
 
     Public Sub SAVE_WINDOW_FORM_STATE(ByVal Form As Object)
@@ -921,5 +958,61 @@ resend:
         frmMain.MonitorManagerToolStripMenuItem.Enabled = MenuMonitorManager
         frmMain.SpeedTrialToolStripMenuItem.Enabled = MenuSpeedTrial
         frmMain.RoadDynoToolStripMenuItem.Enabled = MenuDyno
+    End Sub
+    Public Sub LOG_CREATE_FILE()
+        'RECORD NUMBERS IN FILE
+        '0001-2000 = REGISTER NAME SELECTED
+        '2001-2500 = FUTURE RESERVED
+        '2501-2600 = FILE INFO
+        '2601-3000 = FUTURE RESERVED
+        '3001-OVER = REGISTER DATA RESULT
+
+        'DELETE UNTITLED FILE IF EXIST
+        FileClose(1)
+        If FileIO.FileSystem.FileExists(Application.StartupPath & "\Logs\Untitled.c1logs") Then
+            FileIO.FileSystem.DeleteFile(Application.StartupPath & "\Logs\Untitled.c1logs")
+        End If
+
+        'CREATE FILE UNTITLED.C1LOGS
+        FileOpen(1, Application.StartupPath & "\Logs\Untitled.c1logs", OpenMode.Binary)
+        'FILE INFO: FILE TYPE
+        FilePutObject(1, "ScantechNissanLogs", 2501 * 100)
+        'FILE INFO: VEHICLE YEAR
+        FilePutObject(1, VEHICLE_YEAR, 2503 * 100)
+        'FILE INFO: VEHICLE MAKE
+        FilePutObject(1, VEHICLE_MAKE, 2504 * 100)
+        'FILE INFO: VEHICLE MODEL
+        FilePutObject(1, VEHICLE_MODEL, 2505 * 100)
+        'FILE INFO: # OF CYLINDERS
+        FilePutObject(1, VEHICLE_CYLINDERS, 2506 * 100)
+        'FILE INFO: ENGINE LITERS
+        FilePutObject(1, VEHICLE_ENGINE_LITER, 2507 * 100)
+        'FILE INFO: ECU TYPE
+        FilePutObject(1, VEHICLE_MODEL, 2508 * 100)
+
+    End Sub
+    Public Sub LOG_CREATE_SELECTED_REGISTERS_FILE(ByVal Record As Integer)
+
+        Dim X As Integer
+        For X = START_BYTE_FOR_SENSOR To END_BYTE_FOR_SENSOR
+            Dim D As String : D = Hex(X) : If Len(D) = 1 Then D = "0" & D
+            If SELECTED_REGISTERS(X) = True Then
+                If SUPPORTED_REGISTERS(X, 0, 1) = False Then
+                    'ANALOG SENSORS
+                    'NO MSB/LSB TYPE, WHICH WILL DUPLICATE NAME
+                    If SUPPORTED_REGISTERS(X, 1, 0) = False Then
+                        FilePutObject(1, REGISTERS_NAME(X, 0), Record * 100) : Record = Record + 1
+                    End If
+                Else
+                    'DIGITAL OUTPUT
+                    Dim J As Integer
+                    For J = 0 To 7
+                        If REGISTERS_NAME(X, J + 1) <> "" Then
+                            FilePutObject(1, REGISTERS_NAME(X, J + 1), Record * 100) : Record = Record + 1
+                        End If
+                    Next J
+                End If
+            End If
+        Next
     End Sub
 End Module

@@ -74,13 +74,10 @@ Public Class frmMain
     Private Sub GridStyleToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GridStyleToolStripMenuItem.Click
         'GRID STYLE
         USER_FORM_SELECT = 1
-
         'RESET GRIDS
         RESET_GRID_STYLE_FOR_SENSORS() : RESET_GRID_STYLE_FOR_OUTPUT() : RESET_GRID_STYLE_FOR_ACTIVE()
-
         'START COMMUNICATION WITH ECU AND REQUEST DATA AND PROCESS THEM
         REQUEST_C1_SENSOR_DATA()
-
         'CLOSE ALL FORM RELATED
         CLOSE_C1_FORMS()
     End Sub
@@ -106,33 +103,7 @@ Public Class frmMain
     End Sub
 
     Private Sub tbDisconnect_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tbDisconnect.Click
-        'MAKE SURE CONSULT 1 DATA QUERYING IS STOPPED
-        Me.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
-
-        'CLEAR ANY BUFFER
-        Me.SerialPort1.DiscardInBuffer()
-
-        'RESET 
-        USER_REQUEST_STOP = True : LOOP_IN_PROGRESS = False
-
-        'CLOSE FORMS
         CLOSE_C1_FORMS()
-
-        'ENABLE/DISABLE FRMMAIN MENU STATE
-        ENABLE_STATE_FOR_MENUS(True, False, False, False, False, False, False, True, True, True, True, False, False, False, False)
-
-        'ENABLE/DISABLE LOG INSPECTOR
-        ENABLE_STATE_FOR_INSPECTOR(0, 0, 0, 0, 0, 0)
-
-        'RESET 
-        LOG_BUTTONS_STATUS = "" : tsStatus.Text = "" : tsStatus2.Text = ""
-
-        'RESET SELECTED REGISTERS
-        Dim X As Integer
-        For X = 0 To 255
-            SELECTED_REGISTERS(X) = False
-        Next
-
     End Sub
 
     Private Sub DisconnectToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DisconnectToolStripMenuItem.Click
@@ -140,74 +111,22 @@ Public Class frmMain
     End Sub
 
     Private Sub tsRecord_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsRecord.Click
-        'RECORDING IS RUNNING EXIT SUB
-        If LOG_BUTTONS_STATUS = "Record" Then Exit Sub
-
-        'PAUSED THEN EXIT SUB AND SET RECORD STATUS
-        If LOG_BUTTONS_STATUS = "Pause" Then
-            LOG_BUTTONS_STATUS = "Record" : ENABLE_STATE_FOR_INSPECTOR(2, 1, 0, 1, 0, 0)
-            Exit Sub
-        End If
-
-        'FIRST TIME RUN: SET STATUS AS RECORD AND SET LOG BUTTONS ENABLE STATES ACCORDINGLY
-        LOG_BUTTONS_STATUS = "Record" : ENABLE_STATE_FOR_INSPECTOR(2, 1, 0, 1, 0, 0)
-
-        'RECORD NUMBERS IN FILE
-        '0001-2000 = REGISTER NAME SELECTED
-        '2001-2500 = FUTURE RESERVED
-        '2501-2600 = FILE INFO
-        '2601-3000 = FUTURE RESERVED
-        '3001-OVER = REGISTER DATA RESULT
-
-        'DELETE UNTITLED FILE IF EXIST
-        FileClose(1)
-        If FileIO.FileSystem.FileExists(Application.StartupPath & "\Logs\Untitled.c1logs") Then
-            'ALERT USER UNSAVED FILE EXIST
-
-            'DELTE FILE
-            FileIO.FileSystem.DeleteFile(Application.StartupPath & "\Logs\Untitled.c1logs")
-        End If
-
-        'CREATE FILE UNTITLED.C1LOGS
-        FileOpen(1, Application.StartupPath & "\Logs\Untitled.c1logs", OpenMode.Binary)
-
-        'FILE INFO: FILE TYPE
-        FilePutObject(1, "ScantechNissanLogs", 2501 * 100)
-
-        'GET SELECTED REGISTER NAMES AND STORE IN FILE
-        GET_SELECTED_REGISTERS(1)
-
-        'FILE NAME
-        tsStatus3.Text = "Untitled.c1logs"
-
-        'SET START RECORD NUMBER
-        RECORD_NUMBER = 3001
+        Select Case LOG_BUTTONS_STATUS
+            Case "Record"                                                                       'RECORDING IS RUNNING EXIT SUB
+                Exit Sub
+            Case "Pause"                                                                        'UNPAUSE AND RECORD
+                LOG_BUTTONS_STATUS = "Record" : ENABLE_STATE_FOR_INSPECTOR(2, 1, 0, 1, 0, 0)
+                Exit Sub
+            Case Else                                                                           'FIRST TIME RUN: SET STATUS AS RECORD AND SET LOG BUTTONS ENABLE STATES ACCORDINGLY
+                LOG_BUTTONS_STATUS = "Record" : ENABLE_STATE_FOR_INSPECTOR(2, 1, 0, 1, 0, 0)
+                LOG_CREATE_FILE()                                                               'CREATE LOG FILE FOR INITIAL RECORD
+                LOG_CREATE_SELECTED_REGISTERS_FILE(1)                                           'GET SELECTED REGISTER NAMES AND STORE IN FILE STARTING AT RECORD 1
+                tsStatus3.Text = "Untitled.c1logs"                                              'FILE NAME
+                RECORD_NUMBER = 3001                                                            'SET START RECORD NUMBER
+        End Select
 
     End Sub
-    Public Sub GET_SELECTED_REGISTERS(ByVal Record As Integer)
-
-        Dim X As Integer
-        For X = START_BYTE_FOR_SENSOR To END_BYTE_FOR_SENSOR
-            Dim D As String : D = Hex(X) : If Len(D) = 1 Then D = "0" & D
-            If SELECTED_REGISTERS(X) = True Then
-                If SUPPORTED_REGISTERS(X, 0, 1) = False Then
-                    'ANALOG SENSORS
-                    'NO MSB/LSB TYPE, WHICH WILL DUPLICATE NAME
-                    If SUPPORTED_REGISTERS(X, 1, 0) = False Then
-                        FilePutObject(1, REGISTERS_NAME(X, 0), Record * 100) : Record = Record + 1
-                    End If
-                Else
-                    'DIGITAL OUTPUT
-                    Dim J As Integer
-                    For J = 0 To 7
-                        If REGISTERS_NAME(X, J + 1) <> "" Then
-                            FilePutObject(1, REGISTERS_NAME(X, J + 1), Record * 100) : Record = Record + 1
-                        End If
-                    Next J
-                End If
-            End If
-        Next
-    End Sub
+    
     Private Sub tsPause_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsPause.Click
         LOG_BUTTONS_STATUS = "Pause" : ENABLE_STATE_FOR_INSPECTOR(2, 1, 2, 2, 2, 2)
     End Sub
