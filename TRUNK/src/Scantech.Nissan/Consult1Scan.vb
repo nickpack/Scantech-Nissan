@@ -1,12 +1,12 @@
 ﻿Module Consult1Scan
-    Public SUPPORTED_REGISTERS(255, 1, 2) As Boolean            'FIRST ARRAY REGISTER SUPPORTED, SECOND ARRAY "IS IT LSB AND MSB OR LSB ONLY" SUPPORTED_REGISTERS(X,1,X) (True) = Both | SUPPORTED_REGISTERS(X,1,X) (False) = LSB ONLY, THIRD ARRAY "0 = ANALOG SENSOR REGISTER, 1 = IS  DIGITAL OUPUT(ON/OFF), 2 = ACTIVE TEST REGISTER"
+    Public SUPPORTED_REGISTERS(255, 1, 2) As Boolean            'FIRST ARRAY REGISTER SUPPORTED, SECOND ARRAY 1 = TRUE THEN BOTH MSB/LSB TYPE : 1 = FALSE THEN LSB ONLY, THIRD ARRAY "0 = TRUE THEN ANALOG SENSOR REGISTER, 1 = TRUE THEN DIGITAL OUPUT(ON/OFF), 2 = TRUE THEN ACTIVE TEST REGISTER"
     Public REGISTERS_NAME(255, 8) As String                     'FIRST ARRAY REGISTER NAME (X,0), SECOND ARRAY BITMAPPED NAME FOR DIGITAL OUTPUT (1-8)
     Public REGISTERS_SCALE_TYPE(255, 7) As String               'FIRST ARRAY SENSORS UNITS, SECOND IS DIGITAL OUTPUT UNITS (BITMAPPED)
     Public REGISTERS_UNIT_TYPE(255) As String                   'UNIT TYPE
     Public SELECTED_REGISTERS(255) As Boolean                   'SELECTED REGISTERS VARIABLE
 
     Public CBO_ACTIVE_BINDING(255) As BindingSource
-    Public BLN_ACTIVE_TEST_COMMAND_REQUEST(1) As Boolean        '(0)=INITIATE ACTIVE COMMAND, (1)=STOP
+    Public BLN_ACTIVE_TEST_COMMAND_REQUEST(1) As Boolean        '(0)=TRUE THEN INITIATE ACTIVE COMMAND, (1)=TRUE THEN STOP
 
     Public AUTOSCAN As Boolean                                  'FROM INI FILE (FOR VALIDATION)
     Public START_BYTE_FOR_SENSOR As Integer                     'FROM INI FILE (SENSOR AUTOSCAN START BYTE)
@@ -247,14 +247,14 @@ resend:
                     frmMain.tsStatus2.Text = "Frame # " & RECORD_NUMBER - 3000          'FRAME RECORD NUMBER
                 End If
 
-                'RESET TIMEOUT
-                frmMain.tmrTimeout.Enabled = False : frmMain.tmrTimeout.Enabled = True
+            'RESET TIMEOUT
+            frmMain.tmrTimeout.Enabled = False : frmMain.tmrTimeout.Enabled = True
 
-                'WHAT FORM USER SELECTED
-                Select Case USER_FORM_SELECT
-                    Case 1 : RESULT_GRID_STYLE()
-                    Case 4 : RESULT_REGISTER_DECODER()
-                End Select
+            'WHAT FORM USER SELECTED
+            Select Case USER_FORM_SELECT
+                Case 1 : RESULT_GRID_STYLE()
+                Case 4 : RESULT_REGISTER_DECODER()
+            End Select
             End If
 
             'SEND ACTIVE TEST (TRIGGERED BY COMMAND BUTTON IN FRMC1ACTIVE)
@@ -867,6 +867,16 @@ resend:
 
         'CLEAR ANY BUFFER
         frmMain.SerialPort1.DiscardInBuffer()
+
+        'FILE INFO: TOTAL FRAME RECORDS
+        If LOG_BUTTONS_STATUS <> "" Then
+            Dim Value As String
+            Value = RECORD_NUMBER - 3000
+            FilePutObject(1, Value, 2502 * 100)
+        End If
+
+        'RESET 
+        LOG_BUTTONS_STATUS = "" : frmMain.tsStatus.Text = "" : frmMain.tsStatus2.Text = "" : frmMain.tsStatus3.Text = ""
 
         'CLOSE THE FORMS
         frmC1Output.Close()

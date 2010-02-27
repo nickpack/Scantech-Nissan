@@ -114,14 +114,6 @@ Public Class frmMain
         'ENABLE/DISABLE LOG INSPECTOR
         ENABLE_STATE_FOR_INSPECTOR(0, 0, 0, 0, 0, 0)
 
-        'FILE INFO: TOTAL FRAME RECORDS
-        If LOG_BUTTONS_STATUS = "Record" Then
-            FilePutObject(1, RECORD_NUMBER - 3001, 2502 * 100)
-        End If
-
-        'RESET 
-        LOG_BUTTONS_STATUS = "" : tsStatus.Text = "" : tsStatus2.Text = "" : tsStatus3.Text = ""
-
         'RESET SELECTED REGISTERS
         Dim X As Integer
         For X = 0 To 255
