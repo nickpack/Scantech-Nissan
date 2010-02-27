@@ -124,8 +124,8 @@ Public Class frmMain
         'ENABLE/DISABLE LOG INSPECTOR
         ENABLE_STATE_FOR_INSPECTOR(0, 0, 0, 0, 0, 0)
 
-        'RESET IMAGE
-        LOG_BUTTONS_STATUS = ""
+        'RESET 
+        LOG_BUTTONS_STATUS = "" : tsStatus.Text = "" : tsStatus2.Text = ""
 
         'RESET SELECTED REGISTERS
         Dim X As Integer
@@ -140,9 +140,74 @@ Public Class frmMain
     End Sub
 
     Private Sub tsRecord_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsRecord.Click
-        LOG_BUTTONS_STATUS = "Record" : ENABLE_STATE_FOR_INSPECTOR(2, 1, 0, 1, 0, 0)
-    End Sub
+        'RECORDING IS RUNNING EXIT SUB
+        If LOG_BUTTONS_STATUS = "Record" Then Exit Sub
 
+        'PAUSED THEN EXIT SUB AND SET RECORD STATUS
+        If LOG_BUTTONS_STATUS = "Pause" Then
+            LOG_BUTTONS_STATUS = "Record" : ENABLE_STATE_FOR_INSPECTOR(2, 1, 0, 1, 0, 0)
+            Exit Sub
+        End If
+
+        'FIRST TIME RUN: SET STATUS AS RECORD AND SET LOG BUTTONS ENABLE STATES ACCORDINGLY
+        LOG_BUTTONS_STATUS = "Record" : ENABLE_STATE_FOR_INSPECTOR(2, 1, 0, 1, 0, 0)
+
+        'RECORD NUMBERS IN FILE
+        '0001-2000 = REGISTER NAME SELECTED
+        '2001-2500 = FUTURE RESERVED
+        '2501-2600 = FILE INFO
+        '2601-3000 = FUTURE RESERVED
+        '3001-OVER = REGISTER DATA RESULT
+
+        'DELETE UNTITLED FILE IF EXIST
+        FileClose(1)
+        If FileIO.FileSystem.FileExists(Application.StartupPath & "\Logs\Untitled.c1logs") Then
+            'ALERT USER UNSAVED FILE EXIST
+
+            'DELTE FILE
+            FileIO.FileSystem.DeleteFile(Application.StartupPath & "\Logs\Untitled.c1logs")
+        End If
+
+        'CREATE FILE UNTITLED.C1LOGS
+        FileOpen(1, Application.StartupPath & "\Logs\Untitled.c1logs", OpenMode.Binary)
+
+        'FILE INFO: FILE TYPE
+        FilePutObject(1, "ScantechNissanLogs", 2501 * 100)
+
+        'GET SELECTED REGISTER NAMES AND STORE IN FILE
+        GET_SELECTED_REGISTERS(1)
+
+        'FILE NAME
+        tsStatus3.Text = "Untitled.c1logs"
+
+        'SET START RECORD NUMBER
+        RECORD_NUMBER = 3001
+
+    End Sub
+    Public Sub GET_SELECTED_REGISTERS(ByVal Record As Integer)
+
+        Dim X As Integer
+        For X = START_BYTE_FOR_SENSOR To END_BYTE_FOR_SENSOR
+            Dim D As String : D = Hex(X) : If Len(D) = 1 Then D = "0" & D
+            If SELECTED_REGISTERS(X) = True Then
+                If SUPPORTED_REGISTERS(X, 0, 1) = False Then
+                    'ANALOG SENSORS
+                    'NO MSB/LSB TYPE, WHICH WILL DUPLICATE NAME
+                    If SUPPORTED_REGISTERS(X, 1, 0) = False Then
+                        FilePutObject(1, REGISTERS_NAME(X, 0), Record * 100) : Record = Record + 1
+                    End If
+                Else
+                    'DIGITAL OUTPUT
+                    Dim J As Integer
+                    For J = 0 To 7
+                        If REGISTERS_NAME(X, J + 1) <> "" Then
+                            FilePutObject(1, REGISTERS_NAME(X, J + 1), Record * 100) : Record = Record + 1
+                        End If
+                    Next J
+                End If
+            End If
+        Next
+    End Sub
     Private Sub tsPause_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsPause.Click
         LOG_BUTTONS_STATUS = "Pause" : ENABLE_STATE_FOR_INSPECTOR(2, 1, 2, 2, 2, 2)
     End Sub
@@ -167,7 +232,7 @@ Public Class frmMain
         'LOG STATUS AND SET TIMER INTERVALS FOR ANIMATED IMAGE
         Select Case LOG_BUTTONS_STATUS
             Case "Record" : tsStatus.Text = "Recording" : tmrLogImage.Interval = 500
-            Case "Pause" : tsStatus.Text = "Pause" : tmrLogImage.Interval = 250
+            Case "Pause" : tsStatus.Text = "Paused" : tmrLogImage.Interval = 250
             Case "Stop" : tsStatus.Text = "Stop"
             Case "FastBackward" : tsStatus.Text = "Fast Backward" : tmrLogImage.Interval = 100
             Case "Play" : tsStatus.Text = "Playing"

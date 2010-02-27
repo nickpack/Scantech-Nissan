@@ -106,6 +106,8 @@ Partial Class frmMain
         Me.MenuStrip = New System.Windows.Forms.MenuStrip
         Me.tmrLogStatus = New System.Windows.Forms.Timer(Me.components)
         Me.tmrLogImage = New System.Windows.Forms.Timer(Me.components)
+        Me.tsStatus2 = New System.Windows.Forms.ToolStripStatusLabel
+        Me.tsStatus3 = New System.Windows.Forms.ToolStripStatusLabel
         Me.StatusStrip.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
@@ -114,7 +116,7 @@ Partial Class frmMain
         'StatusStrip
         '
         Me.StatusStrip.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.statusPort, Me.StatusTimout, Me.tsProgress, Me.tsStatus})
+        Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.statusPort, Me.StatusTimout, Me.tsProgress, Me.tsStatus, Me.tsStatus2, Me.tsStatus3})
         Me.StatusStrip.Location = New System.Drawing.Point(0, 482)
         Me.StatusStrip.Name = "StatusStrip"
         Me.StatusStrip.Size = New System.Drawing.Size(1094, 22)
@@ -681,6 +683,16 @@ Partial Class frmMain
         Me.tmrLogImage.Enabled = True
         Me.tmrLogImage.Interval = 500
         '
+        'tsStatus2
+        '
+        Me.tsStatus2.Name = "tsStatus2"
+        Me.tsStatus2.Size = New System.Drawing.Size(0, 17)
+        '
+        'tsStatus3
+        '
+        Me.tsStatus3.Name = "tsStatus3"
+        Me.tsStatus3.Size = New System.Drawing.Size(0, 17)
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -789,5 +801,7 @@ Partial Class frmMain
     Friend WithEvents tmrLogStatus As System.Windows.Forms.Timer
     Friend WithEvents tsStatus As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents tmrLogImage As System.Windows.Forms.Timer
+    Friend WithEvents tsStatus2 As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents tsStatus3 As System.Windows.Forms.ToolStripStatusLabel
 
 End Class

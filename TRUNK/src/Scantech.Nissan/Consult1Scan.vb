@@ -45,7 +45,8 @@
 
     Public FileName As String                                   'INI FILE NAME FOR ECU PROFILE
     Public TIME_OUT As Integer
-    Public LOG_BUTTONS_STATUS As String
+    Public LOG_BUTTONS_STATUS As String                         'LOG INSPECTOR STATUS
+    Public RECORD_NUMBER As VariantType
 
     Private Declare Unicode Function GetPrivateProfileString Lib "kernel32.dll" _
                             Alias "GetPrivateProfileStringW" (ByVal lpApplicationName As String, _
@@ -232,8 +233,21 @@ resend:
             End If
 
             If PROCESS_BUFFER_DATA(True) = True Then
+                'LOG FUNCTION STATUS
+                Select Case LOG_BUTTONS_STATUS
+                    Case "Record"
+                        'REGISTER FRAME DATA
+                        FilePutObject(1, DATA_FILTERED_RECEIVED, (RECORD_NUMBER) * 100) : RECORD_NUMBER = RECORD_NUMBER + 1
+                        'FRAME RECORD NUMBER
+                        frmMain.tsStatus2.Text = "Frame # " & RECORD_NUMBER - 3000
+                    Case "Stop"
+                        'FILE INFO: TOTAL FRAME RECORDS
+                        FilePutObject(1, RECORD_NUMBER - 3001, 2502 * 100)
+                End Select
+
                 'RESET TIMEOUT
                 frmMain.tmrTimeout.Enabled = False : frmMain.tmrTimeout.Enabled = True
+
                 'WHAT FORM USER SELECTED
                 Select Case USER_FORM_SELECT
                     Case 1 : RESULT_GRID_STYLE()
@@ -572,11 +586,10 @@ resend:
 
         Dim X As Integer
         For X = START_BYTE_FOR_SENSOR To END_BYTE_FOR_SENSOR
-            Dim D As String
-            D = Hex(X) : If Len(D) = 1 Then D = "0" & D
+            Dim D As String : D = Hex(X) : If Len(D) = 1 Then D = "0" & D
             If SELECTED_REGISTERS(X) = True Then
                 If SUPPORTED_REGISTERS(X, 0, 1) = False Then
-                    'SENSORS
+                    'ANALOG SENSORS
                     'NO MSB/LSB TYPE, WHICH WILL DUPLICATE NAME
                     If SUPPORTED_REGISTERS(X, 1, 0) = False Then
                         frmC1Sensors.Grid1.RowCount = frmC1Sensors.Grid1.RowCount + 1
@@ -596,8 +609,7 @@ resend:
 
         Dim X As Integer
         For X = START_BYTE_FOR_SENSOR To END_BYTE_FOR_SENSOR
-            Dim D As String
-            D = Hex(X) : If Len(D) = 1 Then D = "0" & D
+            Dim D As String : D = Hex(X) : If Len(D) = 1 Then D = "0" & D
             'DIGITAL OUPUT
             If SELECTED_REGISTERS(X) = True Then
                 If SUPPORTED_REGISTERS(X, 0, 1) = True Then
@@ -625,8 +637,7 @@ resend:
         frmC1ActiveTest.Grid2.Rows.Clear()
 
         For X = START_BYTE_FOR_ACTIVETEST To END_BYTE_FOR_ACTIVETEST
-            Dim D As String
-            D = Hex(X) : If Len(D) = 1 Then D = "0" & D
+            Dim D As String : D = Hex(X) : If Len(D) = 1 Then D = "0" & D
             'ACTIVE TEST
             If SELECTED_REGISTERS(X) = True Then
                 If SUPPORTED_REGISTERS(X, 0, 2) = True Then
@@ -635,7 +646,7 @@ resend:
                     frmC1ActiveTest.Grid2.Item(1, frmC1ActiveTest.Grid2.RowCount - 1).Tag = D
                     KeyName(0) = D
                     KeyValues(0) = ""
-                    ReadINIFile(LST_VEHICLE_FILE, "ACTIVE TEST REGISTER SCALE TYPE", KeyName, KeyValues)
+                    READINIFILE(LST_VEHICLE_FILE, "ACTIVE TEST REGISTER SCALE TYPE", KeyName, KeyValues)
 
                     Dim G As Integer
                     Dim StoreData As String = ""
@@ -685,7 +696,7 @@ resend:
         keyname1(5) = "ECU ID"
         keyname1(6) = "MODULE"
         keyname1(7) = "AUTOSCAN"
-        ReadINIFile(FileName, "VEHICLE INFO", keyname1, KeyValues1)
+        READINIFILE(FileName, "VEHICLE INFO", keyname1, KeyValues1)
 
         'ADD VEHICLE INFO VALUES AT THE TREEVIEW
         Dim X As Integer
@@ -713,7 +724,7 @@ resend:
         keyname1(6) = "CLEAR FAULT COMMAND"
         keyname1(7) = "INTERBYTE DELAY"
         keyname1(8) = "TIMEOUT"
-        ReadINIFile(FileName, "REGISTERS INFO", keyname1, KeyValues1)
+        READINIFILE(FileName, "REGISTERS INFO", keyname1, KeyValues1)
 
         START_BYTE_FOR_SENSOR = Val(KeyValues1(0))
         END_BYTE_FOR_SENSOR = Val(KeyValues1(1))
@@ -743,7 +754,7 @@ resend:
         For x = START_BYTE_FOR_SENSOR To END_BYTE_FOR_SENSOR
             KeyName(0) = Hex(x)
             KeyValues(0) = ""
-            ReadINIFile(FileName, "SENSOR REGISTERS SUPPORTED NAMES", KeyName, KeyValues)               'READ SENSOR REGISTER NAMES
+            READINIFILE(FileName, "SENSOR REGISTERS SUPPORTED NAMES", KeyName, KeyValues)               'READ SENSOR REGISTER NAMES
             Select Case UCase(KeyValues(0))
                 Case ""
                 Case "DIGITAL OUTPUT"                                                                   'DIGITAL OUTPUT(ON/OFF) TYPE
@@ -753,7 +764,7 @@ resend:
                     For J = 0 To 7
                         KeyName(0) = Hex(x) & "b" & J
                         KeyValues(0) = ""
-                        ReadINIFile(FileName, "DIGITAL OUTPUT NAMES", KeyName, KeyValues)               'READ DIGITAL OUTPUT NAMES
+                        READINIFILE(FileName, "DIGITAL OUTPUT NAMES", KeyName, KeyValues)               'READ DIGITAL OUTPUT NAMES
                         If UCase(KeyValues(0)) <> "" Then
                             REGISTERS_NAME(x, J + 1) = KeyValues(0)
                         End If
@@ -762,7 +773,7 @@ resend:
                         KeyName(0) = Hex(x) & "b" & J
                         KeyValues(0) = ""
 
-                        ReadINIFile(FileName, "DIGITAL OUTPUT SCALE TYPE", KeyName, KeyValues)          'READ DIGITAL OUTPUT SCALE TYPE
+                        READINIFILE(FileName, "DIGITAL OUTPUT SCALE TYPE", KeyName, KeyValues)          'READ DIGITAL OUTPUT SCALE TYPE
                         If UCase(KeyValues(0)) <> "" Then
                             REGISTERS_SCALE_TYPE(x, J) = KeyValues(0)
                         End If
@@ -774,12 +785,12 @@ resend:
                     REGISTERS_NAME(x, 0) = KeyValues(0)
                     SUPPORTED_REGISTERS(x, 0, 0) = True                                                 'FLAG SENSOR REGISTER SUPPORTED
                     KeyValues(0) = ""
-                    ReadINIFile(FileName, "SENSORS REGISTERS SCALE TYPE", KeyName, KeyValues)           'READ SENSOR SCALE TYPE
+                    READINIFILE(FileName, "SENSORS REGISTERS SCALE TYPE", KeyName, KeyValues)           'READ SENSOR SCALE TYPE
                     If KeyValues(0) <> "" Then
                         REGISTERS_SCALE_TYPE(x, 0) = KeyValues(0)
                     End If
                     KeyValues(0) = ""
-                    ReadINIFile(FileName, "SENSORS REGISTERS UNIT TYPE", KeyName, KeyValues)            'READ SENSOR UNIT TYPE
+                    READINIFILE(FileName, "SENSORS REGISTERS UNIT TYPE", KeyName, KeyValues)            'READ SENSOR UNIT TYPE
                     If KeyValues(0) <> "" Then
                         REGISTERS_UNIT_TYPE(x) = KeyValues(0)
                     End If
@@ -791,7 +802,7 @@ resend:
         For x = START_BYTE_FOR_ACTIVETEST To END_BYTE_FOR_ACTIVETEST
             KeyName(0) = Hex(x)
             KeyValues(0) = ""
-            ReadINIFile(FileName, "ACTIVE TEST SUPPORTED NAMES", KeyName, KeyValues)                    'READ ACTIVE TEST
+            READINIFILE(FileName, "ACTIVE TEST SUPPORTED NAMES", KeyName, KeyValues)                    'READ ACTIVE TEST
             Select Case UCase(KeyValues(0))
                 Case ""
                 Case Else
@@ -799,7 +810,7 @@ resend:
                     SUPPORTED_REGISTERS(x, 0, 2) = True                                                 'FLAG ACTIVE TEST TYPE
                     SUPPORTED_REGISTERS(x, 0, 0) = True                                                 'FLAG REGISTER SUPPORTED
                     KeyValues(0) = ""
-                    ReadINIFile(FileName, "ACTIVE TEST REGISTER SCALE TYPE", KeyName, KeyValues)        'READ ACTIVE TEST UNIT TYPE
+                    READINIFILE(FileName, "ACTIVE TEST REGISTER SCALE TYPE", KeyName, KeyValues)        'READ ACTIVE TEST UNIT TYPE
                     If KeyValues(0) <> "" Then
                         REGISTERS_SCALE_TYPE(x, 0) = KeyValues(0)
                     End If
