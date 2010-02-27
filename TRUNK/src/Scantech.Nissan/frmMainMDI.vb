@@ -12,6 +12,9 @@ Public Class frmMain
         'CLOSE SERIAL PORT IF OPEN
         If SerialPort1.IsOpen = True Then SerialPort1.Close()
 
+        'CLOSE LOG FILE
+        FileClose(1)
+
         'SAVE FORM POSITION
         SAVE_WINDOW_FORM_STATE(Me)
     End Sub

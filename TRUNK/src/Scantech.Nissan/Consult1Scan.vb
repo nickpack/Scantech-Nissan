@@ -855,8 +855,6 @@ resend:
                               ByVal KeyValue As String)
 
         WritePrivateProfileString(SectionName, KeyName, KeyValue, INIPath)
-
-
     End Sub
 
     Public Sub SEARCH_SERIAL_PORTS()
@@ -873,10 +871,7 @@ resend:
     End Sub
 
     Public Sub RESET_VARIABLES()
-        DATA_FILTERED_RECEIVED = ""
-        IN_BUFFER_BYTE = ""
-        FF_BYTE_DETECTOR = False
-        REGISTER_DATA_ONLY = False
+        DATA_FILTERED_RECEIVED = "" : IN_BUFFER_BYTE = "" : FF_BYTE_DETECTOR = False : REGISTER_DATA_ONLY = False
     End Sub
     Public Sub CLOSE_C1_FORMS()
         'MAKE SURE CONSULT 1 DATA QUERYING IS STOPPED
@@ -973,23 +968,16 @@ resend:
             FileIO.FileSystem.DeleteFile(Application.StartupPath & "\Logs\Untitled.c1logs")
         End If
 
-        'CREATE FILE UNTITLED.C1LOGS
-        FileOpen(1, Application.StartupPath & "\Logs\Untitled.c1logs", OpenMode.Binary)
-        'FILE INFO: FILE TYPE
-        FilePutObject(1, "ScantechNissanLogs", 2501 * 100)
-        'FILE INFO: VEHICLE YEAR
-        FilePutObject(1, VEHICLE_YEAR, 2503 * 100)
-        'FILE INFO: VEHICLE MAKE
-        FilePutObject(1, VEHICLE_MAKE, 2504 * 100)
-        'FILE INFO: VEHICLE MODEL
-        FilePutObject(1, VEHICLE_MODEL, 2505 * 100)
-        'FILE INFO: # OF CYLINDERS
-        FilePutObject(1, VEHICLE_CYLINDERS, 2506 * 100)
-        'FILE INFO: ENGINE LITERS
-        FilePutObject(1, VEHICLE_ENGINE_LITER, 2507 * 100)
-        'FILE INFO: ECU TYPE
-        FilePutObject(1, VEHICLE_MODEL, 2508 * 100)
 
+        FileOpen(1, Application.StartupPath & "\Logs\Untitled.c1logs", OpenMode.Binary)     'CREATE FILE UNTITLED.C1LOGS
+        FilePutObject(1, "ScantechNissanLogs", 2501 * 100)                                  'FILE INFO: FILE TYPE
+        FilePutObject(1, VEHICLE_YEAR, 2503 * 100)                                          'FILE INFO: VEHICLE YEAR
+        FilePutObject(1, VEHICLE_MAKE, 2504 * 100)                                          'FILE INFO: VEHICLE MAKE
+        FilePutObject(1, VEHICLE_MODEL, 2505 * 100)                                         'FILE INFO: VEHICLE MODEL
+        FilePutObject(1, VEHICLE_CYLINDERS, 2506 * 100)                                     'FILE INFO: # OF CYLINDERS
+        FilePutObject(1, VEHICLE_ENGINE_LITER, 2507 * 100)                                  'FILE INFO: ENGINE LITERS
+        FilePutObject(1, VEHICLE_MODEL, 2508 * 100)                                         'FILE INFO: ECU TYPE
+        FilePutObject(1, "1.0", 2509 * 100)                                                 'FILE INFO: LOG VERSION
     End Sub
     Public Sub LOG_CREATE_SELECTED_REGISTERS_FILE(ByVal Record As Integer)
 
@@ -999,16 +987,24 @@ resend:
             If SELECTED_REGISTERS(X) = True Then
                 If SUPPORTED_REGISTERS(X, 0, 1) = False Then
                     'ANALOG SENSORS
-                    'NO MSB/LSB TYPE, WHICH WILL DUPLICATE NAME
+
+                    'FIRST BYTE  -REGISTER BYTE ADDRESS
+                    'SECOND BYTE - LSB/MSB = 11 : LSB ONLY = XX
+                    'THIRD BYTE  - BITMAPPED = b? : NOT BITMAPPED = XX
+                    'AFTER "SPACE" REGISTER NAME
                     If SUPPORTED_REGISTERS(X, 1, 0) = False Then
-                        FilePutObject(1, REGISTERS_NAME(X, 0), Record * 100) : Record = Record + 1
+                        If SUPPORTED_REGISTERS(X + 1, 1, 0) = True Then
+                            FilePutObject(1, D & "11XX " & REGISTERS_NAME(X, 0), Record * 100) : Record = Record + 1 'LSB/MSB
+                        Else
+                            FilePutObject(1, D & "XXXX " & REGISTERS_NAME(X, 0), Record * 100) : Record = Record + 1 'LSBONLY
+                        End If
                     End If
                 Else
                     'DIGITAL OUTPUT
                     Dim J As Integer
                     For J = 0 To 7
                         If REGISTERS_NAME(X, J + 1) <> "" Then
-                            FilePutObject(1, REGISTERS_NAME(X, J + 1), Record * 100) : Record = Record + 1
+                            FilePutObject(1, D & "XXb" & J & " " & REGISTERS_NAME(X, J + 1), Record * 100) : Record = Record + 1
                         End If
                     Next J
                 End If

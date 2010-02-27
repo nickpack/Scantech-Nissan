@@ -45,7 +45,7 @@
         Next
 
         'WARN USER TOTAL REGISTERS SELECTED IS OVER LIMIT
-        If TOTAL_SELECTED_REGISTERS >= MAX_PIDS_ALLOWED Then
+        If TOTAL_SELECTED_REGISTERS > MAX_PIDS_ALLOWED Then
             MsgBox("Total Sensor Registers has exceeded the total limit", MsgBoxStyle.Exclamation + _
                    MsgBoxStyle.OkOnly, "Maximum Registers Exceeded")
             Exit Sub
