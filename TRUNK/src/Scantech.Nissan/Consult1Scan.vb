@@ -1,6 +1,6 @@
 ﻿Module Consult1Scan
     Public SUPPORTED_REGISTERS(255, 1, 2) As Boolean            'FIRST ARRAY REGISTER SUPPORTED, SECOND ARRAY 1 = TRUE THEN BOTH MSB/LSB TYPE : 1 = FALSE THEN LSB ONLY, THIRD ARRAY "0 = TRUE THEN ANALOG SENSOR REGISTER, 1 = TRUE THEN DIGITAL OUPUT(ON/OFF), 2 = TRUE THEN ACTIVE TEST REGISTER"
-    Public REGISTERS_NAME(255, 8) As String                     'FIRST ARRAY REGISTER NAME (X,0), SECOND ARRAY BITMAPPED NAME FOR DIGITAL OUTPUT (1-8)
+    Public REGISTERS_NAME(255, 8) As String                     'FIRST ARRAY REGISTER NAME (X,0), SECOND ARRAY BITMAPPED NAME FOR DIGITAL OUTPUT (1-8)(0 IS USED TO IDENTIFY REGISTER NAME)
     Public REGISTERS_SCALE_TYPE(255, 7) As String               'FIRST ARRAY SENSORS UNITS, SECOND IS DIGITAL OUTPUT UNITS (BITMAPPED)
     Public REGISTERS_UNIT_TYPE(255) As String                   'UNIT TYPE
     Public SELECTED_REGISTERS(255) As Boolean                   'SELECTED REGISTERS VARIABLE
@@ -964,8 +964,11 @@ resend:
         'FIRST BYTE  - REGISTER BYTE ADDRESS
         'SECOND BYTE - LSB/MSB = 11 : LSB ONLY = XX
         'THIRD BYTE  - BITMAPPED = b? : NOT BITMAPPED = XX
+        'FOURTH BYTE - SCALE TYPE
+        'FIFTH BYTE  - UNIT TYPE
         'AFTER "SPACE" REGISTER NAME
-
+        Dim ScaleValue As String
+        Dim UnitValue As String
         Dim X As Integer
         For X = START_BYTE_FOR_SENSOR To END_BYTE_FOR_SENSOR
             Dim D As String : D = Hex(X) : If Len(D) = 1 Then D = "0" & D
@@ -973,10 +976,12 @@ resend:
                 If SUPPORTED_REGISTERS(X, 0, 1) = False Then
                     'ANALOG SENSORS
                     If SUPPORTED_REGISTERS(X, 1, 0) = False Then
+                        ScaleValue = REGISTERS_SCALE_TYPE(X, 0) : If Len(ScaleValue) = 1 Then ScaleValue = "0" & ScaleValue
+                        UnitValue = REGISTERS_UNIT_TYPE(X) : If Len(UnitValue) = 1 Then UnitValue = "0" & UnitValue
                         If SUPPORTED_REGISTERS(X + 1, 1, 0) = True Then
-                            FilePutObject(1, D & "11XX " & REGISTERS_NAME(X, 0), Record * 100) : Record = Record + 1 'LSB/MSB
+                            FilePutObject(1, D & "11XX" & ScaleValue & UnitValue & " " & REGISTERS_NAME(X, 0), Record * 100) : Record = Record + 1 'LSB/MSB
                         Else
-                            FilePutObject(1, D & "XXXX " & REGISTERS_NAME(X, 0), Record * 100) : Record = Record + 1 'LSB ONLY
+                            FilePutObject(1, D & "XXXX" & ScaleValue & UnitValue & " " & REGISTERS_NAME(X, 0), Record * 100) : Record = Record + 1 'LSB ONLY
                         End If
                     End If
                 Else
@@ -984,7 +989,8 @@ resend:
                     Dim J As Integer
                     For J = 0 To 7
                         If REGISTERS_NAME(X, J + 1) <> "" Then
-                            FilePutObject(1, D & "XXb" & J & " " & REGISTERS_NAME(X, J + 1), Record * 100) : Record = Record + 1
+                            ScaleValue = REGISTERS_SCALE_TYPE(X, J) : If Len(ScaleValue) = 1 Then ScaleValue = "0" & ScaleValue
+                            FilePutObject(1, D & "XXb" & J & ScaleValue & "XX " & REGISTERS_NAME(X, J + 1), Record * 100) : Record = Record + 1
                         End If
                     Next J
                 End If

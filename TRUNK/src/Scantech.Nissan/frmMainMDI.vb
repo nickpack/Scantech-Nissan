@@ -77,10 +77,13 @@ Public Class frmMain
     Private Sub GridStyleToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GridStyleToolStripMenuItem.Click
         'GRID STYLE
         USER_FORM_SELECT = 1
+
         'RESET GRIDS
         RESET_GRID_STYLE_FOR_SENSORS() : RESET_GRID_STYLE_FOR_OUTPUT() : RESET_GRID_STYLE_FOR_ACTIVE()
+
         'START COMMUNICATION WITH ECU AND REQUEST DATA AND PROCESS THEM
         REQUEST_C1_SENSOR_DATA()
+
         'CLOSE ALL FORM RELATED
         CLOSE_C1_FORMS()
     End Sub

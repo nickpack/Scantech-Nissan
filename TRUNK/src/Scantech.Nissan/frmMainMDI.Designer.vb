@@ -30,6 +30,8 @@ Partial Class frmMain
         Me.StatusTimout = New System.Windows.Forms.ToolStripStatusLabel
         Me.tsProgress = New System.Windows.Forms.ToolStripProgressBar
         Me.tsStatus = New System.Windows.Forms.ToolStripStatusLabel
+        Me.tsStatus2 = New System.Windows.Forms.ToolStripStatusLabel
+        Me.tsStatus3 = New System.Windows.Forms.ToolStripStatusLabel
         Me.SerialPort1 = New System.IO.Ports.SerialPort(Me.components)
         Me.tmrPortStatus = New System.Windows.Forms.Timer(Me.components)
         Me.tbConnect = New System.Windows.Forms.ToolStripButton
@@ -106,8 +108,6 @@ Partial Class frmMain
         Me.MenuStrip = New System.Windows.Forms.MenuStrip
         Me.tmrLogStatus = New System.Windows.Forms.Timer(Me.components)
         Me.tmrLogImage = New System.Windows.Forms.Timer(Me.components)
-        Me.tsStatus2 = New System.Windows.Forms.ToolStripStatusLabel
-        Me.tsStatus3 = New System.Windows.Forms.ToolStripStatusLabel
         Me.StatusStrip.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
@@ -150,6 +150,16 @@ Partial Class frmMain
         '
         Me.tsStatus.Name = "tsStatus"
         Me.tsStatus.Size = New System.Drawing.Size(0, 17)
+        '
+        'tsStatus2
+        '
+        Me.tsStatus2.Name = "tsStatus2"
+        Me.tsStatus2.Size = New System.Drawing.Size(0, 17)
+        '
+        'tsStatus3
+        '
+        Me.tsStatus3.Name = "tsStatus3"
+        Me.tsStatus3.Size = New System.Drawing.Size(0, 17)
         '
         'tmrPortStatus
         '
@@ -682,16 +692,6 @@ Partial Class frmMain
         '
         Me.tmrLogImage.Enabled = True
         Me.tmrLogImage.Interval = 500
-        '
-        'tsStatus2
-        '
-        Me.tsStatus2.Name = "tsStatus2"
-        Me.tsStatus2.Size = New System.Drawing.Size(0, 17)
-        '
-        'tsStatus3
-        '
-        Me.tsStatus3.Name = "tsStatus3"
-        Me.tsStatus3.Size = New System.Drawing.Size(0, 17)
         '
         'frmMain
         '
