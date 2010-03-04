@@ -184,8 +184,14 @@ Reset:
         'CLEAR ANY BUFFER
         frmMain.SerialPort1.DiscardInBuffer()
 
+        'SET TIMEOUT
+        TIME_OUT = 5000
+
         'START COMMUNICATION WITH ECM AND REQUEST DATA AND PROCESS THEM
         REQUEST_C1_SENSOR_DATA()
+
+        'RESET
+        CLOSE_C1_FORMS()
 
         'ENABLE
         ComboBox1.Enabled = True : ComboBox4.Enabled = True : ComboBox5.Enabled = True : cmdGo.Enabled = True : cmdScanEcu.Enabled = True : cmdStop.Enabled = False

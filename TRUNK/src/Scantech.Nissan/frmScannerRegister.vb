@@ -95,13 +95,15 @@ Reset:
 
             'SET PROGRESS BAR INITIAL VALUE
             frmMain.tsProgress.Value = xCounter
-            System.Windows.Forms.Application.DoEvents()
 
             'STOP COMMAND
             frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(25)
 
             'SENSOR REQUEST COMMAND
             frmMain.SerialPort1.Write(Buffer, 0, 1) : System.Threading.Thread.Sleep(25)
+
+            'DOEVENTS
+            System.Windows.Forms.Application.DoEvents()
 
             'CLEAR BUFFER (DISREGARD THOSE BYTES)
             frmMain.SerialPort1.DiscardInBuffer()

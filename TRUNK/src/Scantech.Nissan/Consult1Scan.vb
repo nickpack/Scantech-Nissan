@@ -79,13 +79,15 @@
 
             'SET PROGRESS BAR VALUE
             frmMain.tsProgress.Value = xCounter
-            System.Windows.Forms.Application.DoEvents()
 
             'STOP COMMAND
             frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
 
             'SENSOR REQUEST COMMAND
             frmMain.SerialPort1.Write(SEND_5A_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
+
+            'DOEVENTS
+            System.Windows.Forms.Application.DoEvents()
 
             'CLEAR BUFFER (DISREGARD THOSE BYTES)
             frmMain.SerialPort1.DiscardInBuffer()
@@ -127,6 +129,9 @@ Restart:
         frmMain.SerialPort1.Write(Buffer, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
         frmMain.SerialPort1.Write(Buffer, 1, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY) : frmMain.SerialPort1.DiscardInBuffer()
         frmMain.SerialPort1.Write(Buffer, 2, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
+
+        'DOEVENTS
+        System.Windows.Forms.Application.DoEvents()
 
         'NO RESPONSE OR BYTES RETURNED THEN ALERT USER ONLY IF MSG = TRUE
         If frmMain.SerialPort1.BytesToRead = 0 Then
@@ -231,30 +236,27 @@ resend:
 
         'LOOP UNTIL DATAFILTERED IS FULLFILLED AND SET TRUE IN PROCESS_BUFFER_DATA FUNCTION
         Do Until USER_REQUEST_STOP = True
-            'IF TIMEOUT THEN RETRY CONNECTING
+            'IF TIMEOUT THEN RETRY CONNECTING (QUIET MODE)
             If frmMain.tmrTimeout.Enabled = False Then
-                'REINITIALIZE WITh NO MSGBOX (QUIET MODE)
-                If INITIALIZE_ECU(ECU_ID_3, False) = True Then
-                    GoTo resend
-                End If
+                If INITIALIZE_ECU(ECU_ID_3, False) = True Then GoTo resend
             End If
 
             If PROCESS_BUFFER_DATA(True) = True Then
                 'IF LOG STATUS IS RECORDING
                 If LOG_BUTTONS_STATUS = "Record" Then
-                    FilePutObject(1, DATA_FILTERED_RECEIVED, (RECORD_NUMBER) * 100)     'REGISTER FRAME DATA
                     RECORD_NUMBER = RECORD_NUMBER + 1                                   'UPDATE COUNTER
+                    FilePutObject(1, DATA_FILTERED_RECEIVED, (RECORD_NUMBER) * 100)     'REGISTER FRAME DATA
                     frmMain.tsStatus2.Text = "Frame # " & RECORD_NUMBER - 3000          'FRAME RECORD NUMBER
                 End If
 
-            'RESET TIMEOUT
-            frmMain.tmrTimeout.Enabled = False : frmMain.tmrTimeout.Enabled = True
+                'RESET TIMEOUT
+                frmMain.tmrTimeout.Enabled = False : frmMain.tmrTimeout.Enabled = True
 
-            'WHAT FORM USER SELECTED
-            Select Case USER_FORM_SELECT
-                Case 1 : RESULT_GRID_STYLE()
-                Case 4 : RESULT_REGISTER_DECODER()
-            End Select
+                'WHAT FORM USER SELECTED
+                Select Case USER_FORM_SELECT
+                    Case 1 : RESULT_GRID_STYLE()
+                    Case 4 : RESULT_REGISTER_DECODER()
+                End Select
             End If
 
             'SEND ACTIVE TEST (TRIGGERED BY COMMAND BUTTON IN FRMC1ACTIVE)
@@ -625,7 +627,6 @@ resend:
         Next
 
         frmC1ActiveTest.MdiParent = frmMain : frmC1ActiveTest.Show()
-
         frmC1ActiveTest.Grid2.Rows.Clear()
 
         For X = START_BYTE_FOR_ACTIVETEST To END_BYTE_FOR_ACTIVETEST
@@ -860,7 +861,7 @@ resend:
     End Sub
     Public Sub CLOSE_C1_FORMS()
         'RESET 
-        USER_REQUEST_STOP = True : LOOP_IN_PROGRESS = False
+        USER_REQUEST_STOP = True : LOOP_IN_PROGRESS = False : frmMain.tmrTimeout.Enabled = False
 
         'MAKE SURE CONSULT 1 DATA QUERYING IS STOPPED
         frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
@@ -874,6 +875,9 @@ resend:
             Value = RECORD_NUMBER - 3000
             FilePutObject(1, Value, 2502 * 100)
         End If
+
+        'CLOSE LOG FILE
+        FileClose(1)
 
         'RESET 
         LOG_BUTTONS_STATUS = "" : frmMain.tsStatus.Text = "" : frmMain.tsStatus2.Text = "" : frmMain.tsStatus3.Text = ""
@@ -944,12 +948,12 @@ resend:
 
         'DELETE UNTITLED FILE IF EXIST
         FileClose(1)
-        If FileIO.FileSystem.FileExists(Application.StartupPath & "\Logs\Untitled.c1logs") Then
-            FileIO.FileSystem.DeleteFile(Application.StartupPath & "\Logs\Untitled.c1logs")
+        If FileIO.FileSystem.FileExists(Application.StartupPath & "\Logs\Untitled.c1log") Then
+            FileIO.FileSystem.DeleteFile(Application.StartupPath & "\Logs\Untitled.c1log")
         End If
 
         'WRITE FILE INFO TO THE RECORDS
-        FileOpen(1, Application.StartupPath & "\Logs\Untitled.c1logs", OpenMode.Binary)     'CREATE FILE UNTITLED.C1LOGS
+        FileOpen(1, Application.StartupPath & "\Logs\Untitled.c1log", OpenMode.Binary)     'CREATE FILE UNTITLED.C1LOG
         FilePutObject(1, "ScantechNissanLogs", 2501 * 100)                                  'FILE INFO: FILE TYPE
         FilePutObject(1, VEHICLE_YEAR, 2503 * 100)                                          'FILE INFO: VEHICLE YEAR
         FilePutObject(1, VEHICLE_MAKE, 2504 * 100)                                          'FILE INFO: VEHICLE MAKE
@@ -960,13 +964,14 @@ resend:
         FilePutObject(1, "1.0", 2509 * 100)                                                 'FILE INFO: LOG VERSION
     End Sub
     Public Sub LOG_CREATE_SELECTED_REGISTERS_FILE(ByVal Record As Integer)
-        'BYTE 1 TO 3 IDENTIFIERS
+        'BYTE 1 TO 5 IDENTIFIERS
         'FIRST BYTE  - REGISTER BYTE ADDRESS
         'SECOND BYTE - LSB/MSB = 11 : LSB ONLY = XX
         'THIRD BYTE  - BITMAPPED = b? : NOT BITMAPPED = XX
         'FOURTH BYTE - SCALE TYPE
         'FIFTH BYTE  - UNIT TYPE
         'AFTER "SPACE" REGISTER NAME
+
         Dim ScaleValue As String
         Dim UnitValue As String
         Dim X As Integer

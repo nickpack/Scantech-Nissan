@@ -27,7 +27,7 @@ Partial Class frmMain
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
         Me.StatusStrip = New System.Windows.Forms.StatusStrip
         Me.statusPort = New System.Windows.Forms.ToolStripStatusLabel
-        Me.StatusTimout = New System.Windows.Forms.ToolStripStatusLabel
+        Me.statusRx = New System.Windows.Forms.ToolStripStatusLabel
         Me.tsProgress = New System.Windows.Forms.ToolStripProgressBar
         Me.tsStatus = New System.Windows.Forms.ToolStripStatusLabel
         Me.tsStatus2 = New System.Windows.Forms.ToolStripStatusLabel
@@ -116,28 +116,28 @@ Partial Class frmMain
         'StatusStrip
         '
         Me.StatusStrip.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.statusPort, Me.StatusTimout, Me.tsProgress, Me.tsStatus, Me.tsStatus2, Me.tsStatus3})
-        Me.StatusStrip.Location = New System.Drawing.Point(0, 482)
+        Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.statusPort, Me.statusRx, Me.tsProgress, Me.tsStatus, Me.tsStatus2, Me.tsStatus3})
+        Me.StatusStrip.Location = New System.Drawing.Point(0, 478)
         Me.StatusStrip.Name = "StatusStrip"
-        Me.StatusStrip.Size = New System.Drawing.Size(1094, 22)
+        Me.StatusStrip.Size = New System.Drawing.Size(1094, 26)
         Me.StatusStrip.TabIndex = 7
         Me.StatusStrip.Text = "StatusStrip"
         '
         'statusPort
         '
-        Me.statusPort.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
         Me.statusPort.Image = Global.Scantech.Nissan.My.Resources.Resources.LedBlack
         Me.statusPort.Name = "statusPort"
-        Me.statusPort.Size = New System.Drawing.Size(16, 17)
+        Me.statusPort.Size = New System.Drawing.Size(62, 23)
+        Me.statusPort.Text = "COM"
         Me.statusPort.ToolTipText = "COM PORT STATUS"
         '
-        'StatusTimout
+        'statusRx
         '
-        Me.StatusTimout.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.StatusTimout.Image = Global.Scantech.Nissan.My.Resources.Resources.LedBlack
-        Me.StatusTimout.Name = "StatusTimout"
-        Me.StatusTimout.Size = New System.Drawing.Size(16, 17)
-        Me.StatusTimout.ToolTipText = "INBUFFER STATUS"
+        Me.statusRx.Image = Global.Scantech.Nissan.My.Resources.Resources.LedBlack
+        Me.statusRx.Name = "statusRx"
+        Me.statusRx.Size = New System.Drawing.Size(43, 23)
+        Me.statusRx.Text = "Rx"
+        Me.statusRx.ToolTipText = "IN BUFFER STATUS"
         '
         'tsProgress
         '
@@ -149,17 +149,17 @@ Partial Class frmMain
         'tsStatus
         '
         Me.tsStatus.Name = "tsStatus"
-        Me.tsStatus.Size = New System.Drawing.Size(0, 17)
+        Me.tsStatus.Size = New System.Drawing.Size(0, 23)
         '
         'tsStatus2
         '
         Me.tsStatus2.Name = "tsStatus2"
-        Me.tsStatus2.Size = New System.Drawing.Size(0, 17)
+        Me.tsStatus2.Size = New System.Drawing.Size(0, 23)
         '
         'tsStatus3
         '
         Me.tsStatus3.Name = "tsStatus3"
-        Me.tsStatus3.Size = New System.Drawing.Size(0, 17)
+        Me.tsStatus3.Size = New System.Drawing.Size(0, 23)
         '
         'tmrPortStatus
         '
@@ -576,13 +576,13 @@ Partial Class frmMain
         'LogsToolStripMenuItem
         '
         Me.LogsToolStripMenuItem.Name = "LogsToolStripMenuItem"
-        Me.LogsToolStripMenuItem.Size = New System.Drawing.Size(113, 26)
+        Me.LogsToolStripMenuItem.Size = New System.Drawing.Size(152, 26)
         Me.LogsToolStripMenuItem.Text = "Logs"
         '
         'ToolStripMenuItem3
         '
         Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(110, 6)
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(149, 6)
         '
         'ToolsToolStripMenuItem
         '
@@ -729,7 +729,7 @@ Partial Class frmMain
     Friend WithEvents tsComPort As System.Windows.Forms.ToolStripComboBox
     Friend WithEvents ToolStrip1 As System.Windows.Forms.ToolStrip
     Friend WithEvents tmrTimeout As System.Windows.Forms.Timer
-    Friend WithEvents StatusTimout As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents statusRx As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents FileToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ConnectToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents DisconnectToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem

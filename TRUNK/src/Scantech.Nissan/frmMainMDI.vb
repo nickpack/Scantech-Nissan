@@ -12,9 +12,6 @@ Public Class frmMain
         'CLOSE SERIAL PORT IF OPEN
         If SerialPort1.IsOpen = True Then SerialPort1.Close()
 
-        'CLOSE LOG FILE
-        FileClose(1)
-
         'SAVE FORM POSITION
         SAVE_WINDOW_FORM_STATE(Me)
     End Sub
@@ -53,9 +50,9 @@ Public Class frmMain
         'INBUFFER BYTES STATUS
         If Me.SerialPort1.IsOpen = True Then
             If Me.SerialPort1.BytesToRead > 0 Then
-                StatusTimout.Image = My.Resources.LedGreen
+                statusRx.Image = My.Resources.LedGreen
             Else
-                StatusTimout.Image = My.Resources.LedBlack
+                statusRx.Image = My.Resources.LedBlack
             End If
         End If
     End Sub
@@ -139,8 +136,8 @@ Public Class frmMain
                 LOG_BUTTONS_STATUS = "Record" : ENABLE_STATE_FOR_INSPECTOR(2, 1, 0, 1, 0, 0)
                 LOG_CREATE_FILE()                                                               'CREATE LOG FILE FOR INITIAL RECORD
                 LOG_CREATE_SELECTED_REGISTERS_FILE(1)                                           'GET SELECTED REGISTER NAMES AND STORE IN FILE STARTING AT RECORD 1
-                tsStatus3.Text = "Untitled.c1logs"                                              'FILE NAME
-                RECORD_NUMBER = 3001                                                            'SET START RECORD NUMBER
+                tsStatus3.Text = "Untitled.c1log"                                               'FILE NAME
+                RECORD_NUMBER = 3000                                                            'SET START RECORD NUMBER
         End Select
 
     End Sub
