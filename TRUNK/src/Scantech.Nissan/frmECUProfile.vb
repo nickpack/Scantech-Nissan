@@ -108,7 +108,7 @@ Skip:
         DataGridView4.Item(0, 7).Value = "AUTOSCAN"
 
         'REGISTER INFO
-        DataGridView5.RowCount = 8
+        DataGridView5.RowCount = 10
         DataGridView5.Item(0, 0).Value = "START BYTE FOR SENSOR"
         DataGridView5.Item(0, 1).Value = "END BYTE FOR SENSOR"
         DataGridView5.Item(0, 2).Value = "START BYTE FOR ACTIVE TEST"
@@ -116,8 +116,10 @@ Skip:
         DataGridView5.Item(0, 4).Value = "MAX REGISTERS ALLOWED"
         DataGridView5.Item(0, 5).Value = "CHECK FAULT COMMAND"
         DataGridView5.Item(0, 6).Value = "CLEAR FAULT COMMAND"
-        DataGridView5.Item(0, 7).Value = "INTERBYTE DELAY"
-        DataGridView5.Item(0, 8).Value = "TIMEOUT"
+        DataGridView5.Item(0, 7).Value = "ECU INFO COMMAND"
+        DataGridView5.Item(0, 8).Value = "STREAM AVAILABLE SENSOR COMMAND"
+        DataGridView5.Item(0, 9).Value = "INTERBYTE DELAY"
+        DataGridView5.Item(0, 10).Value = "TIMEOUT"
 
         TreeView1.Visible = True
         TreeView2.Visible = True
@@ -139,8 +141,8 @@ Skip:
 
 
         Dim X As Integer
-        Dim KeyValues1(8) As String
-        Dim keyname1(8) As String
+        Dim KeyValues1(10) As String
+        Dim keyname1(10) As String
 
         '*****************************************************************************************************************
         'VEHICLE INFORMATION
@@ -172,12 +174,14 @@ Skip:
         keyname1(4) = "MAX REGISTERS ALLOWED"
         keyname1(5) = "CHECK FAULT COMMAND"
         keyname1(6) = "CLEAR FAULT COMMAND"
-        keyname1(7) = "INTERBYTE DELAY"
-        keyname1(8) = "TIMEOUT"
+        keyname1(7) = "ECU INFO COMMAND"
+        keyname1(8) = "STREAM AVAILABLE SENSOR COMMAND"
+        keyname1(9) = "INTERBYTE DELAY"
+        keyname1(10) = "TIMEOUT"
 
         ReadINIFile(OpenFileDialog1.FileName, "REGISTERS INFO", keyname1, KeyValues1)
 
-        For X = 0 To 8
+        For X = 0 To 10
             DataGridView5.RowCount = DataGridView5.RowCount + 1
             DataGridView5.Item(0, X).Value = keyname1(X)
             DataGridView5.Item(1, X).Value = KeyValues1(X)
@@ -343,8 +347,8 @@ Skip:
         Next
 
         'REGISTER INFO
-        For X = 0 To 8
-            WriteINIFile(FileName, "REGISTERS INFO", DataGridView5.Item(0, X).Value, DataGridView5.Item(1, X).Value)
+        For X = 0 To 10
+            WRITEINIFILE(FileName, "REGISTERS INFO", DataGridView5.Item(0, X).Value, DataGridView5.Item(1, X).Value)
         Next
 
         'SENSOR REGISTERS NAME, SCALE TYPE, UNIT TYPE

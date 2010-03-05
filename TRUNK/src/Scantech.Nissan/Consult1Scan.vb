@@ -17,6 +17,8 @@
     Public INTERBYTE_DELAY As Integer                           'FROM INI FILE (DELAY IN BETWEEN BYTES)
     Public SEND_CHECK_FAULTS_BYTE As Byte                       'FROM INI FILE 
     Public SEND_CLEAR_FAULTS_BYTE As Byte                       'FROM INI FILE
+    Public SEND_ECU_INFO_BYTE As Byte                           'FROM INI FILE
+    Public SEND_STREAM_AVAILABLE_SENSOR_BYTE As Byte            'FROM INI FILE
 
     Public USER_FORM_SELECT As Integer                          '1=GRIDSTYLE, 2=GAUGES, 3=GRAPHING, 4=REGISTER DECODER
     Public TOTAL_SELECTED_REGISTERS As Integer                  'TOTAL REGISTERS SELECTED BY USER
@@ -53,7 +55,7 @@
     Public FileName As String                                   'INI FILE NAME FOR ECU PROFILE
     Public TIME_OUT As Integer
     Public LOG_BUTTONS_STATUS As String                         'LOG INSPECTOR STATUS
-    Public RECORD_NUMBER As VariantType
+    Public RECORD_NUMBER As VariantType                         'FRAME RECORD COUNTER
 
     Private Declare Unicode Function GetPrivateProfileString Lib "kernel32.dll" _
                             Alias "GetPrivateProfileStringW" (ByVal lpApplicationName As String, _
@@ -709,8 +711,8 @@ resend:
     End Sub
 
     Public Sub GET_FILE_REGISTERS_INFO(ByVal FileName As String)
-        Dim KeyValues1(8) As String
-        Dim keyname1(8) As String
+        Dim KeyValues1(10) As String
+        Dim keyname1(10) As String
 
         'REGISTER INFO VARIABLES
         keyname1(0) = "START BYTE FOR SENSOR"                               'LOWEST REGISTER BYTE SUPPORTED FOR SENSOR
@@ -720,8 +722,10 @@ resend:
         keyname1(4) = "MAX REGISTERS ALLOWED"
         keyname1(5) = "CHECK FAULT COMMAND"
         keyname1(6) = "CLEAR FAULT COMMAND"
-        keyname1(7) = "INTERBYTE DELAY"
-        keyname1(8) = "TIMEOUT"
+        keyname1(7) = "ECU INFO COMMAND"
+        keyname1(8) = "STREAM AVAILABLE SENSOR COMMAND"
+        keyname1(9) = "INTERBYTE DELAY"
+        keyname1(10) = "TIMEOUT"
         READINIFILE(FileName, "REGISTERS INFO", keyname1, KeyValues1)
 
         START_BYTE_FOR_SENSOR = Val(KeyValues1(0))
@@ -731,8 +735,10 @@ resend:
         MAX_PIDS_ALLOWED = Val(KeyValues1(4))
         SEND_CHECK_FAULTS_BYTE = Val(KeyValues1(5))
         SEND_CLEAR_FAULTS_BYTE = Val(KeyValues1(6))
-        INTERBYTE_DELAY = Val(KeyValues1(7))
-        TIME_OUT = Val(KeyValues1(8))
+        SEND_ECU_INFO_BYTE = Val(KeyValues1(7))
+        SEND_STREAM_AVAILABLE_SENSOR_BYTE = Val(KeyValues1(8))
+        INTERBYTE_DELAY = Val(KeyValues1(9))
+        TIME_OUT = Val(KeyValues1(10))
     End Sub
 
     Public Sub GET_FILE_REGISTER_PARAMETERS(ByVal FileName As String)
