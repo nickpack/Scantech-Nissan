@@ -5,6 +5,9 @@
         ENABLE_STATE_FOR_MENUS(False, True, True, True, True, True, True, False, False, False, False, True, True, True, True)
     End Sub
     Private Sub frmRegSelection_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        'ALL SENSORS AVAILABLE REQUEST COMMAND DOES NOT ALLOW SELECTIONS BEING MADE
+        If SEND_STREAM_AVAILABLE_SENSOR_BYTE = "N/A" Then Me.Grid1.Columns(0).Visible = False
+
         'CHECK REGISTERS THAT ARE SUPPORTED
         CHECK_SUPPORTED_REGISTERS()
 
@@ -13,6 +16,8 @@
     End Sub
 
     Private Sub cmdApply_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdApply.Click
+        'MONITOR MANAGER IS USABLE FOR SINGLE/MULTI BYTE COMMAND
+        'MONITOR MANAGER IS NOT USABLE FOR AVAILABLE SENSOR REQUEST COMMAND.  TOTAL REGISTER WILL BE IGNORED FOR THIS TYPE
         Dim X As Integer
 
         'RESET
@@ -44,15 +49,17 @@
             End If
         Next
 
-        'WARN USER TOTAL REGISTERS SELECTED IS OVER LIMIT
-        If TOTAL_SELECTED_REGISTERS > MAX_PIDS_ALLOWED Then
-            MsgBox("Total Sensor Registers has exceeded the total limit", MsgBoxStyle.Exclamation + _
-                   MsgBoxStyle.OkOnly, "Maximum Registers Exceeded")
-            Exit Sub
-        ElseIf TOTAL_SELECTED_REGISTERS = 0 Then
-            MsgBox("1 Minimun Sensor Registers has to be selected", MsgBoxStyle.Exclamation + _
-                   MsgBoxStyle.OkOnly, "Minimun Register Required")
-            Exit Sub
+        'WARN USER TOTAL REGISTERS SELECTED IS OVER LIMIT FOR SINGLE/MULTI BYTE REQUEST ONLY
+        If SEND_STREAM_AVAILABLE_SENSOR_BYTE <> "N/A" Then
+            If TOTAL_SELECTED_REGISTERS > MAX_PIDS_ALLOWED Then
+                MsgBox("Total Sensor Registers has exceeded the total limit", MsgBoxStyle.Exclamation + _
+                       MsgBoxStyle.OkOnly, "Maximum Registers Exceeded")
+                Exit Sub
+            ElseIf TOTAL_SELECTED_REGISTERS = 0 Then
+                MsgBox("1 Minimun Sensor Registers has to be selected", MsgBoxStyle.Exclamation + _
+                       MsgBoxStyle.OkOnly, "Minimun Register Required")
+                Exit Sub
+            End If
         End If
 
         'MAKE SURE CONSULT 1 DATA QUERYING IS STOPPED
@@ -93,6 +100,9 @@
 
     End Sub
     Private Sub Grid1_CellClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles Grid1.CellClick
+        '------------------------
+        'ANALOG SENSOR SELECTIONS
+        '------------------------
         'CHECK ALL
         If e.ColumnIndex = 0 And e.RowIndex = -1 Then
             Dim X As Integer
@@ -108,6 +118,9 @@
         Me.Grid1.Item(0, e.RowIndex).Value = Not Me.Grid1.Item(0, e.RowIndex).Value
     End Sub
     Private Sub Grid2_CellClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles Grid2.CellClick
+        '----------------------
+        'ACTIVE/OUTPUT TEST SELECTIONS
+        '----------------------
         'CHECK ALL
         If e.ColumnIndex = 0 And e.RowIndex = -1 Then
             Dim X As Integer

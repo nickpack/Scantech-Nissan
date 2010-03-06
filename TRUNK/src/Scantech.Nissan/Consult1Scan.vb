@@ -15,10 +15,10 @@
     Public END_BYTE_FOR_ACTIVETEST As Integer                   'FROM INI FILE (ACTIVE TEST AUTOSCAN END BYTE)
     Public MAX_PIDS_ALLOWED As Integer                          'FROM INI FILE (20 MOST COMMON)
     Public INTERBYTE_DELAY As Integer                           'FROM INI FILE (DELAY IN BETWEEN BYTES)
-    Public SEND_CHECK_FAULTS_BYTE As Byte                       'FROM INI FILE 
-    Public SEND_CLEAR_FAULTS_BYTE As Byte                       'FROM INI FILE
-    Public SEND_ECU_INFO_BYTE As Byte                           'FROM INI FILE
-    Public SEND_STREAM_AVAILABLE_SENSOR_BYTE As Byte            'FROM INI FILE
+    Public SEND_CHECK_FAULTS_BYTE As String                     'FROM INI FILE 
+    Public SEND_CLEAR_FAULTS_BYTE As String                     'FROM INI FILE
+    Public SEND_ECU_INFO_BYTE As String                         'FROM INI FILE
+    Public SEND_STREAM_AVAILABLE_SENSOR_BYTE As String          'FROM INI FILE
 
     Public USER_FORM_SELECT As Integer                          '1=GRIDSTYLE, 2=GAUGES, 3=GRAPHING, 4=REGISTER DECODER
     Public TOTAL_SELECTED_REGISTERS As Integer                  'TOTAL REGISTERS SELECTED BY USER
@@ -212,12 +212,7 @@ Restart:
             End If
         End If
     End Function
-
-    Public Sub REQUEST_C1_SENSOR_DATA()
-        Static Retry As Integer = 1
-resend:
-        RESET_VARIABLES()
-
+    Public Sub PRE_REQUEST_C1_SENSOR_TYPE_1()
         'REQUEST SUPPORTED REGISTERS.  NOTE:  MAX REGISTERS DEFINED IN INI FILE
         Dim x As Integer
         For x = START_BYTE_FOR_SENSOR To END_BYTE_FOR_SENSOR
@@ -229,6 +224,41 @@ resend:
 
         '0XF0 = START COMMAND
         frmMain.SerialPort1.Write(SEND_F0_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
+    End Sub
+    Public Sub PRE_REQUEST_C1_SENSOR_TYPE_2()
+        'INCOMPLETEXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+        'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+        'SOME ECU WILL NOT ALLOW PRE_REQUEST_C1_SENSOR_TYPE_1() ROUTINE.  
+        'INSTEAD, IT REQUIRES 1 COMMAND BYTE REQUEST FOR STREAMING.
+        Dim SEND_BYTE() As Byte = {SEND_STREAM_AVAILABLE_SENSOR_BYTE}
+
+        'FIND THE LENGTH BYTE, SO WE CAN STORE THAT VALUE IN THE VARIABLE
+        frmMain.SerialPort1.Write(SEND_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)         'REQUEST COMMAND
+        frmMain.SerialPort1.DiscardInBuffer()                                                               'CLEAR BUFFER
+        frmMain.SerialPort1.Write(SEND_F0_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)      'START COMMAND
+        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)      'STOP COMMAND
+
+        'ASSIGN THE TOTAL SELECTED REGISTER VARIABLE
+        Dim InData As String
+        InData = Hex(frmMain.SerialPort1.ReadByte)
+        If InData = "FF" Then TOTAL_SELECTED_REGISTERS = frmMain.SerialPort1.ReadByte
+
+        'REQUEST ALL AVAILABLE SENSOR
+        frmMain.SerialPort1.Write(SEND_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)         'REQUEST COMMAND
+        frmMain.SerialPort1.Write(SEND_F0_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)      'START COMMAND
+
+    End Sub
+    Public Sub REQUEST_C1_SENSOR_DATA()
+        Static Retry As Integer = 1
+resend:
+        RESET_VARIABLES()
+
+        'I HAVE CAME ACROSS WITH 2 DIFFERENT WAYS REQUESTING DATA SENSORS
+        If SEND_STREAM_AVAILABLE_SENSOR_BYTE <> "N/A" Then
+            PRE_REQUEST_C1_SENSOR_TYPE_1()                          'MOST COMMON TYPE
+        Else
+            PRE_REQUEST_C1_SENSOR_TYPE_2()                          'COMMON ON TRANS MODULE
+        End If
 
         'FLAG DO LOOP EVENT IN PROGRESS AND RESET USER_REQUEST_STOP
         LOOP_IN_PROGRESS = True : USER_REQUEST_STOP = False
@@ -571,6 +601,26 @@ resend:
             Case 14 : If Units = 0 Then DECODE_DATA_C1_SENSORS = Format(LSB * 0.5, "0.0") '.....................AAC VALVE %
             Case 15 : If Units = 0 Then DECODE_DATA_C1_SENSORS = Format(LSB * 0.04, "0.00")
 
+            Case 16 : If Units = 0 Then DECODE_DATA_C1_SENSORS = Format(LSB * 32, "0")
+            Case 17 : If Units = 0 Then DECODE_DATA_C1_SENSORS = Format(LSB * 0.64, "0.0")
+            Case 18 : If Units = 0 Then DECODE_DATA_C1_SENSORS = Format(LSB / 2.55, "0.0")
+            Case 19
+                If Units = 0 Then
+                    Select Case LSB
+                        Case 128 : DECODE_DATA_C1_SENSORS = "D"
+                        Case 129 : DECODE_DATA_C1_SENSORS = "2"
+                        Case 130 : DECODE_DATA_C1_SENSORS = "1"
+                        Case 131 : DECODE_DATA_C1_SENSORS = "P/N"
+                        Case 135 : DECODE_DATA_C1_SENSORS = "R"
+                    End Select
+                End If
+            Case 20
+                If Units = 0 Then
+                    DECODE_DATA_C1_SENSORS = Format(LSB, "0")
+                Else
+                    DECODE_DATA_C1_SENSORS = Format((LSB) * 0.621, "0")
+                End If
+            Case 21 : If Units = 0 Then DECODE_DATA_C1_SENSORS = Format(LSB + 1, "0")
         End Select
     End Function
 

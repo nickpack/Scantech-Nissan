@@ -489,7 +489,7 @@ Skip:
         CheckSensorGrid = False
         Dim X As Integer
         For X = 0 To DataGridView1.RowCount - 1
-            If DataGridView1.Item(0, X).Tag = Value Then
+            If CByte("&H" & DataGridView1.Item(0, X).Tag) = CByte("&H" & Value) Then
                 CheckSensorGrid = True
                 Exit Function
             End If

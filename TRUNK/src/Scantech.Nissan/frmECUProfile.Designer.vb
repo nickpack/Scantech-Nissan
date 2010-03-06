@@ -37,36 +37,42 @@ Partial Class frmECUProfile
         Dim TreeNode7 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("0 = (MSB * 256 + LSB) * 12.5")
         Dim TreeNode8 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("1 = (MSB * 256 + LSB) * 8")
         Dim TreeNode9 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("2 = (MSB * 256 + LSB) * 0.005")
-        Dim TreeNode10 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("3 = LSB - 50 ")
+        Dim TreeNode10 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("3 = LSB - 50 and (LSB - 50) * 1.8 + 32")
         Dim TreeNode11 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("4 = LSB * 0.01")
         Dim TreeNode12 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("5 = LSB * 0.08")
         Dim TreeNode13 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("6 = LSB * 0.02")
         Dim TreeNode14 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("7 = (MSB * 256 + LSB) * 0.02")
         Dim TreeNode15 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("8 = LSB * 0.05")
         Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("9 = LSB")
-        Dim TreeNode17 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("10 = LSB * 2")
+        Dim TreeNode17 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("10 = LSB * 2 and (LSB * 2) * 0.621")
         Dim TreeNode18 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("11 = 110 - LSB")
         Dim TreeNode19 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("12 = 80 - LSB")
         Dim TreeNode20 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("13 = 70 - LSB")
         Dim TreeNode21 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("14 = LSB * 0.5")
         Dim TreeNode22 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("15 = LSB * 0.04")
-        Dim TreeNode23 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Available Sensor Scale Type", New System.Windows.Forms.TreeNode() {TreeNode7, TreeNode8, TreeNode9, TreeNode10, TreeNode11, TreeNode12, TreeNode13, TreeNode14, TreeNode15, TreeNode16, TreeNode17, TreeNode18, TreeNode19, TreeNode20, TreeNode21, TreeNode22})
-        Dim TreeNode24 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("0 = N/A")
-        Dim TreeNode25 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("1 = Volts")
-        Dim TreeNode26 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("2 = mS")
-        Dim TreeNode27 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("3 = %")
-        Dim TreeNode28 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("4 = °")
-        Dim TreeNode29 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("5 = °C + °F")
-        Dim TreeNode30 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("6 = KM/H + MPH")
-        Dim TreeNode31 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Available Sensor Unit Type", New System.Windows.Forms.TreeNode() {TreeNode24, TreeNode25, TreeNode26, TreeNode27, TreeNode28, TreeNode29, TreeNode30})
-        Dim TreeNode32 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("0 = (bit 1 = ON, bit 0 = OFF)")
-        Dim TreeNode33 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("1 = (bit 0 = ON, bit 1 = OFF)")
-        Dim TreeNode34 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("2 = (bit 1 = RICH, bit 0 = LEAN)")
-        Dim TreeNode35 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("3 = (bit 1 = LEAN, bit 0 = RICH)")
-        Dim TreeNode36 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Available Digital Output Scale Type", New System.Windows.Forms.TreeNode() {TreeNode32, TreeNode33, TreeNode34, TreeNode35})
-        Dim TreeNode37 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("X-Y = Lowest Byte to Highest Byte")
-        Dim TreeNode38 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("1,2,3,4... Comma In Between")
-        Dim TreeNode39 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Available Active Test Scale Byte", New System.Windows.Forms.TreeNode() {TreeNode37, TreeNode38})
+        Dim TreeNode23 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("16 = LSB * 32")
+        Dim TreeNode24 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("17 = LSB * 0.64")
+        Dim TreeNode25 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("18 = LSB / 2.55")
+        Dim TreeNode26 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("19 = 0x80, 0x81, 0x82, 0x83, 0x87 = D, 2, 1, P/N, R")
+        Dim TreeNode27 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("20 = LSB and  (LSB) * 0.621")
+        Dim TreeNode28 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("21 = LSB + 1")
+        Dim TreeNode29 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Available Sensor Scale Type", New System.Windows.Forms.TreeNode() {TreeNode7, TreeNode8, TreeNode9, TreeNode10, TreeNode11, TreeNode12, TreeNode13, TreeNode14, TreeNode15, TreeNode16, TreeNode17, TreeNode18, TreeNode19, TreeNode20, TreeNode21, TreeNode22, TreeNode23, TreeNode24, TreeNode25, TreeNode26, TreeNode27, TreeNode28})
+        Dim TreeNode30 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("0 = N/A")
+        Dim TreeNode31 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("1 = Volts")
+        Dim TreeNode32 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("2 = mS")
+        Dim TreeNode33 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("3 = %")
+        Dim TreeNode34 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("4 = °")
+        Dim TreeNode35 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("5 = °C + °F")
+        Dim TreeNode36 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("6 = KM/H + MPH")
+        Dim TreeNode37 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Available Sensor Unit Type", New System.Windows.Forms.TreeNode() {TreeNode30, TreeNode31, TreeNode32, TreeNode33, TreeNode34, TreeNode35, TreeNode36})
+        Dim TreeNode38 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("0 = (bit 1 = ON, bit 0 = OFF)")
+        Dim TreeNode39 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("1 = (bit 0 = ON, bit 1 = OFF)")
+        Dim TreeNode40 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("2 = (bit 1 = RICH, bit 0 = LEAN)")
+        Dim TreeNode41 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("3 = (bit 1 = LEAN, bit 0 = RICH)")
+        Dim TreeNode42 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Available Digital Output Scale Type", New System.Windows.Forms.TreeNode() {TreeNode38, TreeNode39, TreeNode40, TreeNode41})
+        Dim TreeNode43 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("X-Y = Lowest Byte to Highest Byte")
+        Dim TreeNode44 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("1,2,3,4... Comma In Between")
+        Dim TreeNode45 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Available Active Test Scale Byte", New System.Windows.Forms.TreeNode() {TreeNode43, TreeNode44})
         Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
         Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
         Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
@@ -291,7 +297,7 @@ Partial Class frmECUProfile
         TreeNode10.ForeColor = System.Drawing.Color.Blue
         TreeNode10.Name = "Node17"
         TreeNode10.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        TreeNode10.Text = "3 = LSB - 50 "
+        TreeNode10.Text = "3 = LSB - 50 and (LSB - 50) * 1.8 + 32"
         TreeNode11.ForeColor = System.Drawing.Color.Blue
         TreeNode11.Name = "Node0"
         TreeNode11.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
@@ -319,7 +325,7 @@ Partial Class frmECUProfile
         TreeNode17.ForeColor = System.Drawing.Color.Blue
         TreeNode17.Name = "Node6"
         TreeNode17.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        TreeNode17.Text = "10 = LSB * 2"
+        TreeNode17.Text = "10 = LSB * 2 and (LSB * 2) * 0.621"
         TreeNode18.ForeColor = System.Drawing.Color.Blue
         TreeNode18.Name = "Node7"
         TreeNode18.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
@@ -338,73 +344,98 @@ Partial Class frmECUProfile
         TreeNode21.Text = "14 = LSB * 0.5"
         TreeNode22.ForeColor = System.Drawing.Color.Blue
         TreeNode22.Name = "Node1"
+        TreeNode22.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
         TreeNode22.Text = "15 = LSB * 0.04"
+        TreeNode23.ForeColor = System.Drawing.Color.Blue
         TreeNode23.Name = "Node0"
-        TreeNode23.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        TreeNode23.Text = "Available Sensor Scale Type"
+        TreeNode23.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
+        TreeNode23.Text = "16 = LSB * 32"
         TreeNode24.ForeColor = System.Drawing.Color.Blue
-        TreeNode24.Name = "Node2"
+        TreeNode24.Name = "Node1"
         TreeNode24.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        TreeNode24.Text = "0 = N/A"
+        TreeNode24.Text = "17 = LSB * 0.64"
         TreeNode25.ForeColor = System.Drawing.Color.Blue
-        TreeNode25.Name = "Node5"
+        TreeNode25.Name = "Node2"
         TreeNode25.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        TreeNode25.Text = "1 = Volts"
+        TreeNode25.Text = "18 = LSB / 2.55"
         TreeNode26.ForeColor = System.Drawing.Color.Blue
-        TreeNode26.Name = "Node6"
+        TreeNode26.Name = "Node3"
         TreeNode26.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        TreeNode26.Text = "2 = mS"
+        TreeNode26.Text = "19 = 0x80, 0x81, 0x82, 0x83, 0x87 = D, 2, 1, P/N, R"
         TreeNode27.ForeColor = System.Drawing.Color.Blue
-        TreeNode27.Name = "Node7"
+        TreeNode27.Name = "Node0"
         TreeNode27.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        TreeNode27.Text = "3 = %"
+        TreeNode27.Text = "20 = LSB and  (LSB) * 0.621"
         TreeNode28.ForeColor = System.Drawing.Color.Blue
-        TreeNode28.Name = "Node9"
+        TreeNode28.Name = "Node1"
         TreeNode28.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        TreeNode28.Text = "4 = °"
-        TreeNode29.ForeColor = System.Drawing.Color.Blue
-        TreeNode29.Name = "Node12"
-        TreeNode29.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        TreeNode29.Text = "5 = °C + °F"
+        TreeNode28.Text = "21 = LSB + 1"
+        TreeNode29.Name = "Node0"
+        TreeNode29.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        TreeNode29.Text = "Available Sensor Scale Type"
         TreeNode30.ForeColor = System.Drawing.Color.Blue
-        TreeNode30.Name = "Node13"
+        TreeNode30.Name = "Node2"
         TreeNode30.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        TreeNode30.Text = "6 = KM/H + MPH"
-        TreeNode31.Name = "Node1"
-        TreeNode31.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        TreeNode31.Text = "Available Sensor Unit Type"
+        TreeNode30.Text = "0 = N/A"
+        TreeNode31.ForeColor = System.Drawing.Color.Blue
+        TreeNode31.Name = "Node5"
+        TreeNode31.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
+        TreeNode31.Text = "1 = Volts"
         TreeNode32.ForeColor = System.Drawing.Color.Blue
-        TreeNode32.Name = "Node1"
+        TreeNode32.Name = "Node6"
         TreeNode32.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        TreeNode32.Text = "0 = (bit 1 = ON, bit 0 = OFF)"
+        TreeNode32.Text = "2 = mS"
         TreeNode33.ForeColor = System.Drawing.Color.Blue
-        TreeNode33.Name = "Node2"
+        TreeNode33.Name = "Node7"
         TreeNode33.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        TreeNode33.Text = "1 = (bit 0 = ON, bit 1 = OFF)"
+        TreeNode33.Text = "3 = %"
         TreeNode34.ForeColor = System.Drawing.Color.Blue
-        TreeNode34.Name = "Node3"
+        TreeNode34.Name = "Node9"
         TreeNode34.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        TreeNode34.Text = "2 = (bit 1 = RICH, bit 0 = LEAN)"
+        TreeNode34.Text = "4 = °"
         TreeNode35.ForeColor = System.Drawing.Color.Blue
-        TreeNode35.Name = "Node4"
+        TreeNode35.Name = "Node12"
         TreeNode35.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        TreeNode35.Text = "3 = (bit 1 = LEAN, bit 0 = RICH)"
-        TreeNode36.Name = "Node0"
-        TreeNode36.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        TreeNode36.Text = "Available Digital Output Scale Type"
-        TreeNode37.ForeColor = System.Drawing.Color.Blue
-        TreeNode37.Name = "Node2"
-        TreeNode37.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        TreeNode37.Text = "X-Y = Lowest Byte to Highest Byte"
+        TreeNode35.Text = "5 = °C + °F"
+        TreeNode36.ForeColor = System.Drawing.Color.Blue
+        TreeNode36.Name = "Node13"
+        TreeNode36.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
+        TreeNode36.Text = "6 = KM/H + MPH"
+        TreeNode37.Name = "Node1"
+        TreeNode37.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        TreeNode37.Text = "Available Sensor Unit Type"
         TreeNode38.ForeColor = System.Drawing.Color.Blue
-        TreeNode38.Name = "Node3"
+        TreeNode38.Name = "Node1"
         TreeNode38.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        TreeNode38.Text = "1,2,3,4... Comma In Between"
-        TreeNode39.Name = "Node0"
-        TreeNode39.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        TreeNode39.Text = "Available Active Test Scale Byte"
-        TreeNode39.ToolTipText = "1,2,3,4.... Use Comma In between"
-        Me.TreeView2.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode23, TreeNode31, TreeNode36, TreeNode39})
+        TreeNode38.Text = "0 = (bit 1 = ON, bit 0 = OFF)"
+        TreeNode39.ForeColor = System.Drawing.Color.Blue
+        TreeNode39.Name = "Node2"
+        TreeNode39.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
+        TreeNode39.Text = "1 = (bit 0 = ON, bit 1 = OFF)"
+        TreeNode40.ForeColor = System.Drawing.Color.Blue
+        TreeNode40.Name = "Node3"
+        TreeNode40.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
+        TreeNode40.Text = "2 = (bit 1 = RICH, bit 0 = LEAN)"
+        TreeNode41.ForeColor = System.Drawing.Color.Blue
+        TreeNode41.Name = "Node4"
+        TreeNode41.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
+        TreeNode41.Text = "3 = (bit 1 = LEAN, bit 0 = RICH)"
+        TreeNode42.Name = "Node0"
+        TreeNode42.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        TreeNode42.Text = "Available Digital Output Scale Type"
+        TreeNode43.ForeColor = System.Drawing.Color.Blue
+        TreeNode43.Name = "Node2"
+        TreeNode43.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
+        TreeNode43.Text = "X-Y = Lowest Byte to Highest Byte"
+        TreeNode44.ForeColor = System.Drawing.Color.Blue
+        TreeNode44.Name = "Node3"
+        TreeNode44.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
+        TreeNode44.Text = "1,2,3,4... Comma In Between"
+        TreeNode45.Name = "Node0"
+        TreeNode45.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        TreeNode45.Text = "Available Active Test Scale Byte"
+        TreeNode45.ToolTipText = "1,2,3,4.... Use Comma In between"
+        Me.TreeView2.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode29, TreeNode37, TreeNode42, TreeNode45})
         Me.TreeView2.Size = New System.Drawing.Size(251, 276)
         Me.TreeView2.TabIndex = 4
         Me.TreeView2.Visible = False
