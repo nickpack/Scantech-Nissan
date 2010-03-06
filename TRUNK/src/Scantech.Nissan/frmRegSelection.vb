@@ -5,7 +5,7 @@
         ENABLE_STATE_FOR_MENUS(False, True, True, True, True, True, True, False, False, False, False, True, True, True, True)
     End Sub
     Private Sub frmRegSelection_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        'ALL SENSORS AVAILABLE REQUEST COMMAND DOES NOT ALLOW SELECTIONS BEING MADE
+        'ALL SENSORS AVAILABLE REQUEST COMMAND DOES NOT ALLOW SELECTIONS BEING MADE.  SET CHECK MARKS VISIBILITY FALSE
         If SEND_STREAM_AVAILABLE_SENSOR_BYTE <> "N/A" Then Me.Grid1.Columns(0).Visible = False
 
         'CHECK REGISTERS THAT ARE SUPPORTED
@@ -28,7 +28,7 @@
 
         'FLAG THE SELECTED SENSOR REGISTERS
         For X = 0 To Me.Grid1.RowCount - 1
-            If Me.Grid1.Item(0, X).Value = True Then                                                'IF CHECKED
+            If Me.Grid1.Item(0, X).Value = True Or SEND_STREAM_AVAILABLE_SENSOR_BYTE <> "N/A" Then  'IF CHECKED
                 Dim WhatTagValue As String
                 WhatTagValue = Me.Grid1.Item(1, X).Tag                                              'IDENTIFIES WHAT REGISTER BYTE IS IT
                 TOTAL_SELECTED_REGISTERS = TOTAL_SELECTED_REGISTERS + 1                             'INCREASE SELECTED REGISTER COUNTER
@@ -50,7 +50,7 @@
         Next
 
         'WARN USER TOTAL REGISTERS SELECTED IS OVER LIMIT FOR SINGLE/MULTI BYTE REQUEST ONLY
-        If SEND_STREAM_AVAILABLE_SENSOR_BYTE <> "N/A" Then
+        If SEND_STREAM_AVAILABLE_SENSOR_BYTE = "N/A" Then
             If TOTAL_SELECTED_REGISTERS > MAX_PIDS_ALLOWED Then
                 MsgBox("Total Sensor Registers has exceeded the total limit", MsgBoxStyle.Exclamation + _
                        MsgBoxStyle.OkOnly, "Maximum Registers Exceeded")

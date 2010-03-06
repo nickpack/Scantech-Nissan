@@ -254,7 +254,7 @@ resend:
         RESET_VARIABLES()
 
         'I HAVE CAME ACROSS WITH 2 DIFFERENT WAYS REQUESTING DATA SENSORS
-        If SEND_STREAM_AVAILABLE_SENSOR_BYTE <> "N/A" Then
+        If SEND_STREAM_AVAILABLE_SENSOR_BYTE = "N/A" Then
             PRE_REQUEST_C1_SENSOR_TYPE_1()                          'MOST COMMON TYPE
         Else
             PRE_REQUEST_C1_SENSOR_TYPE_2()                          'COMMON ON TRANS MODULE
@@ -789,7 +789,7 @@ resend:
         SEND_CHECK_FAULTS_BYTE = Val(KeyValues1(5))
         SEND_CLEAR_FAULTS_BYTE = Val(KeyValues1(6))
         SEND_ECU_INFO_BYTE = Val(KeyValues1(7))
-        SEND_STREAM_AVAILABLE_SENSOR_BYTE = Val(KeyValues1(8))
+        SEND_STREAM_AVAILABLE_SENSOR_BYTE = KeyValues1(8)
         INTERBYTE_DELAY = Val(KeyValues1(9))
         TIME_OUT = Val(KeyValues1(10))
     End Sub
