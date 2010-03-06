@@ -6,7 +6,7 @@
     End Sub
     Private Sub frmRegSelection_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         'ALL SENSORS AVAILABLE REQUEST COMMAND DOES NOT ALLOW SELECTIONS BEING MADE
-        If SEND_STREAM_AVAILABLE_SENSOR_BYTE = "N/A" Then Me.Grid1.Columns(0).Visible = False
+        If SEND_STREAM_AVAILABLE_SENSOR_BYTE <> "N/A" Then Me.Grid1.Columns(0).Visible = False
 
         'CHECK REGISTERS THAT ARE SUPPORTED
         CHECK_SUPPORTED_REGISTERS()
