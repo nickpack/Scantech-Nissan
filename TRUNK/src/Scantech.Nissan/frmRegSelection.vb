@@ -42,7 +42,7 @@
 
         'FLAG THE SELECTED ACTIVE TEST REGISTERS
         For X = 0 To Me.Grid2.RowCount - 1
-            If Me.Grid2.Item(0, X).Value = True Then                                                'IF CHECKED
+            If Me.Grid2.Item(0, X).Value = True Or SEND_STREAM_AVAILABLE_SENSOR_BYTE <> "N/A" Then  'IF CHECKED
                 Dim WhatTagValue1 As String
                 WhatTagValue1 = Me.Grid2.Item(1, X).Tag                                             'IDENTIFIES WHAT REGISTER BYTE IS IT
                 SELECTED_REGISTERS(WhatTagValue1) = True
@@ -118,9 +118,9 @@
         Me.Grid1.Item(0, e.RowIndex).Value = Not Me.Grid1.Item(0, e.RowIndex).Value
     End Sub
     Private Sub Grid2_CellClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles Grid2.CellClick
-        '----------------------
+        '-----------------------------
         'ACTIVE/OUTPUT TEST SELECTIONS
-        '----------------------
+        '-----------------------------
         'CHECK ALL
         If e.ColumnIndex = 0 And e.RowIndex = -1 Then
             Dim X As Integer

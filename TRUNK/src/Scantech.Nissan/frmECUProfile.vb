@@ -20,6 +20,9 @@
                 Case 2 : e.Cancel = True
             End Select
         End If
+
+        ENABLE_STATE_FOR_MENUS(True, False, False, False, False, False, False, True, True, True, True, False, False, False, False)
+
     End Sub
     Private Sub frmECUProfile_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         TreeView1.ExpandAll()
@@ -36,6 +39,9 @@
         SaveFileDialog1.Filter = "ini files (*.ini)|*.ini|All files (*.*)|*.*"
         SaveFileDialog1.FilterIndex = 1
         SaveFileDialog1.RestoreDirectory = True
+
+        ENABLE_STATE_FOR_MENUS(False, False, False, False, False, False, False, False, False, False, False, False, False, False, False)
+
     End Sub
     Public Sub OpenToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OpenToolStripMenuItem.Click
         If blnIsCellDirty = True Then
@@ -108,7 +114,7 @@ Skip:
         DataGridView4.Item(0, 7).Value = "AUTOSCAN"
 
         'REGISTER INFO
-        DataGridView5.RowCount = 10
+        DataGridView5.RowCount = 11
         DataGridView5.Item(0, 0).Value = "START BYTE FOR SENSOR"
         DataGridView5.Item(0, 1).Value = "END BYTE FOR SENSOR"
         DataGridView5.Item(0, 2).Value = "START BYTE FOR ACTIVE TEST"
@@ -144,9 +150,9 @@ Skip:
         Dim KeyValues1(10) As String
         Dim keyname1(10) As String
 
-        '*****************************************************************************************************************
+        '--------------------------------------------------------------------------------------------------------------------------------
         'VEHICLE INFORMATION
-        '*****************************************************************************************************************
+        '--------------------------------------------------------------------------------------------------------------------------------
         keyname1(0) = "YEAR"
         keyname1(1) = "MAKE"
         keyname1(2) = "MODEL"
@@ -164,9 +170,9 @@ Skip:
             DataGridView4.Item(1, X).Value = KeyValues1(X)
         Next
 
-        '*****************************************************************************************************************
+        '--------------------------------------------------------------------------------------------------------------------------------
         'REGISTER INFORMATION
-        '*****************************************************************************************************************
+        '--------------------------------------------------------------------------------------------------------------------------------
         keyname1(0) = "START BYTE FOR SENSOR"
         keyname1(1) = "END BYTE FOR SENSOR"
         keyname1(2) = "START BYTE FOR ACTIVE TEST"
@@ -187,9 +193,9 @@ Skip:
             DataGridView5.Item(1, X).Value = KeyValues1(X)
         Next
 
-        '*****************************************************************************************************************
+        '--------------------------------------------------------------------------------------------------------------------------------
         'SENSOR REGISTER
-        '*****************************************************************************************************************
+        '--------------------------------------------------------------------------------------------------------------------------------
         For X = 0 To 255    'CYCLE THROUGH 255 BYTE ADDRESS
             Dim CvtValue As String
             Dim CurrentByteIsValid As Boolean
@@ -222,9 +228,9 @@ Skip:
                 End If
             End If
 
-            '*****************************************************************************************************************
+            '--------------------------------------------------------------------------------------------------------------------------------
             'ACTIVE TEST REGISTER
-            '*****************************************************************************************************************
+            '--------------------------------------------------------------------------------------------------------------------------------
             KeyValues(0) = ""
             ReadINIFile(OpenFileDialog1.FileName, "ACTIVE TEST SUPPORTED NAMES", KeyName, KeyValues)
             If KeyValues(0) <> "" Then
@@ -242,9 +248,9 @@ Skip:
                 End If
             End If
 
-            '*****************************************************************************************************************
+            '--------------------------------------------------------------------------------------------------------------------------------
             'DIGITAL OUTPUT REGISTER
-            '*****************************************************************************************************************
+            '--------------------------------------------------------------------------------------------------------------------------------
             Dim J As Integer
             For J = 0 To 7
                 KeyName(0) = Hex(X) & "b" & J       'FORMAT EXAMPLE (13b1) 13=REGISTER ADDRESS BYTE b1=BIT TO SELECT
@@ -301,7 +307,7 @@ Skip:
         End Select
     End Sub
 
-    Private Sub NewToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NewToolStripMenuItem.Click
+    Public Sub NewToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NewToolStripMenuItem.Click
         If blnIsCellDirty = True Then
             '6 YES            '7 NO            '2 CANCEL
             Dim Response As Integer

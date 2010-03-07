@@ -74,6 +74,71 @@
                 Case "Sensors" : TreeView1.Nodes(0).Nodes.Add("Sensor Address Supported") : ScanRegisters(90, 0)
                 Case "Active Test" : TreeView1.Nodes(0).Nodes.Add("Active Test Address Supported") : ScanRegisters(10, 0)
             End Select
+
+            'ASK USER WOULD YOU LIKE TO IMPORT TO ECU PROFILE
+            Dim Reply As Integer
+            Reply = MsgBox("Would you like to import this to ECU Profile?", MsgBoxStyle.YesNo + MsgBoxStyle.Information, "Import To ECU Profile")
+            '6 YES            '7 NO 
+            If Reply = 6 Then
+                frmECUProfile.Show()
+                frmECUProfile.NewToolStripMenuItem_Click(3, e)
+
+                Dim X As Integer
+                Dim Addr As String
+                Dim Addr1 As String
+                Dim StartSensor As String
+                Dim StartActive As String
+
+                For X = 0 To 255
+                    'DOEVENTS
+                    System.Windows.Forms.Application.DoEvents()
+
+                    '2 CHAR FORMAT
+                    Addr = Hex(X) : If Len(Addr) = 1 Then Addr = "0" & Addr
+                    Addr1 = Hex(X)
+
+                    'ANALOG SENSOR REGISTER ADDRESS
+                    If SUPPORTED_REGISTERS(X, 0, 0) = True Then
+                        'START ANALOG SENSOR REGISTER ADDRESS
+                        If StartSensor = "" Then
+                            StartSensor = X
+                            frmECUProfile.DataGridView5.Item(1, 0).Value = StartSensor
+                        End If
+                        'END ANALOG SENSOR REGISTER ADDRESS
+                        frmECUProfile.DataGridView5.Item(1, 1).Value = X
+
+                        frmECUProfile.DataGridView1.RowCount = frmECUProfile.DataGridView1.RowCount + 1
+                        frmECUProfile.DataGridView1.Item(0, frmECUProfile.DataGridView1.RowCount - 1).Tag = Addr1                'USED FOR SAVING INI.  ALWAYS IN HEX FORMAT WITH NO LEADING 0
+                        frmECUProfile.DataGridView1.Item(0, frmECUProfile.DataGridView1.RowCount - 1).Value = "0x" & Addr        'ADDRESS
+                    End If
+
+                    'ACTIVE/OUTPUT REGISTER ADDRESS
+                    If SUPPORTED_REGISTERS(X, 0, 2) = True Then
+                        'START ACTIVE REGISTER ADDRESS
+                        If StartActive = "" Then
+                            StartActive = X
+                            frmECUProfile.DataGridView5.Item(1, 2).Value = StartActive
+                        End If
+                        'END ACTIVE REGISTER ADDRESS
+                        frmECUProfile.DataGridView5.Item(1, 3).Value = X
+
+                        frmECUProfile.DataGridView3.RowCount = frmECUProfile.DataGridView3.RowCount + 1
+                        frmECUProfile.DataGridView3.Item(0, frmECUProfile.DataGridView3.RowCount - 1).Tag = Addr1                'USED FOR SAVING INI.  ALWAYS IN HEX FORMAT WITH NO LEADING 0
+                        frmECUProfile.DataGridView3.Item(0, frmECUProfile.DataGridView3.RowCount - 1).Value = "0x" & Addr        'ADDRESS
+                    End If
+                Next
+                'ECU ID
+                frmECUProfile.DataGridView4.Item(1, 5).Value = ComboBox1.Text
+                'AUTO SCAN
+                frmECUProfile.DataGridView4.Item(1, 7).Value = "True"
+
+                'RESET
+                cmdScanEcu.Text = "Scan Registers" : LOOP_IN_PROGRESS = False : frmMain.tsProgress.Visible = False : USER_REQUEST_STOP = False
+
+                Me.Close()
+                Exit Sub
+            End If
+
         Else
             'USER CLICKED CANCEL
             USER_REQUEST_STOP = True : Exit Sub
@@ -117,6 +182,12 @@ Reset:
                 cvtData = Hex(InData)
                 If Len(cvtData) = 1 Then cvtData = "0" & cvtData
                 TreeView1.Nodes(0).Nodes(NodeValue).Nodes.Add(cvtData) : TreeView1.ExpandAll()
+
+                'USED FOR IMPORTING TO ECU PROFILE
+                Select Case CmdByte
+                    Case 90 : SUPPORTED_REGISTERS(xCounter, 0, 0) = True                        'ANALOG SENSOR ADDRESS
+                    Case 10 : SUPPORTED_REGISTERS(xCounter, 0, 2) = True                        'ACTIVE/OUTPUT ADDRESS
+                End Select
             End If
         Next
 

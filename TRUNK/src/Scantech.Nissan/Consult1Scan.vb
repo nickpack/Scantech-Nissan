@@ -53,6 +53,7 @@
     Public KeyValues(0) As String
 
     Public FileName As String                                   'INI FILE NAME FOR ECU PROFILE
+
     Public TIME_OUT As Integer
     Public LOG_BUTTONS_STATUS As String                         'LOG INSPECTOR STATUS
     Public RECORD_NUMBER As VariantType                         'FRAME RECORD COUNTER
@@ -67,7 +68,7 @@
                             ByVal lpKeyName As String, ByVal lpString As String, _
                             ByVal lpFileName As String) As Int32
     Function SCAN_REGISTERS(ByVal StartReg As Integer, ByVal EndReg As Integer) As Boolean
-        'THIS IS TO VALIDATE THE INI FILE TO ECU
+        'THIS IS TO VALIDATE THE INI FILE TO ECU.  VALID REGISTER ADDRESS IS RELIED ON THE INI FILE
         Dim xCounter As Integer
         Dim InData As Byte
 
@@ -124,9 +125,9 @@ Restart:
             Exit Function
         End Try
 
+        'TRANSMIT 3 INTIALIZE ECU BYTES WITH INTERBYTE DELAY.  CLEAR BUFFER EXCEPT LAST SENT COMMAND.  JUST NEED TO LOOK FOR LAST BYTE
         Dim Buffer As Byte() = {ECU_ID_1, ECU_ID_2, Addr}
 
-        'TRANSMIT 3 INTIALIZE ECU BYTES WITH INTERBYTE DELAY.  CLEAR BUFFER EXCEPT LAST SENT COMMAND.  JUST NEED TO LOOK FOR LAST BYTE
         frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
         frmMain.SerialPort1.Write(Buffer, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
         frmMain.SerialPort1.Write(Buffer, 1, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY) : frmMain.SerialPort1.DiscardInBuffer()
@@ -174,9 +175,9 @@ Restart:
             IN_BUFFER_BYTE = Hex(frmMain.SerialPort1.ReadByte)
             If Len(IN_BUFFER_BYTE) = 1 Then IN_BUFFER_BYTE = "0" & IN_BUFFER_BYTE '          HEX 2 CHAR FORMAT
 
-            '********************************************************************************************************************************
+            '--------------------------------------------------------------------------------------------------------------------------------
             'THIS PART IS FOR PID DATA  (THIRD BYTE)
-            '********************************************************************************************************************************
+            '--------------------------------------------------------------------------------------------------------------------------------
             If REGISTER_DATA_ONLY = True Then                                               'THIS IS TRIGGERED AFTER 2ND BYTE (LENGTH BYTE)
                 DATA_FILTERED_RECEIVED = DATA_FILTERED_RECEIVED & IN_BUFFER_BYTE            'ONLY REGISTER DATA FOR DECODING
                 If Len(DATA_FILTERED_RECEIVED) >= Val(REGISTER_LENGTH_BYTE) * 2 Then        'IS THE INBUFFER DATA = LENGTH (2ND BYTE) 
@@ -185,9 +186,9 @@ Restart:
                     Exit Function
                 End If
 
-                '********************************************************************************************************************************
+                '--------------------------------------------------------------------------------------------------------------------------------
                 'THIS PART IS AFTER 0XFF DETECTED     (SECOND BYTE) OR (LENGTH BYTE)
-                '********************************************************************************************************************************
+                '--------------------------------------------------------------------------------------------------------------------------------
             ElseIf FF_BYTE_DETECTOR = True Then                                             'THIS IS TRIGGERED ONLY IF 1ST BYTE = 0XFF
                 If IN_BUFFER_BYTE <> "FF" Then                                              'FOR SAFE PRECAUTION.  SHOULD NOT BE FF
                     REGISTER_LENGTH_BYTE = CByte("&H" & IN_BUFFER_BYTE)                     'DETERMINES RECEIVED LENGTH BYTE (2ND BYTE)
@@ -202,9 +203,9 @@ Restart:
                 FF_BYTE_DETECTOR = False                                                    'RESET
                 DATA_FILTERED_RECEIVED = ""                                                 'CLEAR 
 
-                '********************************************************************************************************************************
+                '--------------------------------------------------------------------------------------------------------------------------------
                 'THIS PART IS WHEN 0XFF DETECTED   (FIRST BYTE)
-                '********************************************************************************************************************************
+                '--------------------------------------------------------------------------------------------------------------------------------
             ElseIf FF_BYTE_DETECTOR = False And REGISTER_DATA_ONLY = False Then
                 If IN_BUFFER_BYTE = "FF" Then                                               'FRAME START BYTE RECEIVED
                     FF_BYTE_DETECTOR = True                                                 'FLAG FF_BYTE_DETECTOR TO TRUE
@@ -230,15 +231,16 @@ Restart:
         'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         'SOME ECU WILL NOT ALLOW PRE_REQUEST_C1_SENSOR_TYPE_1() ROUTINE.  
         'INSTEAD, IT REQUIRES 1 COMMAND BYTE REQUEST FOR STREAMING.
+
         Dim SEND_BYTE() As Byte = {SEND_STREAM_AVAILABLE_SENSOR_BYTE}
 
-        'FIND THE LENGTH BYTE, SO WE CAN STORE THAT VALUE IN THE VARIABLE
+        'REQUEST ALL AVAILABLE SENSOR AND FIND THE LENGTH BYTE, SO WE CAN STORE THAT VALUE IN THE VARIABLE
         frmMain.SerialPort1.Write(SEND_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)         'REQUEST COMMAND
         frmMain.SerialPort1.DiscardInBuffer()                                                               'CLEAR BUFFER
         frmMain.SerialPort1.Write(SEND_F0_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)      'START COMMAND
         frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)      'STOP COMMAND
 
-        'ASSIGN THE TOTAL SELECTED REGISTER VARIABLE
+        'ASSIGN THE LENGTH BYTE TO TOTAL SELECTED REGISTER VARIABLE
         Dim InData As String
         InData = Hex(frmMain.SerialPort1.ReadByte)
         If InData = "FF" Then TOTAL_SELECTED_REGISTERS = frmMain.SerialPort1.ReadByte
@@ -274,8 +276,7 @@ resend:
             End If
 
             If PROCESS_BUFFER_DATA(True) = True Then
-                'IF LOG STATUS IS RECORDING
-                If LOG_BUTTONS_STATUS = "Record" Then
+                If LOG_BUTTONS_STATUS = "Record" Then                                   'IF LOG STATUS IS RECORDING
                     RECORD_NUMBER = RECORD_NUMBER + 1                                   'UPDATE COUNTER
                     FilePutObject(1, DATA_FILTERED_RECEIVED, (RECORD_NUMBER) * 100)     'REGISTER FRAME DATA
                     frmMain.tsStatus2.Text = "Frame # " & RECORD_NUMBER - 3000          'FRAME RECORD NUMBER
@@ -307,7 +308,7 @@ resend:
     Public Sub REQUEST_ACTIVE_TEST_COMMANDS()
         'SEND ACTIVE TEST COMMAND.  NOTE:  QUERYING SENSOR DATA MUST BE STOPPED BEFORE SENDING ACTIVE TEST COMMANDS
         Dim SelectedRow As Integer = frmC1ActiveTest.Grid2.CurrentCell.RowIndex
-        Dim ACTIVE_BYTE As Byte = CByte("&H" & frmC1ActiveTest.Grid2.Item(1, SelectedRow).Tag)              'ACTIVE REGISTER ADDRESS
+        Dim ACTIVE_BYTE As Byte = CByte("&H" & frmC1ActiveTest.Grid2.Item(1, SelectedRow).Tag)              'ACTIVE REGISTER ADDRESS (STORED IN TAG)
         Dim SCALE_BYTE As Byte = Val(frmC1ActiveTest.ComboBox1.Text)                                        'SCALE BYTE..DEFINED BY USER FROM INI FILE
         Dim DATA_BYTE() As Byte = {ACTIVE_BYTE, SCALE_BYTE}
 
@@ -358,12 +359,10 @@ resend:
         'SCALE (MSB/LSB OR LSB)
         If Len(DATA_FILTERED_RECEIVED) = 2 Then
             '2 BYTES
-            frmRegisterDecoder.lblScale.Text = DECODE_DATA_C1_SENSORS(frmRegisterDecoder.ComboBox2.Text, 0, "&H" & _
-                Left(DATA_FILTERED_RECEIVED, 2), 0)
+            frmRegisterDecoder.lblScale.Text = DECODE_DATA_C1_SENSORS(frmRegisterDecoder.ComboBox2.Text, 0, "&H" & Left(DATA_FILTERED_RECEIVED, 2), 0)
         ElseIf Len(DATA_FILTERED_RECEIVED) = 4 Then
             '4 BYTES
-            frmRegisterDecoder.lblScale.Text = DECODE_DATA_C1_SENSORS(frmRegisterDecoder.ComboBox2.Text, "&H" & _
-                Left(DATA_FILTERED_RECEIVED, 2), "&H" & Mid(DATA_FILTERED_RECEIVED, 3, 2), 0)
+            frmRegisterDecoder.lblScale.Text = DECODE_DATA_C1_SENSORS(frmRegisterDecoder.ComboBox2.Text, "&H" & Left(DATA_FILTERED_RECEIVED, 2), "&H" & Mid(DATA_FILTERED_RECEIVED, 3, 2), 0)
         End If
 
         'UNIT
@@ -379,17 +378,17 @@ resend:
         Dim WhatRowSensors As Integer
         WhatRowSensors = 0
 
-        '*************************************************************************************************************************
+        '--------------------------------------------------------------------------------------------------------------------------------
         'FOR GRIDVIEW
-        '************************************************************************************************************************
+        '--------------------------------------------------------------------------------------------------------------------------------
         'CYCLE THROUGH ALL SUPPORTED AND SELECTED REGISTERS THEN DECODE DATA ON THE GRID
         'NOTE: SORTABLE IS NOT ALLOWED BECAUSE THE WAY IT DECODES IN ORDER
         'DATAFILTERED VARIABLE VALUE IS ORDERED FROM LEFT TO RIGHT WITH LOWEST REGISTER STARTS AT LEFT
         For K = START_BYTE_FOR_SENSOR To END_BYTE_FOR_SENSOR
             System.Windows.Forms.Application.DoEvents()
-            '******************************************************************************************************************
+            '--------------------------------------------------------------------------------------------------------------------------------
             'THIS IS DIGITAL OUTPUT (ON/OFF)
-            '******************************************************************************************************************
+            '--------------------------------------------------------------------------------------------------------------------------------
             If SUPPORTED_REGISTERS(K, 0, 1) = True And SELECTED_REGISTERS(K) = True Then
                 Dim G As Integer
                 For G = 0 To frmC1Output.Grid2.RowCount - 1
@@ -414,19 +413,17 @@ resend:
                         Dim Value As Integer
                         Value = CByte("&H" & Left(DATA_FILTERED_RECEIVED, 2))
                         If Value And BitValue Then
-                            frmC1Output.Grid2.Item(2, G).Value = _
-                                DECODE_DATA_C1_DIGITAL(REGISTERS_SCALE_TYPE(K, WhatBit), True)
+                            frmC1Output.Grid2.Item(2, G).Value = DECODE_DATA_C1_DIGITAL(REGISTERS_SCALE_TYPE(K, WhatBit), True)
                         Else
-                            frmC1Output.Grid2.Item(2, G).Value = _
-                                DECODE_DATA_C1_DIGITAL(REGISTERS_SCALE_TYPE(K, WhatBit), False)
+                            frmC1Output.Grid2.Item(2, G).Value = DECODE_DATA_C1_DIGITAL(REGISTERS_SCALE_TYPE(K, WhatBit), False)
                         End If
                     End If
                 Next G
                 DATA_FILTERED_RECEIVED = Mid(DATA_FILTERED_RECEIVED, 3)
             Else
-                '******************************************************************************************************************
-                'THIS IS SENSOR DATA
-                '******************************************************************************************************************
+                '--------------------------------------------------------------------------------------------------------------------------------
+                'THIS IS ANALOG SENSOR DATA
+                '--------------------------------------------------------------------------------------------------------------------------------
                 Dim Value As String
                 If SELECTED_REGISTERS(K) = True And SUPPORTED_REGISTERS(K, 1, 0) = False Then
                     If SUPPORTED_REGISTERS(K + 1, 1, 0) = True Then
@@ -1012,7 +1009,7 @@ resend:
         End If
 
         'WRITE FILE INFO TO THE RECORDS
-        FileOpen(1, Application.StartupPath & "\Logs\Untitled.c1log", OpenMode.Binary)     'CREATE FILE UNTITLED.C1LOG
+        FileOpen(1, Application.StartupPath & "\Logs\Untitled.c1log", OpenMode.Binary)      'CREATE FILE UNTITLED.C1LOG
         FilePutObject(1, "ScantechNissanLogs", 2501 * 100)                                  'FILE INFO: FILE TYPE
         FilePutObject(1, VEHICLE_YEAR, 2503 * 100)                                          'FILE INFO: VEHICLE YEAR
         FilePutObject(1, VEHICLE_MAKE, 2504 * 100)                                          'FILE INFO: VEHICLE MAKE

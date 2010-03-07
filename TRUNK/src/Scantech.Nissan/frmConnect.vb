@@ -63,9 +63,6 @@ Public Class frmConnect
         trvVehicleInfo.Nodes.Clear()
         lstVehicle.Items.Clear()
 
-        'DISABLE MENUS
-        'DISABLE_MENUS()
-
         'LIST THE NAMES OF ALL FILES IN THE SPECIFIED DIRECTORY
         For Each dra In diar1
             lstVehicle.Items.Add(dra)
@@ -99,6 +96,7 @@ Public Class frmConnect
     End Sub
 
     Public Sub cmdEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdEdit.Click
+        'OPEN ECU PROFILE AND LOAD THE FILE THAT HAS BEEN SELECTED
         frmECUProfile.Show() : frmECUProfile.Tag = 1
         frmECUProfile.OpenToolStripMenuItem_Click(3, e)
         Me.Close()
