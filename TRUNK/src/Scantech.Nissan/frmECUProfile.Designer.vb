@@ -64,15 +64,16 @@ Partial Class frmECUProfile
         Dim TreeNode34 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("4 = °")
         Dim TreeNode35 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("5 = °C + °F")
         Dim TreeNode36 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("6 = KM/H + MPH")
-        Dim TreeNode37 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Available Sensor Unit Type", New System.Windows.Forms.TreeNode() {TreeNode30, TreeNode31, TreeNode32, TreeNode33, TreeNode34, TreeNode35, TreeNode36})
-        Dim TreeNode38 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("0 = (bit 1 = ON, bit 0 = OFF)")
-        Dim TreeNode39 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("1 = (bit 0 = ON, bit 1 = OFF)")
-        Dim TreeNode40 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("2 = (bit 1 = RICH, bit 0 = LEAN)")
-        Dim TreeNode41 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("3 = (bit 1 = LEAN, bit 0 = RICH)")
-        Dim TreeNode42 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Available Digital Output Scale Type", New System.Windows.Forms.TreeNode() {TreeNode38, TreeNode39, TreeNode40, TreeNode41})
-        Dim TreeNode43 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("X-Y = Lowest Byte to Highest Byte")
-        Dim TreeNode44 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("1,2,3,4... Comma In Between")
-        Dim TreeNode45 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Available Active Test Scale Byte", New System.Windows.Forms.TreeNode() {TreeNode43, TreeNode44})
+        Dim TreeNode37 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("7 = Steps")
+        Dim TreeNode38 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Available Sensor Unit Type", New System.Windows.Forms.TreeNode() {TreeNode30, TreeNode31, TreeNode32, TreeNode33, TreeNode34, TreeNode35, TreeNode36, TreeNode37})
+        Dim TreeNode39 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("0 = (bit 1 = ON, bit 0 = OFF)")
+        Dim TreeNode40 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("1 = (bit 0 = ON, bit 1 = OFF)")
+        Dim TreeNode41 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("2 = (bit 1 = RICH, bit 0 = LEAN)")
+        Dim TreeNode42 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("3 = (bit 1 = LEAN, bit 0 = RICH)")
+        Dim TreeNode43 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Available Digital Output Scale Type", New System.Windows.Forms.TreeNode() {TreeNode39, TreeNode40, TreeNode41, TreeNode42})
+        Dim TreeNode44 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("X-Y = Lowest Byte to Highest Byte")
+        Dim TreeNode45 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("1,2,3,4... Comma In Between")
+        Dim TreeNode46 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Available Active Test Scale Byte", New System.Windows.Forms.TreeNode() {TreeNode44, TreeNode45})
         Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
         Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
         Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
@@ -97,8 +98,8 @@ Partial Class frmECUProfile
         Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.OpenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SToolStripMenuItem = New System.Windows.Forms.ToolStripSeparator
-        Me.SaveAsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SaveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.SaveAsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.DataGridView1 = New System.Windows.Forms.DataGridView
         Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn
         Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn
@@ -145,7 +146,7 @@ Partial Class frmECUProfile
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.OpenToolStripMenuItem, Me.SToolStripMenuItem, Me.SaveAsToolStripMenuItem, Me.SaveToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.OpenToolStripMenuItem, Me.SToolStripMenuItem, Me.SaveToolStripMenuItem, Me.SaveAsToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(46, 25)
         Me.FileToolStripMenuItem.Text = "File"
@@ -153,33 +154,33 @@ Partial Class frmECUProfile
         'NewToolStripMenuItem
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(143, 26)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(134, 26)
         Me.NewToolStripMenuItem.Text = "New"
         '
         'OpenToolStripMenuItem
         '
         Me.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(143, 26)
-        Me.OpenToolStripMenuItem.Text = "Open..."
+        Me.OpenToolStripMenuItem.Size = New System.Drawing.Size(134, 26)
+        Me.OpenToolStripMenuItem.Text = "Open"
         '
         'SToolStripMenuItem
         '
         Me.SToolStripMenuItem.Name = "SToolStripMenuItem"
-        Me.SToolStripMenuItem.Size = New System.Drawing.Size(140, 6)
-        '
-        'SaveAsToolStripMenuItem
-        '
-        Me.SaveAsToolStripMenuItem.Enabled = False
-        Me.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem"
-        Me.SaveAsToolStripMenuItem.Size = New System.Drawing.Size(143, 26)
-        Me.SaveAsToolStripMenuItem.Text = "Save As..."
+        Me.SToolStripMenuItem.Size = New System.Drawing.Size(131, 6)
         '
         'SaveToolStripMenuItem
         '
         Me.SaveToolStripMenuItem.Enabled = False
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(143, 26)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(134, 26)
         Me.SaveToolStripMenuItem.Text = "Save"
+        '
+        'SaveAsToolStripMenuItem
+        '
+        Me.SaveAsToolStripMenuItem.Enabled = False
+        Me.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem"
+        Me.SaveAsToolStripMenuItem.Size = New System.Drawing.Size(134, 26)
+        Me.SaveAsToolStripMenuItem.Text = "Save As"
         '
         'DataGridView1
         '
@@ -401,41 +402,45 @@ Partial Class frmECUProfile
         TreeNode36.Name = "Node13"
         TreeNode36.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
         TreeNode36.Text = "6 = KM/H + MPH"
-        TreeNode37.Name = "Node1"
-        TreeNode37.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        TreeNode37.Text = "Available Sensor Unit Type"
-        TreeNode38.ForeColor = System.Drawing.Color.Blue
+        TreeNode37.ForeColor = System.Drawing.Color.Blue
+        TreeNode37.Name = "Node0"
+        TreeNode37.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
+        TreeNode37.Text = "7 = Steps"
         TreeNode38.Name = "Node1"
-        TreeNode38.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        TreeNode38.Text = "0 = (bit 1 = ON, bit 0 = OFF)"
+        TreeNode38.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        TreeNode38.Text = "Available Sensor Unit Type"
         TreeNode39.ForeColor = System.Drawing.Color.Blue
-        TreeNode39.Name = "Node2"
+        TreeNode39.Name = "Node1"
         TreeNode39.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        TreeNode39.Text = "1 = (bit 0 = ON, bit 1 = OFF)"
+        TreeNode39.Text = "0 = (bit 1 = ON, bit 0 = OFF)"
         TreeNode40.ForeColor = System.Drawing.Color.Blue
-        TreeNode40.Name = "Node3"
+        TreeNode40.Name = "Node2"
         TreeNode40.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        TreeNode40.Text = "2 = (bit 1 = RICH, bit 0 = LEAN)"
+        TreeNode40.Text = "1 = (bit 0 = ON, bit 1 = OFF)"
         TreeNode41.ForeColor = System.Drawing.Color.Blue
-        TreeNode41.Name = "Node4"
+        TreeNode41.Name = "Node3"
         TreeNode41.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        TreeNode41.Text = "3 = (bit 1 = LEAN, bit 0 = RICH)"
-        TreeNode42.Name = "Node0"
-        TreeNode42.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        TreeNode42.Text = "Available Digital Output Scale Type"
-        TreeNode43.ForeColor = System.Drawing.Color.Blue
-        TreeNode43.Name = "Node2"
-        TreeNode43.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        TreeNode43.Text = "X-Y = Lowest Byte to Highest Byte"
+        TreeNode41.Text = "2 = (bit 1 = RICH, bit 0 = LEAN)"
+        TreeNode42.ForeColor = System.Drawing.Color.Blue
+        TreeNode42.Name = "Node4"
+        TreeNode42.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
+        TreeNode42.Text = "3 = (bit 1 = LEAN, bit 0 = RICH)"
+        TreeNode43.Name = "Node0"
+        TreeNode43.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        TreeNode43.Text = "Available Digital Output Scale Type"
         TreeNode44.ForeColor = System.Drawing.Color.Blue
-        TreeNode44.Name = "Node3"
+        TreeNode44.Name = "Node2"
         TreeNode44.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
-        TreeNode44.Text = "1,2,3,4... Comma In Between"
-        TreeNode45.Name = "Node0"
-        TreeNode45.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        TreeNode45.Text = "Available Active Test Scale Byte"
-        TreeNode45.ToolTipText = "1,2,3,4.... Use Comma In between"
-        Me.TreeView2.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode29, TreeNode37, TreeNode42, TreeNode45})
+        TreeNode44.Text = "X-Y = Lowest Byte to Highest Byte"
+        TreeNode45.ForeColor = System.Drawing.Color.Blue
+        TreeNode45.Name = "Node3"
+        TreeNode45.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!)
+        TreeNode45.Text = "1,2,3,4... Comma In Between"
+        TreeNode46.Name = "Node0"
+        TreeNode46.NodeFont = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        TreeNode46.Text = "Available Active Test Scale Byte"
+        TreeNode46.ToolTipText = "1,2,3,4.... Use Comma In between"
+        Me.TreeView2.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode29, TreeNode38, TreeNode43, TreeNode46})
         Me.TreeView2.Size = New System.Drawing.Size(251, 276)
         Me.TreeView2.TabIndex = 4
         Me.TreeView2.Visible = False

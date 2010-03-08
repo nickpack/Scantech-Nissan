@@ -110,6 +110,7 @@
                         frmECUProfile.DataGridView1.RowCount = frmECUProfile.DataGridView1.RowCount + 1
                         frmECUProfile.DataGridView1.Item(0, frmECUProfile.DataGridView1.RowCount - 1).Tag = Addr1                'USED FOR SAVING INI.  ALWAYS IN HEX FORMAT WITH NO LEADING 0
                         frmECUProfile.DataGridView1.Item(0, frmECUProfile.DataGridView1.RowCount - 1).Value = "0x" & Addr        'ADDRESS
+                        frmECUProfile.DataGridView1.Item(1, frmECUProfile.DataGridView1.RowCount - 1).Value = "-"
                     End If
 
                     'ACTIVE/OUTPUT REGISTER ADDRESS
@@ -125,6 +126,7 @@
                         frmECUProfile.DataGridView3.RowCount = frmECUProfile.DataGridView3.RowCount + 1
                         frmECUProfile.DataGridView3.Item(0, frmECUProfile.DataGridView3.RowCount - 1).Tag = Addr1                'USED FOR SAVING INI.  ALWAYS IN HEX FORMAT WITH NO LEADING 0
                         frmECUProfile.DataGridView3.Item(0, frmECUProfile.DataGridView3.RowCount - 1).Value = "0x" & Addr        'ADDRESS
+                        frmECUProfile.DataGridView3.Item(1, frmECUProfile.DataGridView3.RowCount - 1).Value = "-"
                     End If
                 Next
                 'ECU ID

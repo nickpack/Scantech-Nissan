@@ -567,6 +567,7 @@ resend:
                 Else
                     DECODE_DATA_C1_SENSORS_UNIT_TYPE = "MPH"
                 End If
+            Case 7 : If Units = 0 Then DECODE_DATA_C1_SENSORS_UNIT_TYPE = "Steps"
         End Select
     End Function
 
@@ -1016,7 +1017,7 @@ resend:
         FilePutObject(1, VEHICLE_MODEL, 2505 * 100)                                         'FILE INFO: VEHICLE MODEL
         FilePutObject(1, VEHICLE_CYLINDERS, 2506 * 100)                                     'FILE INFO: # OF CYLINDERS
         FilePutObject(1, VEHICLE_ENGINE_LITER, 2507 * 100)                                  'FILE INFO: ENGINE LITERS
-        FilePutObject(1, VEHICLE_MODEL, 2508 * 100)                                         'FILE INFO: ECU TYPE
+        FilePutObject(1, VEHICLE_MODULE, 2508 * 100)                                        'FILE INFO: ECU TYPE
         FilePutObject(1, "1.0", 2509 * 100)                                                 'FILE INFO: LOG VERSION
     End Sub
     Public Sub LOG_CREATE_SELECTED_REGISTERS_FILE(ByVal Record As Integer)

@@ -131,6 +131,7 @@ Skip:
         TreeView2.Visible = True
         TreeView1.Nodes(0).Text = "Untitled Name"
         TreeView1.ExpandAll()
+        TreeView1.SelectedNode = TreeView1.Nodes(0).Nodes(0)
         blnIsCellDirty = False
         blnNewFile = True
         SaveAsToolStripMenuItem.Enabled = True
@@ -284,6 +285,7 @@ Skip:
         TreeView2.Visible = True
         TreeView1.Nodes(0).Text = OpenFileDialog1.FileName.Substring(OpenFileDialog1.FileName.LastIndexOf("\") + 1)
         TreeView1.ExpandAll()
+        TreeView1.SelectedNode = TreeView1.Nodes(0).Nodes(0)
         blnIsCellDirty = False
         blnNewFile = False
         SaveAsToolStripMenuItem.Enabled = True
