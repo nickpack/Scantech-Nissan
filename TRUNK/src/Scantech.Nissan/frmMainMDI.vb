@@ -224,4 +224,8 @@ Public Class frmMain
 
         X = Not X
     End Sub
+
+    Private Sub tmrRateSample_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrRateSample.Tick
+        tsFrameTrack.Text = X_RATE_SAMPLE & " /SEC" : X_RATE_SAMPLE = 0
+    End Sub
 End Class

@@ -58,6 +58,8 @@
     Public LOG_BUTTONS_STATUS As String                         'LOG INSPECTOR STATUS
     Public RECORD_NUMBER As VariantType                         'FRAME RECORD COUNTER
 
+    Public X_RATE_SAMPLE As Long
+
     Private Declare Unicode Function GetPrivateProfileString Lib "kernel32.dll" _
                             Alias "GetPrivateProfileStringW" (ByVal lpApplicationName As String, _
                             ByVal lpKeyName As String, ByVal lpDefault As String, _
@@ -276,6 +278,8 @@ resend:
             End If
 
             If PROCESS_BUFFER_DATA(True) = True Then
+                X_RATE_SAMPLE = X_RATE_SAMPLE + 1                                       'TRACK FRAME RATE PER SECOND
+
                 If LOG_BUTTONS_STATUS = "Record" Then                                   'IF LOG STATUS IS RECORDING
                     RECORD_NUMBER = RECORD_NUMBER + 1                                   'UPDATE COUNTER
                     FilePutObject(1, DATA_FILTERED_RECEIVED, (RECORD_NUMBER) * 100)     'REGISTER FRAME DATA

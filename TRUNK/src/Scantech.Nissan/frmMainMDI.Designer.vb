@@ -28,6 +28,7 @@ Partial Class frmMain
         Me.StatusStrip = New System.Windows.Forms.StatusStrip
         Me.statusPort = New System.Windows.Forms.ToolStripStatusLabel
         Me.statusRx = New System.Windows.Forms.ToolStripStatusLabel
+        Me.tsFrameTrack = New System.Windows.Forms.ToolStripStatusLabel
         Me.tsProgress = New System.Windows.Forms.ToolStripProgressBar
         Me.tsStatus = New System.Windows.Forms.ToolStripStatusLabel
         Me.tsStatus2 = New System.Windows.Forms.ToolStripStatusLabel
@@ -108,6 +109,7 @@ Partial Class frmMain
         Me.MenuStrip = New System.Windows.Forms.MenuStrip
         Me.tmrLogStatus = New System.Windows.Forms.Timer(Me.components)
         Me.tmrLogImage = New System.Windows.Forms.Timer(Me.components)
+        Me.tmrRateSample = New System.Windows.Forms.Timer(Me.components)
         Me.StatusStrip.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
@@ -116,7 +118,7 @@ Partial Class frmMain
         'StatusStrip
         '
         Me.StatusStrip.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.statusPort, Me.statusRx, Me.tsProgress, Me.tsStatus, Me.tsStatus2, Me.tsStatus3})
+        Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.statusPort, Me.statusRx, Me.tsFrameTrack, Me.tsProgress, Me.tsStatus, Me.tsStatus2, Me.tsStatus3})
         Me.StatusStrip.Location = New System.Drawing.Point(0, 478)
         Me.StatusStrip.Name = "StatusStrip"
         Me.StatusStrip.Size = New System.Drawing.Size(1094, 26)
@@ -127,7 +129,7 @@ Partial Class frmMain
         '
         Me.statusPort.Image = Global.Scantech.Nissan.My.Resources.Resources.LedBlack
         Me.statusPort.Name = "statusPort"
-        Me.statusPort.Size = New System.Drawing.Size(62, 23)
+        Me.statusPort.Size = New System.Drawing.Size(62, 21)
         Me.statusPort.Text = "COM"
         Me.statusPort.ToolTipText = "COM PORT STATUS"
         '
@@ -135,9 +137,14 @@ Partial Class frmMain
         '
         Me.statusRx.Image = Global.Scantech.Nissan.My.Resources.Resources.LedBlack
         Me.statusRx.Name = "statusRx"
-        Me.statusRx.Size = New System.Drawing.Size(43, 23)
+        Me.statusRx.Size = New System.Drawing.Size(43, 21)
         Me.statusRx.Text = "Rx"
         Me.statusRx.ToolTipText = "IN BUFFER STATUS"
+        '
+        'tsFrameTrack
+        '
+        Me.tsFrameTrack.Name = "tsFrameTrack"
+        Me.tsFrameTrack.Size = New System.Drawing.Size(0, 21)
         '
         'tsProgress
         '
@@ -149,17 +156,17 @@ Partial Class frmMain
         'tsStatus
         '
         Me.tsStatus.Name = "tsStatus"
-        Me.tsStatus.Size = New System.Drawing.Size(0, 23)
+        Me.tsStatus.Size = New System.Drawing.Size(0, 21)
         '
         'tsStatus2
         '
         Me.tsStatus2.Name = "tsStatus2"
-        Me.tsStatus2.Size = New System.Drawing.Size(0, 23)
+        Me.tsStatus2.Size = New System.Drawing.Size(0, 21)
         '
         'tsStatus3
         '
         Me.tsStatus3.Name = "tsStatus3"
-        Me.tsStatus3.Size = New System.Drawing.Size(0, 23)
+        Me.tsStatus3.Size = New System.Drawing.Size(0, 21)
         '
         'tmrPortStatus
         '
@@ -576,13 +583,13 @@ Partial Class frmMain
         'LogsToolStripMenuItem
         '
         Me.LogsToolStripMenuItem.Name = "LogsToolStripMenuItem"
-        Me.LogsToolStripMenuItem.Size = New System.Drawing.Size(152, 26)
+        Me.LogsToolStripMenuItem.Size = New System.Drawing.Size(113, 26)
         Me.LogsToolStripMenuItem.Text = "Logs"
         '
         'ToolStripMenuItem3
         '
         Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(149, 6)
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(110, 6)
         '
         'ToolsToolStripMenuItem
         '
@@ -692,6 +699,11 @@ Partial Class frmMain
         '
         Me.tmrLogImage.Enabled = True
         Me.tmrLogImage.Interval = 500
+        '
+        'tmrRateSample
+        '
+        Me.tmrRateSample.Enabled = True
+        Me.tmrRateSample.Interval = 1000
         '
         'frmMain
         '
@@ -803,5 +815,7 @@ Partial Class frmMain
     Friend WithEvents tmrLogImage As System.Windows.Forms.Timer
     Friend WithEvents tsStatus2 As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents tsStatus3 As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents tmrRateSample As System.Windows.Forms.Timer
+    Friend WithEvents tsFrameTrack As System.Windows.Forms.ToolStripStatusLabel
 
 End Class
