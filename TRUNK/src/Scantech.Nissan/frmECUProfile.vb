@@ -23,6 +23,8 @@
 
         ENABLE_STATE_FOR_MENUS(True, False, False, False, False, False, False, True, True, True, True, False, False, False, False)
 
+        'SAVE FORM POSITION
+        SAVE_WINDOW_FORM_STATE(Me)
     End Sub
     Private Sub frmECUProfile_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         TreeView1.ExpandAll()
@@ -42,6 +44,8 @@
 
         ENABLE_STATE_FOR_MENUS(False, False, False, False, False, False, False, False, False, False, False, False, False, False, False)
 
+        'LOAD FORM POSITION
+        LOAD_WINDOW_FORM_STATE(Me, 10, 10, 849, 517)
     End Sub
     Public Sub OpenToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OpenToolStripMenuItem.Click
         If blnIsCellDirty = True Then
@@ -520,5 +524,9 @@ Skip:
                 Next
                 blnIsCellDirty = True
         End Select
+    End Sub
+
+    Private Sub MenuStrip1_ItemClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolStripItemClickedEventArgs) Handles MenuStrip1.ItemClicked
+
     End Sub
 End Class
