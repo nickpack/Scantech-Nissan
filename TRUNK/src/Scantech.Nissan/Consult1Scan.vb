@@ -58,7 +58,7 @@
     Public LOG_BUTTONS_STATUS As String                         'LOG INSPECTOR STATUS
     Public RECORD_NUMBER As VariantType                         'FRAME RECORD COUNTER
 
-    Public X_RATE_SAMPLE As Long
+    Public X_RATE_SAMPLE As Long                                'FRAME PER SECOND STATUS COUNTER
 
     Private Declare Unicode Function GetPrivateProfileString Lib "kernel32.dll" _
                             Alias "GetPrivateProfileStringW" (ByVal lpApplicationName As String, _
@@ -229,8 +229,6 @@ Restart:
         frmMain.SerialPort1.Write(SEND_F0_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
     End Sub
     Public Sub PRE_REQUEST_C1_SENSOR_TYPE_2()
-        'INCOMPLETEXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-        'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         'SOME ECU WILL NOT ALLOW PRE_REQUEST_C1_SENSOR_TYPE_1() ROUTINE.  
         'INSTEAD, IT REQUIRES 1 COMMAND BYTE REQUEST FOR STREAMING.
 
@@ -930,15 +928,8 @@ resend:
         'CLEAR ANY BUFFER
         frmMain.SerialPort1.DiscardInBuffer()
 
-        'FILE INFO: TOTAL FRAME RECORDS
-        If LOG_BUTTONS_STATUS <> "" Then
-            Dim Value As String
-            Value = RECORD_NUMBER - 3000
-            FilePutObject(1, Value, 2502 * 100)
-        End If
-
-        'CLOSE LOG FILE
-        FileClose(1)
+        'IF NOT "" THEN LOG RECORDING WAS PERFORMED.  ASK SAVE FILE
+        If LOG_BUTTONS_STATUS <> "" Then LOG_SAVE_FILE()
 
         'RESET 
         LOG_BUTTONS_STATUS = "" : frmMain.tsStatus.Text = "" : frmMain.tsStatus2.Text = "" : frmMain.tsStatus3.Text = ""
@@ -999,6 +990,32 @@ resend:
         frmMain.SpeedTrialToolStripMenuItem.Enabled = MenuSpeedTrial
         frmMain.RoadDynoToolStripMenuItem.Enabled = MenuDyno
     End Sub
+    Public Sub LOG_SAVE_FILE()
+        Dim Value As String
+
+        'WRITE THE FRAME RECORD COUNTER
+        Value = RECORD_NUMBER - 3000
+        FilePutObject(1, Value, 2502 * 100)         'FILE INFO: TOTAL FRAME RECORDS
+
+        'CLOSE LOG FILE
+        FileClose(1)
+
+        'ASK USER SAVE LOG FILE
+        Value = MsgBox("Do you want to save Untitled Log?", MsgBoxStyle.Exclamation + MsgBoxStyle.YesNo, "Save Log File")
+        If Val(Value) = 6 Then
+            'SAVE FILE DIALOG DEFAULTS
+            frmMain.SaveFileDialog1.InitialDirectory = Application.StartupPath & "\Logs"
+            frmMain.SaveFileDialog1.Filter = "C1 log files (*.c1log)|*.c1log|All files (*.*)|*.*"
+            frmMain.SaveFileDialog1.FilterIndex = 1
+            frmMain.SaveFileDialog1.RestoreDirectory = True
+
+            'COPY UNTITLED FILE TO USER SPECIFIED LOCATION AND FILE NAME
+            If frmMain.SaveFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+                FileIO.FileSystem.CopyFile(Application.StartupPath & "\Logs\Untitled.tmp", frmMain.SaveFileDialog1.FileName, True)
+            End If
+        End If
+    End Sub
+
     Public Sub LOG_CREATE_FILE()
         'RECORD NUMBERS IN FILE
         '0001-2000 = REGISTER NAME SELECTED
@@ -1009,12 +1026,12 @@ resend:
 
         'DELETE UNTITLED FILE IF EXIST
         FileClose(1)
-        If FileIO.FileSystem.FileExists(Application.StartupPath & "\Logs\Untitled.c1log") Then
-            FileIO.FileSystem.DeleteFile(Application.StartupPath & "\Logs\Untitled.c1log")
+        If FileIO.FileSystem.FileExists(Application.StartupPath & "\Logs\Untitled.tmp") Then
+            FileIO.FileSystem.DeleteFile(Application.StartupPath & "\Logs\Untitled.tmp")
         End If
 
         'WRITE FILE INFO TO THE RECORDS
-        FileOpen(1, Application.StartupPath & "\Logs\Untitled.c1log", OpenMode.Binary)      'CREATE FILE UNTITLED.C1LOG
+        FileOpen(1, Application.StartupPath & "\Logs\Untitled.tmp", OpenMode.Binary)        'CREATE FILE UNTITLED.C1LOG
         FilePutObject(1, "ScantechNissanLogs", 2501 * 100)                                  'FILE INFO: FILE TYPE
         FilePutObject(1, VEHICLE_YEAR, 2503 * 100)                                          'FILE INFO: VEHICLE YEAR
         FilePutObject(1, VEHICLE_MAKE, 2504 * 100)                                          'FILE INFO: VEHICLE MAKE

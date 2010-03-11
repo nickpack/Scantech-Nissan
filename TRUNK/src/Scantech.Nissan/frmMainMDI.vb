@@ -129,14 +129,17 @@ Public Class frmMain
         Select Case LOG_BUTTONS_STATUS
             Case "Record"                                                                       'RECORDING IS RUNNING EXIT SUB
                 Exit Sub
-            Case "Pause"                                                                        'UNPAUSE AND RECORD
+            Case "Pause"                                                                        'UNPAUSE AND CONTINUE RECORDING
                 LOG_BUTTONS_STATUS = "Record" : ENABLE_STATE_FOR_INSPECTOR(2, 1, 0, 1, 0, 0)
                 Exit Sub
+            Case "Stop"                                                                         'ASK TO SAVE EXISTING UNTITLED LOG
+                LOG_SAVE_FILE()
+                LOG_BUTTONS_STATUS = ""                                                         'RESET
             Case Else                                                                           'FIRST TIME RUN: SET STATUS AS RECORD AND SET LOG BUTTONS ENABLE STATES ACCORDINGLY
                 LOG_BUTTONS_STATUS = "Record" : ENABLE_STATE_FOR_INSPECTOR(2, 1, 0, 1, 0, 0)
                 LOG_CREATE_FILE()                                                               'CREATE LOG FILE FOR INITIAL RECORD
                 LOG_CREATE_SELECTED_REGISTERS_FILE(1)                                           'GET SELECTED REGISTER NAMES AND STORE IN FILE STARTING AT RECORD 1
-                tsStatus3.Text = "Untitled.c1log"                                               'FILE NAME
+                tsStatus3.Text = "Untitled Log"                                                 'TEMP FILE NAME
                 RECORD_NUMBER = 3000                                                            'SET START RECORD NUMBER
         End Select
 

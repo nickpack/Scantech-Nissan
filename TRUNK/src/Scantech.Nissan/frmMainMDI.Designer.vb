@@ -110,6 +110,7 @@ Partial Class frmMain
         Me.tmrLogStatus = New System.Windows.Forms.Timer(Me.components)
         Me.tmrLogImage = New System.Windows.Forms.Timer(Me.components)
         Me.tmrRateSample = New System.Windows.Forms.Timer(Me.components)
+        Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
         Me.StatusStrip.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
@@ -817,5 +818,6 @@ Partial Class frmMain
     Friend WithEvents tsStatus3 As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents tmrRateSample As System.Windows.Forms.Timer
     Friend WithEvents tsFrameTrack As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents SaveFileDialog1 As System.Windows.Forms.SaveFileDialog
 
 End Class
