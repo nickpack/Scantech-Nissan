@@ -106,6 +106,7 @@ Public Class frmMain
     End Sub
 
     Private Sub tbDisconnect_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tbDisconnect.Click
+        'THIS WILL RESET NECESSARY VARIABLES AND CLOSE FORMS
         CLOSE_C1_FORMS()
 
         'ENABLE/DISABLE FRMMAIN MENU STATE
@@ -113,12 +114,6 @@ Public Class frmMain
 
         'ENABLE/DISABLE LOG INSPECTOR
         ENABLE_STATE_FOR_INSPECTOR(0, 0, 0, 0, 0, 0)
-
-        'RESET SELECTED REGISTERS
-        Dim X As Integer
-        For X = 0 To 255
-            SELECTED_REGISTERS(X) = False
-        Next
     End Sub
 
     Private Sub DisconnectToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DisconnectToolStripMenuItem.Click
@@ -229,6 +224,6 @@ Public Class frmMain
     End Sub
 
     Private Sub tmrRateSample_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrRateSample.Tick
-        tsFrameTrack.Text = X_RATE_SAMPLE & " /SEC" : X_RATE_SAMPLE = 0
+        tsFrameTrack.Text = X_RATE_SAMPLE & " /Sec" : X_RATE_SAMPLE = 0
     End Sub
 End Class

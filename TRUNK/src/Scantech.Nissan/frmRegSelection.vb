@@ -84,6 +84,9 @@
                     Me.Grid1.RowCount = Me.Grid1.RowCount + 1
                     Me.Grid1.Item(1, Me.Grid1.RowCount - 1).Value = REGISTERS_NAME(X, 0)            '2 BYTE REGISTERS (LSB)
                     Me.Grid1.Item(1, Me.Grid1.RowCount - 1).Tag = X                                 '1 BYTE IDENTIFIER
+                    If SELECTED_REGISTERS(X) = True Then                                            'LOAD SELECTED REGISTERS
+                        Me.Grid1.Item(0, Me.Grid1.RowCount - 1).Value = True
+                    End If
                 End If
             End If
         Next
@@ -95,6 +98,9 @@
                 Me.Grid2.RowCount = Me.Grid2.RowCount + 1
                 Me.Grid2.Item(1, Me.Grid2.RowCount - 1).Value = REGISTERS_NAME(X, 0)
                 Me.Grid2.Item(1, Me.Grid2.RowCount - 1).Tag = X
+                If SELECTED_REGISTERS(X) = True Then                                                'LOAD SELECTED REGISTERS
+                    Me.Grid2.Item(0, Me.Grid2.RowCount - 1).Value = True
+                End If
             End If
         Next
 

@@ -799,7 +799,9 @@ resend:
         Dim J As Integer
         Dim x As Integer
 
+        'RESET
         For x = 0 To 255
+            SELECTED_REGISTERS(X) = False                                                               'RESET SELECTED REGISTERS
             SUPPORTED_REGISTERS(x, 0, 0) = False                                                        'RESET REGISTER SUPPORTED ARRAYS
             SUPPORTED_REGISTERS(x, 0, 1) = False                                                        'RESET DIGITAL OUTPUT SUPPORTED ARRAY
             SUPPORTED_REGISTERS(x, 1, 0) = False                                                        'RESET LSB ARRAY
