@@ -11,7 +11,7 @@
         SAVE_WINDOW_FORM_STATE(Me)
 
         'ENABLE/DISABLE FRMMAIN MENU STATE
-        ENABLE_STATE_FOR_MENUS(False, True, True, True, True, True, True, False, False, False, False, True, True, True, True)
+        ENABLE_STATE_FOR_MENUS(False, True, True, True, True, True, True, False, False, False, False, True, True, True, True, False)
 
         'ENABLE/DISABLE LOG INSPECTOR
         ENABLE_STATE_FOR_INSPECTOR(0, 0, 0, 0, 0, 0)
@@ -21,7 +21,7 @@
         LOAD_WINDOW_FORM_STATE(Me, 10, 10, 483, 254)
 
         'ENABLE/DISABLE FRMMAIN MENU STATE
-        ENABLE_STATE_FOR_MENUS(False, True, False, False, False, False, False, False, False, False, False, True, False, False, False)
+        ENABLE_STATE_FOR_MENUS(False, True, False, False, False, False, False, False, False, False, False, True, False, False, False, False)
 
         'ENABLE/DISABLE LOG INSPECTOR
         ENABLE_STATE_FOR_INSPECTOR(1, 0, 0, 0, 0, 0)

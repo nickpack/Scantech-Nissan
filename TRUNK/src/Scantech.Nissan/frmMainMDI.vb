@@ -110,7 +110,7 @@ Public Class frmMain
         CLOSE_C1_FORMS()
 
         'ENABLE/DISABLE FRMMAIN MENU STATE
-        ENABLE_STATE_FOR_MENUS(True, False, False, False, False, False, False, True, True, True, True, False, False, False, False)
+        ENABLE_STATE_FOR_MENUS(True, False, False, False, False, False, False, True, True, True, True, False, False, False, False, True)
 
         'ENABLE/DISABLE LOG INSPECTOR
         ENABLE_STATE_FOR_INSPECTOR(0, 0, 0, 0, 0, 0)
