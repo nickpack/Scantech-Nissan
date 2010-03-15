@@ -59,7 +59,7 @@
         frmMain.SerialPort1.Close()
 
         'ENABLE/DISABLE FRMMAIN MENU STATE
-        ENABLE_STATE_FOR_MENUS(True, False, False, False, False, False, False, True, True, True, True, False, False, False, False, True)
+        ENABLE_STATE_FOR_MENUS(1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1)
     End Sub
 
     Private Sub frmScannerECU_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -67,6 +67,6 @@
         LOAD_WINDOW_FORM_STATE(Me, 10, 10, 250, 375)
 
         'ENABLE/DISABLE FRMMAIN MENU STATE
-        ENABLE_STATE_FOR_MENUS(False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False)
+        ENABLE_STATE_FOR_MENUS(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
     End Sub
 End Class

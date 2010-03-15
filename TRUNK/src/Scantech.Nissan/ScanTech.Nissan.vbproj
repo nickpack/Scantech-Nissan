@@ -344,6 +344,9 @@
     <None Include="Resources\StopHotBlue.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\EjectNormal.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="ViewModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

@@ -21,7 +21,7 @@
             End Select
         End If
 
-        ENABLE_STATE_FOR_MENUS(True, False, False, False, False, False, False, True, True, True, True, False, False, False, False, True)
+        ENABLE_STATE_FOR_MENUS(1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1)
 
         'SAVE FORM POSITION
         SAVE_WINDOW_FORM_STATE(Me)
@@ -42,7 +42,7 @@
         SaveFileDialog1.FilterIndex = 1
         SaveFileDialog1.RestoreDirectory = True
 
-        ENABLE_STATE_FOR_MENUS(False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, True)
+        ENABLE_STATE_FOR_MENUS(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)
 
         'LOAD FORM POSITION
         LOAD_WINDOW_FORM_STATE(Me, 10, 10, 849, 517)

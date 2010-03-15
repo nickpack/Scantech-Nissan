@@ -36,8 +36,8 @@ Public Class frmConnect
             End If
 
             'IF IT GETS HERE THEN ECU INITIALIZATION AND REGISTER VALIDATION (IF SELECTED) IS SUCCESS
-            frmMain.MonitorManagerToolStripMenuItem_Click(1, e)
             Me.Close()
+            frmMain.MonitorManagerToolStripMenuItem_Click(1, e)
             Exit Sub
         Else
             'INITIALIZE ECU FAILED
@@ -49,6 +49,9 @@ Public Class frmConnect
     Private Sub frmConnect_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         'SAVE FORM POSITION
         SAVE_WINDOW_FORM_STATE(Me)
+
+        'ENABLE/DISABLE LOG INSPECTOR
+        ENABLE_STATE_FOR_INSPECTOR(0, 0, 0, 0, 0, 0, 1)
     End Sub
     Private Sub frmConnect_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         'LOAD FORM POSITION
@@ -67,6 +70,9 @@ Public Class frmConnect
         For Each dra In diar1
             lstVehicle.Items.Add(dra)
         Next
+
+        'ENABLE/DISABLE LOG INSPECTOR
+        ENABLE_STATE_FOR_INSPECTOR(0, 0, 0, 0, 0, 0, 0)
     End Sub
     Private Sub cmdClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdClose.Click
         Me.Close()

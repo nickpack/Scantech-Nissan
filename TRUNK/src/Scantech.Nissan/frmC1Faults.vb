@@ -8,7 +8,7 @@
         SaveSetting("Consult1", "C1Faults", "Window State", Me.WindowState)
 
         'ENABLE/DISABLE FRMMAIN MENU STATE
-        ENABLE_STATE_FOR_MENUS(False, True, True, True, True, True, True, False, False, False, False, True, True, True, True, False)
+        ENABLE_STATE_FOR_MENUS(0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0)
     End Sub
     Private Sub frmC1Faults_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Me.Top = GetSetting("Consult1", "C1Faults", "Top Position", 10)
@@ -18,7 +18,7 @@
         Me.WindowState = GetSetting("Consult1", "C1Faults", "Window State", 0)
 
         'ENABLE/DISABLE FRMMAIN MENU STATE
-        ENABLE_STATE_FOR_MENUS(False, True, False, False, False, False, False, False, False, False, False, True, False, False, False, False)
+        ENABLE_STATE_FOR_MENUS(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0)
     End Sub
 
     Private Sub cmdCheck_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdCheck.Click

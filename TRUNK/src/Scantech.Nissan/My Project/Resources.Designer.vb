@@ -81,6 +81,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property EjectNormal() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("EjectNormal", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property LedBlack() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("LedBlack", resourceCulture)

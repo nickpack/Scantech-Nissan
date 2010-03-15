@@ -57,7 +57,7 @@
     Public TIME_OUT As Integer
     Public LOG_BUTTONS_STATUS As String                         'LOG INSPECTOR STATUS
     Public RECORD_NUMBER As VariantType                         'FRAME RECORD COUNTER
-
+    Public TOTAL_RECORD_FRAME As VariantType                   'TOTAL FRAME RECORDS FOR LOG PLAYING
     Public X_RATE_SAMPLE As Long                                'FRAME PER SECOND STATUS COUNTER
 
     Private Declare Unicode Function GetPrivateProfileString Lib "kernel32.dll" _
@@ -278,9 +278,10 @@ resend:
             If PROCESS_BUFFER_DATA(True) = True Then
                 X_RATE_SAMPLE = X_RATE_SAMPLE + 1                                       'TRACK FRAME RATE PER SECOND
 
-                If LOG_BUTTONS_STATUS = "Record" Then                                   'IF LOG STATUS IS RECORDING
+                'LOG RECORDING
+                If LOG_BUTTONS_STATUS = "Record" Then
                     RECORD_NUMBER = RECORD_NUMBER + 1                                   'UPDATE COUNTER
-                    FilePutObject(1, DATA_FILTERED_RECEIVED, (RECORD_NUMBER) * 100)     'REGISTER FRAME DATA
+                    FilePutObject(1, DATA_FILTERED_RECEIVED, (RECORD_NUMBER) * 100)     'WRITE REGISTER FRAME DATA
                     frmMain.tsStatus2.Text = "Frame # " & RECORD_NUMBER - 3000          'FRAME RECORD NUMBER
                 End If
 
@@ -289,8 +290,8 @@ resend:
 
                 'WHAT FORM USER SELECTED
                 Select Case USER_FORM_SELECT
-                    Case 1 : RESULT_GRID_STYLE()
-                    Case 4 : RESULT_REGISTER_DECODER()
+                    Case 1 : RESULT_GRID_STYLE(DATA_FILTERED_RECEIVED)
+                    Case 4 : RESULT_REGISTER_DECODER(DATA_FILTERED_RECEIVED)
                 End Select
             End If
 
@@ -357,25 +358,25 @@ resend:
         frmMain.SerialPort1.DiscardInBuffer()                                                               'CLEAR BUFFER
     End Function
 
-    Public Sub RESULT_REGISTER_DECODER()
+    Public Sub RESULT_REGISTER_DECODER(ByVal DataFrame As String)
         'SCALE (MSB/LSB OR LSB)
-        If Len(DATA_FILTERED_RECEIVED) = 2 Then
+        If Len(DataFrame) = 2 Then
             '2 BYTES
-            frmRegisterDecoder.lblScale.Text = DECODE_DATA_C1_SENSORS(frmRegisterDecoder.ComboBox2.Text, 0, "&H" & Left(DATA_FILTERED_RECEIVED, 2), 0)
+            frmRegisterDecoder.lblScale.Text = DECODE_DATA_C1_SENSORS(frmRegisterDecoder.ComboBox2.Text, 0, "&H" & Left(DataFrame, 2), 0)
         ElseIf Len(DATA_FILTERED_RECEIVED) = 4 Then
             '4 BYTES
-            frmRegisterDecoder.lblScale.Text = DECODE_DATA_C1_SENSORS(frmRegisterDecoder.ComboBox2.Text, "&H" & Left(DATA_FILTERED_RECEIVED, 2), "&H" & Mid(DATA_FILTERED_RECEIVED, 3, 2), 0)
+            frmRegisterDecoder.lblScale.Text = DECODE_DATA_C1_SENSORS(frmRegisterDecoder.ComboBox2.Text, "&H" & Left(DataFrame, 2), "&H" & Mid(DataFrame, 3, 2), 0)
         End If
 
         'UNIT
         frmRegisterDecoder.lblUnit.Text = DECODE_DATA_C1_SENSORS_UNIT_TYPE(frmRegisterDecoder.ComboBox3.Text, 0)
 
         'CLEAR
-        DATA_FILTERED_RECEIVED = ""
+        DataFrame = ""
 
     End Sub
 
-    Public Sub RESULT_GRID_STYLE()
+    Public Sub RESULT_GRID_STYLE(ByVal DataFrame As String)
         Dim K As Integer
         Dim WhatRowSensors As Integer
         WhatRowSensors = 0
@@ -413,7 +414,7 @@ resend:
                         End Select
 
                         Dim Value As Integer
-                        Value = CByte("&H" & Left(DATA_FILTERED_RECEIVED, 2))
+                        Value = CByte("&H" & Left(DataFrame, 2))
                         If Value And BitValue Then
                             frmC1Output.Grid2.Item(2, G).Value = DECODE_DATA_C1_DIGITAL(REGISTERS_SCALE_TYPE(K, WhatBit), True)
                         Else
@@ -628,8 +629,7 @@ resend:
     End Function
 
     Public Sub RESET_GRID_STYLE_FOR_SENSORS()
-        frmC1Sensors.MdiParent = frmMain
-        frmC1Sensors.Show()
+        frmC1Sensors.MdiParent = frmMain : frmC1Sensors.Show()
 
         frmC1Sensors.Grid1.Rows.Clear()
 
@@ -651,8 +651,7 @@ resend:
     End Sub
 
     Public Sub RESET_GRID_STYLE_FOR_OUTPUT()
-        frmC1Output.MdiParent = frmMain
-        frmC1Output.Show()
+        frmC1Output.MdiParent = frmMain : frmC1Output.Show()
 
         frmC1Output.Grid2.Rows.Clear()
 
@@ -905,8 +904,7 @@ resend:
     End Sub
 
     Public Sub SEARCH_SERIAL_PORTS()
-        Dim comPorts As Array
-        comPorts = IO.Ports.SerialPort.GetPortNames()
+        Dim comPorts As Array = IO.Ports.SerialPort.GetPortNames()
 
         'SEARCH PORT AND FILL COMBOBOX
         For i = 0 To UBound(comPorts)
@@ -937,11 +935,14 @@ resend:
         LOG_BUTTONS_STATUS = "" : frmMain.tsStatus.Text = "" : frmMain.tsStatus2.Text = "" : frmMain.tsStatus3.Text = ""
 
         'CLOSE THE FORMS
-        frmC1Output.Close()
-        frmC1Sensors.Close()
-        frmC1ActiveTest.Close()
-        frmRegSelection.Close()
-        frmC1Faults.Close()
+        frmC1Output.Close() : frmC1Sensors.Close() : frmC1ActiveTest.Close() : frmRegSelection.Close() : frmC1Faults.Close()
+
+        'DO THIS ONLY IF DISCONNECT BUTTON CLICKED
+        If frmMain.Tag = "Disconnect" Then
+            ENABLE_STATE_FOR_MENUS(1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1)
+            ENABLE_STATE_FOR_INSPECTOR(0, 0, 0, 0, 0, 0, 1)
+            frmMain.Tag = ""
+        End If
     End Sub
 
     Public Sub SAVE_WINDOW_FORM_STATE(ByVal Form As Object)
@@ -961,7 +962,7 @@ resend:
         Form.Height = GetSetting("Consult1", Form.Name, "Form Height", HeightDefault)
         Form.WindowState = GetSetting("Consult1", Form.Name, "Window State", 0)
     End Sub
-    Public Sub ENABLE_STATE_FOR_INSPECTOR(ByVal LogRecord As Integer, ByVal LogPause As Integer, ByVal LogPlay As Integer, ByVal LogStop As Integer, ByVal LogBackward As Integer, ByVal LogForward As Integer)
+    Public Sub ENABLE_STATE_FOR_INSPECTOR(ByVal LogRecord As Integer, ByVal LogPause As Integer, ByVal LogPlay As Integer, ByVal LogStop As Integer, ByVal LogBackward As Integer, ByVal LogForward As Integer, ByVal LogOpen As Integer)
         '0=FALSE: 1=TRUE: 2=SKIP
         If LogRecord <> 2 Then frmMain.tsRecord.Enabled = LogRecord
         If LogPause <> 2 Then frmMain.tsPause.Enabled = LogPause
@@ -969,6 +970,7 @@ resend:
         If LogStop <> 2 Then frmMain.tsStop.Enabled = LogStop
         If LogBackward <> 2 Then frmMain.tsFastBackward.Enabled = LogBackward
         If LogForward <> 2 Then frmMain.tsFastForward.Enabled = LogForward
+        If LogForward <> 2 Then frmMain.tsOpen.Enabled = LogOpen
     End Sub
     Public Sub ENABLE_STATE_FOR_MENUS(ByVal MenuConnect As Boolean, ByVal MenuDisconnect As Boolean, ByVal MenuSelfDiag As Boolean, _
                     ByVal MenuAlert As Boolean, ByVal MenuGrid As Boolean, ByVal MenuGauges As Boolean, _
@@ -993,6 +995,24 @@ resend:
         frmMain.RoadDynoToolStripMenuItem.Enabled = MenuDyno
         frmMain.CreateECUProfileToolStripMenuItem.Enabled = MenuProfile
     End Sub
+    Public Sub LOG_OPEN_FILE()
+        'OPEN FILE DIALOG DEFAULTS
+        frmMain.OpenFileDialog1.InitialDirectory = Application.StartupPath & "\Logs"
+        frmMain.OpenFileDialog1.Filter = "C1 log files (*.c1log)|*.c1log|All files (*.*)|*.*"
+        frmMain.OpenFileDialog1.FilterIndex = 1
+        frmMain.OpenFileDialog1.RestoreDirectory = True
+        FileClose(1)
+
+        If frmMain.OpenFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+            FileOpen(1, frmMain.OpenFileDialog1.FileName, OpenMode.Binary)
+            FileGetObject(1, TOTAL_RECORD_FRAME, 2502 * 100)
+            frmMain.tsStatus2.Text = "0 of " & TOTAL_RECORD_FRAME
+            RECORD_NUMBER = 3000
+            ENABLE_STATE_FOR_INSPECTOR(0, 0, 0, 0, 0, 0, 1)
+            ENABLE_STATE_FOR_MENUS(1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0)
+        End If
+    End Sub
+
     Public Sub LOG_SAVE_FILE()
         Dim Value As String
 
@@ -1043,6 +1063,13 @@ resend:
         FilePutObject(1, VEHICLE_ENGINE_LITER, 2507 * 100)                                  'FILE INFO: ENGINE LITERS
         FilePutObject(1, VEHICLE_MODULE, 2508 * 100)                                        'FILE INFO: ECU TYPE
         FilePutObject(1, "1.0", 2509 * 100)                                                 'FILE INFO: LOG VERSION
+        FilePutObject(1, Str(START_BYTE_FOR_SENSOR), 2510 * 100)                            'START BYTE SENSOR
+        FilePutObject(1, Str(END_BYTE_FOR_SENSOR), 2511 * 100)                              'END BYTE SENSOR
+        FilePutObject(1, Str(START_BYTE_FOR_ACTIVETEST), 2512 * 100)                        'START BYTE ACTIVE
+        FilePutObject(1, Str(END_BYTE_FOR_ACTIVETEST), 2513 * 100)                          'END BYTE ACTIVE
+        RECORD_NUMBER = 3000                                                                'SET START RECORD NUMBER
+        frmMain.tsStatus3.Text = "Untitled Log"                                             'TEMP FILE NAME
+
     End Sub
     Public Sub LOG_CREATE_SELECTED_REGISTERS_FILE(ByVal Record As Integer)
         'BYTE 1 TO 5 IDENTIFIERS

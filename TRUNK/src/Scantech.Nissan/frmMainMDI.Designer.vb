@@ -48,6 +48,7 @@ Partial Class frmMain
         Me.tsPlay = New System.Windows.Forms.ToolStripButton
         Me.tsFastForward = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator7 = New System.Windows.Forms.ToolStripSeparator
+        Me.tsOpen = New System.Windows.Forms.ToolStripButton
         Me.tmrTimeout = New System.Windows.Forms.Timer(Me.components)
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ConnectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -111,6 +112,7 @@ Partial Class frmMain
         Me.tmrLogImage = New System.Windows.Forms.Timer(Me.components)
         Me.tmrRateSample = New System.Windows.Forms.Timer(Me.components)
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
+        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
         Me.StatusStrip.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
@@ -194,7 +196,7 @@ Partial Class frmMain
         '
         'ToolStrip1
         '
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tbConnect, Me.tbDisconnect, Me.ToolStripSeparator9, Me.tsComPort, Me.ToolStripSeparator6, Me.tsRecord, Me.tsPause, Me.tsStop, Me.tsFastBackward, Me.tsPlay, Me.tsFastForward, Me.ToolStripSeparator7})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tbConnect, Me.tbDisconnect, Me.ToolStripSeparator9, Me.tsComPort, Me.ToolStripSeparator6, Me.tsRecord, Me.tsPause, Me.tsStop, Me.tsFastBackward, Me.tsPlay, Me.tsFastForward, Me.ToolStripSeparator7, Me.tsOpen})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 29)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.Size = New System.Drawing.Size(1094, 39)
@@ -231,7 +233,6 @@ Partial Class frmMain
         Me.tsRecord.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsRecord.Name = "tsRecord"
         Me.tsRecord.Size = New System.Drawing.Size(36, 36)
-        Me.tsRecord.Text = "ToolStripButton4"
         Me.tsRecord.ToolTipText = "RECORD"
         '
         'tsPause
@@ -243,7 +244,6 @@ Partial Class frmMain
         Me.tsPause.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsPause.Name = "tsPause"
         Me.tsPause.Size = New System.Drawing.Size(36, 36)
-        Me.tsPause.Text = "ToolStripButton1"
         Me.tsPause.ToolTipText = "PAUSE"
         '
         'tsStop
@@ -255,7 +255,6 @@ Partial Class frmMain
         Me.tsStop.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsStop.Name = "tsStop"
         Me.tsStop.Size = New System.Drawing.Size(36, 36)
-        Me.tsStop.Text = "ToolStripButton2"
         Me.tsStop.ToolTipText = "STOP"
         '
         'tsFastBackward
@@ -267,7 +266,6 @@ Partial Class frmMain
         Me.tsFastBackward.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsFastBackward.Name = "tsFastBackward"
         Me.tsFastBackward.Size = New System.Drawing.Size(36, 36)
-        Me.tsFastBackward.Text = "ToolStripButton6"
         Me.tsFastBackward.ToolTipText = "FAST BACKWARD"
         '
         'tsPlay
@@ -279,7 +277,6 @@ Partial Class frmMain
         Me.tsPlay.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsPlay.Name = "tsPlay"
         Me.tsPlay.Size = New System.Drawing.Size(36, 36)
-        Me.tsPlay.Text = "ToolStripButton3"
         Me.tsPlay.ToolTipText = "PLAY"
         '
         'tsFastForward
@@ -291,13 +288,23 @@ Partial Class frmMain
         Me.tsFastForward.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tsFastForward.Name = "tsFastForward"
         Me.tsFastForward.Size = New System.Drawing.Size(36, 36)
-        Me.tsFastForward.Text = "ToolStripButton5"
         Me.tsFastForward.ToolTipText = "FAST FORWARD"
         '
         'ToolStripSeparator7
         '
         Me.ToolStripSeparator7.Name = "ToolStripSeparator7"
         Me.ToolStripSeparator7.Size = New System.Drawing.Size(6, 39)
+        '
+        'tsOpen
+        '
+        Me.tsOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.tsOpen.Enabled = False
+        Me.tsOpen.Image = Global.Scantech.Nissan.My.Resources.Resources.EjectNormal
+        Me.tsOpen.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.tsOpen.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tsOpen.Name = "tsOpen"
+        Me.tsOpen.Size = New System.Drawing.Size(36, 36)
+        Me.tsOpen.ToolTipText = "OPEN LOG FILE"
         '
         'tmrTimeout
         '
@@ -706,6 +713,10 @@ Partial Class frmMain
         Me.tmrRateSample.Enabled = True
         Me.tmrRateSample.Interval = 1000
         '
+        'OpenFileDialog1
+        '
+        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -819,5 +830,7 @@ Partial Class frmMain
     Friend WithEvents tmrRateSample As System.Windows.Forms.Timer
     Friend WithEvents tsFrameTrack As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents SaveFileDialog1 As System.Windows.Forms.SaveFileDialog
+    Friend WithEvents tsOpen As System.Windows.Forms.ToolStripButton
+    Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
 
 End Class

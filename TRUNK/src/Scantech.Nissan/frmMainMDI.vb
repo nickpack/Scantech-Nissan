@@ -22,6 +22,9 @@ Public Class frmMain
 
         'LOAD FORM POSITION
         LOAD_WINDOW_FORM_STATE(Me, 10, 10, 700, 500)
+
+        'ENABLE/DISABLE LOG INSPECTOR
+        ENABLE_STATE_FOR_INSPECTOR(0, 0, 0, 0, 0, 0, 1)
     End Sub
     Private Sub ToolBarToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ToolBarToolStripMenuItem.Click
         Me.ToolStrip1.Visible = Me.ToolBarToolStripMenuItem.Checked
@@ -75,14 +78,12 @@ Public Class frmMain
         'GRID STYLE
         USER_FORM_SELECT = 1
 
-        'RESET GRIDS
-        RESET_GRID_STYLE_FOR_SENSORS() : RESET_GRID_STYLE_FOR_OUTPUT() : RESET_GRID_STYLE_FOR_ACTIVE()
-
-        'START COMMUNICATION WITH ECU AND REQUEST DATA AND PROCESS THEM
-        REQUEST_C1_SENSOR_DATA()
-
-        'CLOSE ALL FORM RELATED
-        CLOSE_C1_FORMS()
+        'REAL CONSULT PORT FUNCTION (BYPASS LOGGING)
+        If LOG_BUTTONS_STATUS = "" Then
+            RESET_GRID_STYLE_FOR_SENSORS() : RESET_GRID_STYLE_FOR_OUTPUT() : RESET_GRID_STYLE_FOR_ACTIVE()  'RESET GRIDS
+            REQUEST_C1_SENSOR_DATA()                                                                        'START COMMUNICATION WITH ECU AND REQUEST DATA AND PROCESS THEM
+            CLOSE_C1_FORMS()                                                                                'CLOSE ALL FORM RELATED
+        End If
     End Sub
     Private Sub RegisterTest_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RegisterTest.Click
         frmScannerRegister.MdiParent = Me : frmScannerRegister.Show()
@@ -106,14 +107,10 @@ Public Class frmMain
     End Sub
 
     Private Sub tbDisconnect_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tbDisconnect.Click
-        'THIS WILL RESET NECESSARY VARIABLES AND CLOSE FORMS
-        CLOSE_C1_FORMS()
+        'MAKE SURE QUERY IS STOPPED BEFORE EXITING
+        If LOOP_IN_PROGRESS = True Then USER_REQUEST_STOP = True
 
-        'ENABLE/DISABLE FRMMAIN MENU STATE
-        ENABLE_STATE_FOR_MENUS(True, False, False, False, False, False, False, True, True, True, True, False, False, False, False, True)
-
-        'ENABLE/DISABLE LOG INSPECTOR
-        ENABLE_STATE_FOR_INSPECTOR(0, 0, 0, 0, 0, 0)
+        Me.Tag = "Disconnect"
     End Sub
 
     Private Sub DisconnectToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DisconnectToolStripMenuItem.Click
@@ -125,39 +122,59 @@ Public Class frmMain
             Case "Record"                                                                       'RECORDING IS RUNNING EXIT SUB
                 Exit Sub
             Case "Pause"                                                                        'UNPAUSE AND CONTINUE RECORDING
-                LOG_BUTTONS_STATUS = "Record" : ENABLE_STATE_FOR_INSPECTOR(2, 1, 0, 1, 0, 0)
+                LOG_BUTTONS_STATUS = "Record" : ENABLE_STATE_FOR_INSPECTOR(2, 1, 0, 1, 0, 0, 0)
                 Exit Sub
             Case "Stop"                                                                         'ASK TO SAVE EXISTING UNTITLED LOG
                 LOG_SAVE_FILE()
                 LOG_BUTTONS_STATUS = ""                                                         'RESET
             Case Else                                                                           'FIRST TIME RUN: SET STATUS AS RECORD AND SET LOG BUTTONS ENABLE STATES ACCORDINGLY
-                LOG_BUTTONS_STATUS = "Record" : ENABLE_STATE_FOR_INSPECTOR(2, 1, 0, 1, 0, 0)
+                LOG_BUTTONS_STATUS = "Record" : ENABLE_STATE_FOR_INSPECTOR(2, 1, 0, 1, 0, 0, 0)
                 LOG_CREATE_FILE()                                                               'CREATE LOG FILE FOR INITIAL RECORD
                 LOG_CREATE_SELECTED_REGISTERS_FILE(1)                                           'GET SELECTED REGISTER NAMES AND STORE IN FILE STARTING AT RECORD 1
-                tsStatus3.Text = "Untitled Log"                                                 'TEMP FILE NAME
-                RECORD_NUMBER = 3000                                                            'SET START RECORD NUMBER
         End Select
 
     End Sub
     
     Private Sub tsPause_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsPause.Click
-        LOG_BUTTONS_STATUS = "Pause" : ENABLE_STATE_FOR_INSPECTOR(2, 1, 2, 2, 2, 2)
+        LOG_BUTTONS_STATUS = "Pause" : ENABLE_STATE_FOR_INSPECTOR(2, 1, 2, 2, 2, 2, 2)
     End Sub
 
     Private Sub tsStop_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsStop.Click
-        LOG_BUTTONS_STATUS = "Stop" : ENABLE_STATE_FOR_INSPECTOR(2, 0, 2, 0, 2, 2)
+        LOG_BUTTONS_STATUS = "Stop" : ENABLE_STATE_FOR_INSPECTOR(2, 0, 2, 0, 2, 2, 2)
     End Sub
 
     Private Sub tsFastBackward_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsFastBackward.Click
-        LOG_BUTTONS_STATUS = "FastBackward" : ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1)
+        LOG_BUTTONS_STATUS = "FastBackward" : ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1, 1)
     End Sub
 
     Private Sub tsPlay_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsPlay.Click
-        LOG_BUTTONS_STATUS = "Play" : ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1)
+        If LOG_BUTTONS_STATUS = "Play" Then Exit Sub
+
+        LOG_BUTTONS_STATUS = "Play"
+        ENABLE_STATE_FOR_MENUS(1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0)
+        ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1, 1)
+
+        Dim Data As String
+        Do Until LOG_BUTTONS_STATUS <> "Play"
+            System.Windows.Forms.Application.DoEvents()
+            FileGetObject(1, Data, RECORD_NUMBER * 100)                                 'GET DATAFRAME FROM RECORD
+            tsStatus2.Text = RECORD_NUMBER - 3000 & " of " & TOTAL_RECORD_FRAME         'STATUS CURRENT FRAME
+
+            If RECORD_NUMBER + 3000 = TOTAL_RECORD_FRAME Then                           'STOP LOG PLAYING IF END OF RECORD
+                tsStop_Click(3, e)
+                Exit Sub
+            End If
+
+            RECORD_NUMBER = RECORD_NUMBER + 1                                           'UPDATE COUNTER
+
+            Select Case USER_FORM_SELECT                                                'WHAT FORM SELECTED
+                Case 1 : RESULT_GRID_STYLE(Data)                                        'SHOW DECODED DATA 
+            End Select
+        Loop
     End Sub
 
     Private Sub tsFastForward_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsFastForward.Click
-        LOG_BUTTONS_STATUS = "FastForward" : ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1)
+        LOG_BUTTONS_STATUS = "FastForward" : ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1, 1)
     End Sub
 
     Private Sub tmrLogStatus_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrLogStatus.Tick
@@ -225,5 +242,10 @@ Public Class frmMain
 
     Private Sub tmrRateSample_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrRateSample.Tick
         tsFrameTrack.Text = X_RATE_SAMPLE & " /Sec" : X_RATE_SAMPLE = 0
+    End Sub
+
+    Private Sub tsOpen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsOpen.Click
+        LOG_BUTTONS_STATUS = "Open"
+        LOG_OPEN_FILE()
     End Sub
 End Class
