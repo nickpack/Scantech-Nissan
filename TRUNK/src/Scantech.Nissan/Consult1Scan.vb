@@ -916,12 +916,6 @@ resend:
         'RESET 
         USER_REQUEST_STOP = True : LOOP_IN_PROGRESS = False : frmMain.tmrTimeout.Enabled = False
 
-        'MAKE SURE CONSULT 1 DATA QUERYING IS STOPPED
-        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
-
-        'CLEAR ANY BUFFER
-        frmMain.SerialPort1.DiscardInBuffer()
-
         'IF NOT "" THEN LOG RECORDING WAS PERFORMED.  ASK SAVE FILE
         If LOG_BUTTONS_STATUS <> "" Then LOG_SAVE_FILE()
 

@@ -1,5 +1,5 @@
 ﻿Imports System.Windows.Forms
-
+'CLEAN CLEAN
 
 Public Class frmMain
     Dim ForwardSpeed As Integer = 320
@@ -40,6 +40,7 @@ Public Class frmMain
     End Sub
 
     Private Sub tsConnect_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tbConnect.Click, ConnectToolStripMenuItem.Click
+        LOG_BUTTONS_STATUS = ""
         frmConnect.MdiParent = Me : frmConnect.Show()
     End Sub
 
@@ -83,14 +84,16 @@ Public Class frmMain
         'GRID STYLE
         USER_FORM_SELECT = 1
 
-        'REAL CONSULT PORT FUNCTION (BYPASS LOGGING)
-        If LOG_BUTTONS_STATUS = "" Then
+        If LOG_BUTTONS_STATUS = "" Then                                             'REAL CONSULT PORT FUNCTION (BYPASS LOGGING)
             RESET_GRID_STYLE_FOR_SENSORS() : RESET_GRID_STYLE_FOR_OUTPUT() : RESET_GRID_STYLE_FOR_ACTIVE()
-            REQUEST_C1_SENSOR_DATA()                                                                        'START COMMUNICATION WITH ECU AND REQUEST DATA AND PROCESS THEM
-            CLOSE_C1_FORMS()                                                                                'CLOSE ALL FORM RELATED
-        ElseIf LOG_BUTTONS_STATUS = "Open" Then
+            REQUEST_C1_SENSOR_DATA()
+            Me.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY) : frmMain.SerialPort1.DiscardInBuffer()
+        ElseIf LOG_BUTTONS_STATUS = "Open" Then                                     'LOG FUNCTION
             RESET_GRID_STYLE_FOR_SENSORS() : RESET_GRID_STYLE_FOR_OUTPUT()
+            LOG_REQUEST_C1_SENSOR_DATA()
         End If
+
+        CLOSE_C1_FORMS()
     End Sub
     Private Sub RegisterTest_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RegisterTest.Click
         frmScannerRegister.MdiParent = Me : frmScannerRegister.Show()
@@ -116,8 +119,8 @@ Public Class frmMain
     Private Sub tbDisconnect_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tbDisconnect.Click
         'MAKE SURE QUERY IS STOPPED BEFORE EXITING
         If LOOP_IN_PROGRESS = True Then USER_REQUEST_STOP = True
-
         Me.Tag = "Disconnect"
+        CLOSE_C1_FORMS()
     End Sub
 
     Private Sub DisconnectToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DisconnectToolStripMenuItem.Click
@@ -172,39 +175,49 @@ Public Class frmMain
         If LOG_BUTTONS_STATUS = "Play" Then Exit Sub
 
         LOG_BUTTONS_STATUS = "Play"
-        ENABLE_STATE_FOR_MENUS(1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0)
+        ENABLE_STATE_FOR_MENUS(0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
         ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1, 0)
         PlaySpeed = 320 : ForwardSpeed = 320 : BackwardSpeed = 320 : Me.tsStatus3.Text = "1x"
+    End Sub
+    Private Sub LOG_REQUEST_C1_SENSOR_DATA()
+        ENABLE_STATE_FOR_MENUS(0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
-        Do While LOG_BUTTONS_STATUS = "Play" Or LOG_BUTTONS_STATUS = "FastForward" Or LOG_BUTTONS_STATUS = "FastBackward"
+        'FLAG DO LOOP EVENT IN PROGRESS AND RESET USER_REQUEST_STOP
+        LOOP_IN_PROGRESS = True : USER_REQUEST_STOP = False
+
+        Do Until USER_REQUEST_STOP = True
             'PLAY SPEED ADJUSTED BY FORWARD OR BACKWARD BUTTON
             System.Threading.Thread.Sleep(PlaySpeed)
             System.Windows.Forms.Application.DoEvents()
 
-            FileGetObject(1, DATA_FILTERED_RECEIVED, RECORD_NUMBER * 100)                   'GET DATAFRAME FROM RECORD
-            tsStatus2.Text = RECORD_NUMBER - 3000 & " of " & TOTAL_RECORD_FRAME             'STATUS CURRENT FRAME
+            'DO THIS ONLY IF PLAYING
+            If LOG_BUTTONS_STATUS = "Play" Or LOG_BUTTONS_STATUS = "FastForward" Or LOG_BUTTONS_STATUS = "FastBackward" Then
+                FileGetObject(1, DATA_FILTERED_RECEIVED, RECORD_NUMBER * 100)                   'GET DATAFRAME FROM RECORD
+                tsStatus2.Text = RECORD_NUMBER - 3000 & " of " & TOTAL_RECORD_FRAME             'STATUS CURRENT FRAME
 
-            'STOP LOG PLAYING IF BEGINNING/END OF RECORD
-            If RECORD_NUMBER - 3000 = TOTAL_RECORD_FRAME Or RECORD_NUMBER = 3000 Then
-                tsStop_Click(3, e)
-                ENABLE_STATE_FOR_INSPECTOR(0, 0, 1, 0, 0, 0, 0)
-                RECORD_NUMBER = 3001
-                Exit Sub
+                'GO FORWARD ON PLAYBACK
+                If LOG_BUTTONS_STATUS = "FastForward" Or LOG_BUTTONS_STATUS = "Play" Then RECORD_NUMBER = RECORD_NUMBER + 1
+
+                'GO BACKWARD ON PLAYBACK
+                If LOG_BUTTONS_STATUS = "FastBackward" Then RECORD_NUMBER = RECORD_NUMBER - 1
+
+                Select Case USER_FORM_SELECT                                                    'WHAT FORM SELECTED
+                    Case 1 : RESULT_GRID_STYLE(DATA_FILTERED_RECEIVED)                          'SHOW DECODED DATA 
+                End Select
+
+                'STOP LOG PLAYING IF BEGINNING/END OF RECORD
+                If RECORD_NUMBER - 3000 = TOTAL_RECORD_FRAME Or RECORD_NUMBER = 3000 Then
+                    LOG_BUTTONS_STATUS = "Stop"
+                    ENABLE_STATE_FOR_INSPECTOR(0, 0, 1, 0, 0, 0, 0)
+                    RECORD_NUMBER = 3001
+                End If
             End If
 
-            'GO FORWARD ON PLAYBACK
-            If LOG_BUTTONS_STATUS = "FastForward" Or LOG_BUTTONS_STATUS = "Play" Then RECORD_NUMBER = RECORD_NUMBER + 1
-
-            'GO BACKWARD ON PLAYBACK
-            If LOG_BUTTONS_STATUS = "FastBackward" Then RECORD_NUMBER = RECORD_NUMBER - 1
-
-            Select Case USER_FORM_SELECT                                                    'WHAT FORM SELECTED
-                Case 1 : RESULT_GRID_STYLE(DATA_FILTERED_RECEIVED)                          'SHOW DECODED DATA 
-            End Select
         Loop
 
+        'RESET
+        LOG_BUTTONS_STATUS = "" : Me.Tag = "Disconnect"
     End Sub
-
     Private Sub tsFastForward_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsFastForward.Click
         LOG_BUTTONS_STATUS = "FastForward" : ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1, 0)
 
