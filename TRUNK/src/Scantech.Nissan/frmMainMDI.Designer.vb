@@ -146,8 +146,9 @@ Partial Class frmMain
         '
         'tsFrameTrack
         '
+        Me.tsFrameTrack.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left
         Me.tsFrameTrack.Name = "tsFrameTrack"
-        Me.tsFrameTrack.Size = New System.Drawing.Size(0, 21)
+        Me.tsFrameTrack.Size = New System.Drawing.Size(4, 21)
         '
         'tsProgress
         '
@@ -158,18 +159,21 @@ Partial Class frmMain
         '
         'tsStatus
         '
+        Me.tsStatus.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left
         Me.tsStatus.Name = "tsStatus"
-        Me.tsStatus.Size = New System.Drawing.Size(0, 21)
+        Me.tsStatus.Size = New System.Drawing.Size(4, 25)
         '
         'tsStatus2
         '
+        Me.tsStatus2.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left
         Me.tsStatus2.Name = "tsStatus2"
-        Me.tsStatus2.Size = New System.Drawing.Size(0, 21)
+        Me.tsStatus2.Size = New System.Drawing.Size(4, 25)
         '
         'tsStatus3
         '
+        Me.tsStatus3.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left
         Me.tsStatus3.Name = "tsStatus3"
-        Me.tsStatus3.Size = New System.Drawing.Size(0, 21)
+        Me.tsStatus3.Size = New System.Drawing.Size(4, 25)
         '
         'tmrPortStatus
         '

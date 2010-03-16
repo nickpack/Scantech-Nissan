@@ -1,6 +1,11 @@
 ﻿Imports System.Windows.Forms
 
+
 Public Class frmMain
+    Dim ForwardSpeed As Integer = 320
+    Dim BackwardSpeed As Integer = 320
+
+    Dim PlaySpeed As Integer
     Private Sub frmMain_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         'DOES NOT EXIT IF DATA IS QUERYING
         If LOOP_IN_PROGRESS = True Then
@@ -80,9 +85,11 @@ Public Class frmMain
 
         'REAL CONSULT PORT FUNCTION (BYPASS LOGGING)
         If LOG_BUTTONS_STATUS = "" Then
-            RESET_GRID_STYLE_FOR_SENSORS() : RESET_GRID_STYLE_FOR_OUTPUT() : RESET_GRID_STYLE_FOR_ACTIVE()  'RESET GRIDS
+            RESET_GRID_STYLE_FOR_SENSORS() : RESET_GRID_STYLE_FOR_OUTPUT() : RESET_GRID_STYLE_FOR_ACTIVE()
             REQUEST_C1_SENSOR_DATA()                                                                        'START COMMUNICATION WITH ECU AND REQUEST DATA AND PROCESS THEM
             CLOSE_C1_FORMS()                                                                                'CLOSE ALL FORM RELATED
+        ElseIf LOG_BUTTONS_STATUS = "Open" Then
+            RESET_GRID_STYLE_FOR_SENSORS() : RESET_GRID_STYLE_FOR_OUTPUT()
         End If
     End Sub
     Private Sub RegisterTest_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RegisterTest.Click
@@ -118,33 +125,47 @@ Public Class frmMain
     End Sub
 
     Private Sub tsRecord_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsRecord.Click
+        ENABLE_STATE_FOR_INSPECTOR(2, 1, 0, 1, 0, 0, 0)
+
         Select Case LOG_BUTTONS_STATUS
             Case "Record"                                                                       'RECORDING IS RUNNING EXIT SUB
                 Exit Sub
             Case "Pause"                                                                        'UNPAUSE AND CONTINUE RECORDING
-                LOG_BUTTONS_STATUS = "Record" : ENABLE_STATE_FOR_INSPECTOR(2, 1, 0, 1, 0, 0, 0)
+                LOG_BUTTONS_STATUS = "Record"
                 Exit Sub
             Case "Stop"                                                                         'ASK TO SAVE EXISTING UNTITLED LOG
                 LOG_SAVE_FILE()
                 LOG_BUTTONS_STATUS = ""                                                         'RESET
             Case Else                                                                           'FIRST TIME RUN: SET STATUS AS RECORD AND SET LOG BUTTONS ENABLE STATES ACCORDINGLY
-                LOG_BUTTONS_STATUS = "Record" : ENABLE_STATE_FOR_INSPECTOR(2, 1, 0, 1, 0, 0, 0)
+                LOG_BUTTONS_STATUS = "Record"
                 LOG_CREATE_FILE()                                                               'CREATE LOG FILE FOR INITIAL RECORD
                 LOG_CREATE_SELECTED_REGISTERS_FILE(1)                                           'GET SELECTED REGISTER NAMES AND STORE IN FILE STARTING AT RECORD 1
         End Select
 
     End Sub
-    
+
     Private Sub tsPause_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsPause.Click
-        LOG_BUTTONS_STATUS = "Pause" : ENABLE_STATE_FOR_INSPECTOR(2, 1, 2, 2, 2, 2, 2)
+        LOG_BUTTONS_STATUS = "Pause" : ENABLE_STATE_FOR_INSPECTOR(2, 1, 2, 2, 0, 0, 0)
     End Sub
 
     Private Sub tsStop_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsStop.Click
-        LOG_BUTTONS_STATUS = "Stop" : ENABLE_STATE_FOR_INSPECTOR(2, 0, 2, 0, 2, 2, 2)
+        LOG_BUTTONS_STATUS = "Stop" : ENABLE_STATE_FOR_INSPECTOR(2, 0, 2, 0, 0, 0, 0)
     End Sub
 
     Private Sub tsFastBackward_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsFastBackward.Click
-        LOG_BUTTONS_STATUS = "FastBackward" : ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1, 1)
+        LOG_BUTTONS_STATUS = "FastBackward" : ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1, 0)
+
+        If BackwardSpeed = 5 Then
+            BackwardSpeed = 0
+            PlaySpeed = 0
+            Me.tsStatus3.Text = "Max Speed"
+            Exit Sub
+        End If
+
+        If BackwardSpeed = 0 Then BackwardSpeed = 640
+        BackwardSpeed = BackwardSpeed / 2
+        PlaySpeed = BackwardSpeed
+        Me.tsStatus3.Text = 320 / PlaySpeed & "x"
     End Sub
 
     Private Sub tsPlay_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsPlay.Click
@@ -152,29 +173,52 @@ Public Class frmMain
 
         LOG_BUTTONS_STATUS = "Play"
         ENABLE_STATE_FOR_MENUS(1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0)
-        ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1, 1)
+        ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1, 0)
+        PlaySpeed = 320 : ForwardSpeed = 320 : BackwardSpeed = 320 : Me.tsStatus3.Text = "1x"
 
-        Dim Data As String
-        Do Until LOG_BUTTONS_STATUS <> "Play"
+        Do While LOG_BUTTONS_STATUS = "Play" Or LOG_BUTTONS_STATUS = "FastForward" Or LOG_BUTTONS_STATUS = "FastBackward"
+            'PLAY SPEED ADJUSTED BY FORWARD OR BACKWARD BUTTON
+            System.Threading.Thread.Sleep(PlaySpeed)
             System.Windows.Forms.Application.DoEvents()
-            FileGetObject(1, Data, RECORD_NUMBER * 100)                                 'GET DATAFRAME FROM RECORD
-            tsStatus2.Text = RECORD_NUMBER - 3000 & " of " & TOTAL_RECORD_FRAME         'STATUS CURRENT FRAME
 
-            If RECORD_NUMBER + 3000 = TOTAL_RECORD_FRAME Then                           'STOP LOG PLAYING IF END OF RECORD
+            FileGetObject(1, DATA_FILTERED_RECEIVED, RECORD_NUMBER * 100)                   'GET DATAFRAME FROM RECORD
+            tsStatus2.Text = RECORD_NUMBER - 3000 & " of " & TOTAL_RECORD_FRAME             'STATUS CURRENT FRAME
+
+            'STOP LOG PLAYING IF BEGINNING/END OF RECORD
+            If RECORD_NUMBER - 3000 = TOTAL_RECORD_FRAME Or RECORD_NUMBER = 3000 Then
                 tsStop_Click(3, e)
+                ENABLE_STATE_FOR_INSPECTOR(0, 0, 1, 0, 0, 0, 0)
+                RECORD_NUMBER = 3001
                 Exit Sub
             End If
 
-            RECORD_NUMBER = RECORD_NUMBER + 1                                           'UPDATE COUNTER
+            'GO FORWARD ON PLAYBACK
+            If LOG_BUTTONS_STATUS = "FastForward" Or LOG_BUTTONS_STATUS = "Play" Then RECORD_NUMBER = RECORD_NUMBER + 1
 
-            Select Case USER_FORM_SELECT                                                'WHAT FORM SELECTED
-                Case 1 : RESULT_GRID_STYLE(Data)                                        'SHOW DECODED DATA 
+            'GO BACKWARD ON PLAYBACK
+            If LOG_BUTTONS_STATUS = "FastBackward" Then RECORD_NUMBER = RECORD_NUMBER - 1
+
+            Select Case USER_FORM_SELECT                                                    'WHAT FORM SELECTED
+                Case 1 : RESULT_GRID_STYLE(DATA_FILTERED_RECEIVED)                          'SHOW DECODED DATA 
             End Select
         Loop
+
     End Sub
 
     Private Sub tsFastForward_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsFastForward.Click
-        LOG_BUTTONS_STATUS = "FastForward" : ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1, 1)
+        LOG_BUTTONS_STATUS = "FastForward" : ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1, 0)
+
+        If ForwardSpeed = 5 Then
+            ForwardSpeed = 0
+            PlaySpeed = 0
+            Me.tsStatus3.Text = "Max Speed"
+            Exit Sub
+        End If
+
+        If ForwardSpeed = 0 Then ForwardSpeed = 640
+        ForwardSpeed = ForwardSpeed / 2
+        PlaySpeed = ForwardSpeed
+        Me.tsStatus3.Text = 320 / PlaySpeed & "x"
     End Sub
 
     Private Sub tmrLogStatus_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrLogStatus.Tick
@@ -183,9 +227,9 @@ Public Class frmMain
             Case "Record" : tsStatus.Text = "Recording" : tmrLogImage.Interval = 500
             Case "Pause" : tsStatus.Text = "Paused" : tmrLogImage.Interval = 250
             Case "Stop" : tsStatus.Text = "Stop"
-            Case "FastBackward" : tsStatus.Text = "Fast Backward" : tmrLogImage.Interval = 100
+            Case "FastBackward" : tsStatus.Text = "Fast Backward" : tmrLogImage.Interval = 200
             Case "Play" : tsStatus.Text = "Playing"
-            Case "FastForward" : tsStatus.Text = "Fast Forward" : tmrLogImage.Interval = 100
+            Case "FastForward" : tsStatus.Text = "Fast Forward" : tmrLogImage.Interval = 200
             Case Else : tsStatus.Text = ""
         End Select
     End Sub
@@ -198,9 +242,9 @@ Public Class frmMain
         If PrevStatus <> LOG_BUTTONS_STATUS Then
             tsRecord.Image = My.Resources.RecordNormal
             tsPause.Image = My.Resources.PauseNormal
+            tsPlay.Image = My.Resources.PlayNormal
             tsFastBackward.Image = My.Resources.StepBackwardNormalBlue
             tsFastForward.Image = My.Resources.StepForwardNormalBlue
-            tsPlay.Image = My.Resources.PlayNormal
         End If
 
         'PREVIOUS BUTTON SELECTED
@@ -222,18 +266,18 @@ Public Class frmMain
                 End If
             Case "Stop"
 
-            Case "FastBackward"
-                If X = True Then
-                    tsFastBackward.Image = My.Resources.StepBackwardHotBlue
-                Else
-                    tsFastBackward.Image = My.Resources.StepBackwardNormalBlue
-                End If
             Case "Play" : tsPlay.Image = My.Resources.PlayHot
             Case "FastForward"
                 If X = True Then
                     tsFastForward.Image = My.Resources.StepForwardHotBlue
                 Else
                     tsFastForward.Image = My.Resources.StepForwardNormalBlue
+                End If
+            Case "FastBackward"
+                If X = True Then
+                    tsFastBackward.Image = My.Resources.StepBackwardHotBlue
+                Else
+                    tsFastBackward.Image = My.Resources.StepBackwardNormalBlue
                 End If
         End Select
 
@@ -248,4 +292,5 @@ Public Class frmMain
         LOG_BUTTONS_STATUS = "Open"
         LOG_OPEN_FILE()
     End Sub
+
 End Class

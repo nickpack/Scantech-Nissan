@@ -629,9 +629,7 @@ resend:
     End Function
 
     Public Sub RESET_GRID_STYLE_FOR_SENSORS()
-        frmC1Sensors.MdiParent = frmMain : frmC1Sensors.Show()
-
-        frmC1Sensors.Grid1.Rows.Clear()
+        frmC1Sensors.MdiParent = frmMain : frmC1Sensors.Show() : frmC1Sensors.Grid1.Rows.Clear()
 
         Dim X As Integer
         For X = START_BYTE_FOR_SENSOR To END_BYTE_FOR_SENSOR
@@ -651,9 +649,7 @@ resend:
     End Sub
 
     Public Sub RESET_GRID_STYLE_FOR_OUTPUT()
-        frmC1Output.MdiParent = frmMain : frmC1Output.Show()
-
-        frmC1Output.Grid2.Rows.Clear()
+        frmC1Output.MdiParent = frmMain : frmC1Output.Show() : frmC1Output.Grid2.Rows.Clear()
 
         Dim X As Integer
         For X = START_BYTE_FOR_SENSOR To END_BYTE_FOR_SENSOR
@@ -680,8 +676,7 @@ resend:
             CBO_ACTIVE_BINDING(X) = New BindingSource
         Next
 
-        frmC1ActiveTest.MdiParent = frmMain : frmC1ActiveTest.Show()
-        frmC1ActiveTest.Grid2.Rows.Clear()
+        frmC1ActiveTest.MdiParent = frmMain : frmC1ActiveTest.Show() : frmC1ActiveTest.Grid2.Rows.Clear()
 
         For X = START_BYTE_FOR_ACTIVETEST To END_BYTE_FOR_ACTIVETEST
             Dim D As String : D = Hex(X) : If Len(D) = 1 Then D = "0" & D
@@ -805,7 +800,6 @@ resend:
             SUPPORTED_REGISTERS(x, 0, 1) = False                                                        'RESET DIGITAL OUTPUT SUPPORTED ARRAY
             SUPPORTED_REGISTERS(x, 1, 0) = False                                                        'RESET LSB ARRAY
             SUPPORTED_REGISTERS(x, 0, 2) = False                                                        'RESET ACTIVE TEST ARRAY
-            REGISTERS_NAME(x, 0) = ""                                                                   'RESET SENSOR NAME
         Next
 
         'SENSOR REGISTER AND SCALE TYPES (INCLUDING DIGITAL OUTPUT(ON/OFF) (0X00 TO 0X32 MOST COMMON, SOME ABOVE 0X32 ON LATE MODELS)
@@ -1006,13 +1000,58 @@ resend:
         If frmMain.OpenFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
             FileOpen(1, frmMain.OpenFileDialog1.FileName, OpenMode.Binary)
             FileGetObject(1, TOTAL_RECORD_FRAME, 2502 * 100)
+            FileGetObject(1, START_BYTE_FOR_SENSOR, 2510 * 100)
+            FileGetObject(1, END_BYTE_FOR_SENSOR, 2511 * 100)
             frmMain.tsStatus2.Text = "0 of " & TOTAL_RECORD_FRAME
-            RECORD_NUMBER = 3000
+            RECORD_NUMBER = 3001
+            LOG_GET_SUPPORTED_REGISTERS()
             ENABLE_STATE_FOR_INSPECTOR(0, 0, 0, 0, 0, 0, 1)
             ENABLE_STATE_FOR_MENUS(1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0)
         End If
     End Sub
+    Public Sub LOG_GET_SUPPORTED_REGISTERS()
+        Dim x As Integer
 
+        'RESET
+        For x = 0 To 255
+            SELECTED_REGISTERS(x) = False                                                               'RESET SELECTED REGISTERS
+            SUPPORTED_REGISTERS(x, 0, 0) = False                                                        'RESET REGISTER SUPPORTED ARRAYS
+            SUPPORTED_REGISTERS(x, 0, 1) = False                                                        'RESET DIGITAL OUTPUT SUPPORTED ARRAY
+            SUPPORTED_REGISTERS(x, 1, 0) = False                                                        'RESET LSB ARRAY
+            SUPPORTED_REGISTERS(x, 0, 2) = False                                                        'RESET ACTIVE TEST ARRAY
+        Next
+
+        Dim Value As String
+        For x = 1 To 2000
+
+            FileGetObject(1, Value, x * 100)
+            If Value <> "" Then
+
+                Dim RegAddr As String = CByte("&H" & Left(Value, 2))
+                Dim LSBMSB As String = Mid(Value, 3, 2)
+                Dim BitValue As String = Mid(Value, 5, 2)
+                Dim ScaleValue As String = Mid(Value, 7, 2)
+                Dim UnitValue As String = Mid(Value, 9, 2)
+
+                If Value <> "" Then
+                    REGISTERS_NAME(RegAddr, 0) = Mid(Value, 12)                                                     'REGISTER NAME
+                    SUPPORTED_REGISTERS(RegAddr, 0, 0) = True                                                       'REGISTER SUPPORTED
+                    SELECTED_REGISTERS(RegAddr) = True
+                    REGISTERS_SCALE_TYPE(RegAddr, 0) = ScaleValue
+                    REGISTERS_UNIT_TYPE(RegAddr) = UnitValue
+
+                    If LSBMSB = "11" Then
+                        SUPPORTED_REGISTERS(RegAddr + 1, 0, 0) = True                                               'REGISTER SUPPORTED
+                        SUPPORTED_REGISTERS(RegAddr + 1, 1, 0) = True '..............................................REGISTER LSB/MSB TYPE
+                    ElseIf Left(BitValue, 1) = "b" Then
+                        SUPPORTED_REGISTERS(RegAddr, 0, 1) = True                                                   'DIGITAL OUTPUT TYPE
+                        REGISTERS_NAME(RegAddr, Right(BitValue, 1)) = Mid(Value, 12)
+                        REGISTERS_SCALE_TYPE(RegAddr, Right(BitValue, 1)) = ScaleValue
+                    End If
+                End If
+            End If
+        Next
+    End Sub
     Public Sub LOG_SAVE_FILE()
         Dim Value As String
 
