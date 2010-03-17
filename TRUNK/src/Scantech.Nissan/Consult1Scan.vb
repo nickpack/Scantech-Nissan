@@ -57,7 +57,7 @@
     Public TIME_OUT As Integer
     Public LOG_BUTTONS_STATUS As String                         'LOG INSPECTOR STATUS
     Public RECORD_NUMBER As VariantType                         'FRAME RECORD COUNTER
-    Public TOTAL_RECORD_FRAME As VariantType                   'TOTAL FRAME RECORDS FOR LOG PLAYING
+    Public TOTAL_RECORD_FRAME As VariantType                    'TOTAL FRAME RECORDS FOR LOG PLAYING
     Public X_RATE_SAMPLE As Long                                'FRAME PER SECOND STATUS COUNTER
 
     Private Declare Unicode Function GetPrivateProfileString Lib "kernel32.dll" _
@@ -999,8 +999,6 @@ resend:
             frmMain.tsStatus2.Text = "0 of " & TOTAL_RECORD_FRAME
             RECORD_NUMBER = 3001
             LOG_GET_SUPPORTED_REGISTERS()
-            ENABLE_STATE_FOR_INSPECTOR(0, 0, 0, 0, 0, 0, 1)
-            ENABLE_STATE_FOR_MENUS(1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0)
         End If
     End Sub
     Public Sub LOG_GET_SUPPORTED_REGISTERS()

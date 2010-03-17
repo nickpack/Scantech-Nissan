@@ -4,7 +4,6 @@
 Public Class frmMain
     Dim ForwardSpeed As Integer = 320
     Dim BackwardSpeed As Integer = 320
-
     Dim PlaySpeed As Integer
     Private Sub frmMain_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         'DOES NOT EXIT IF DATA IS QUERYING
@@ -87,7 +86,7 @@ Public Class frmMain
         If LOG_BUTTONS_STATUS = "" Then                                             'REAL CONSULT PORT FUNCTION (BYPASS LOGGING)
             RESET_GRID_STYLE_FOR_SENSORS() : RESET_GRID_STYLE_FOR_OUTPUT() : RESET_GRID_STYLE_FOR_ACTIVE()
             REQUEST_C1_SENSOR_DATA()
-            Me.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY) : frmMain.SerialPort1.DiscardInBuffer()
+            Me.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY) : Me.SerialPort1.DiscardInBuffer()
         ElseIf LOG_BUTTONS_STATUS = "Open" Then                                     'LOG FUNCTION
             RESET_GRID_STYLE_FOR_SENSORS() : RESET_GRID_STYLE_FOR_OUTPUT()
             LOG_REQUEST_C1_SENSOR_DATA()
@@ -193,10 +192,11 @@ Public Class frmMain
             'DO THIS ONLY IF PLAYING
             If LOG_BUTTONS_STATUS = "Play" Or LOG_BUTTONS_STATUS = "FastForward" Or LOG_BUTTONS_STATUS = "FastBackward" Then
                 FileGetObject(1, DATA_FILTERED_RECEIVED, RECORD_NUMBER * 100)                   'GET DATAFRAME FROM RECORD
-                tsStatus2.Text = RECORD_NUMBER - 3000 & " of " & TOTAL_RECORD_FRAME             'STATUS CURRENT FRAME
 
                 'GO FORWARD ON PLAYBACK
                 If LOG_BUTTONS_STATUS = "FastForward" Or LOG_BUTTONS_STATUS = "Play" Then RECORD_NUMBER = RECORD_NUMBER + 1
+
+                tsStatus2.Text = RECORD_NUMBER - 3000 & " of " & TOTAL_RECORD_FRAME             'STATUS CURRENT FRAME
 
                 'GO BACKWARD ON PLAYBACK
                 If LOG_BUTTONS_STATUS = "FastBackward" Then RECORD_NUMBER = RECORD_NUMBER - 1
@@ -212,7 +212,6 @@ Public Class frmMain
                     RECORD_NUMBER = 3001
                 End If
             End If
-
         Loop
 
         'RESET
@@ -304,6 +303,8 @@ Public Class frmMain
     Private Sub tsOpen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsOpen.Click
         LOG_BUTTONS_STATUS = "Open"
         LOG_OPEN_FILE()
+        ENABLE_STATE_FOR_INSPECTOR(0, 0, 0, 0, 0, 0, 1)
+        ENABLE_STATE_FOR_MENUS(1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0)
     End Sub
 
 End Class
