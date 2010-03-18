@@ -117,8 +117,8 @@ Public Class frmMain
 
     Private Sub tbDisconnect_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tbDisconnect.Click
         'MAKE SURE QUERY IS STOPPED BEFORE EXITING
+        Me.Tag = "Disconnect"
         If LOOP_IN_PROGRESS = True Then
-            Me.Tag = "Disconnect"
             USER_REQUEST_STOP = True
             Exit Sub
         End If
