@@ -281,7 +281,7 @@ resend:
                 'LOG RECORDING
                 If LOG_BUTTONS_STATUS = "Record" Then
                     RECORD_NUMBER = RECORD_NUMBER + 1                                   'UPDATE COUNTER
-                    FilePutObject(1, DATA_FILTERED_RECEIVED, (RECORD_NUMBER) * 100)     'WRITE REGISTER FRAME DATA
+                    FilePutObject(1, DATA_FILTERED_RECEIVED & ">" & Format(DateTime.Now, "HH:mm:ss:fff"), (RECORD_NUMBER) * 100)     'WRITE REGISTER FRAME DATA
                     frmMain.tsStatus2.Text = "Frame # " & RECORD_NUMBER - 3000          'FRAME RECORD NUMBER
                 End If
 
@@ -997,6 +997,7 @@ resend:
             FileGetObject(1, START_BYTE_FOR_SENSOR, 2510 * 100)
             FileGetObject(1, END_BYTE_FOR_SENSOR, 2511 * 100)
             frmMain.tsStatus2.Text = "0 of " & TOTAL_RECORD_FRAME
+            frmMain.tsStatus3.Text = frmMain.OpenFileDialog1.FileName.Substring(frmMain.OpenFileDialog1.FileName.LastIndexOf("\") + 1)
             RECORD_NUMBER = 3001
             LOG_GET_SUPPORTED_REGISTERS()
         End If
