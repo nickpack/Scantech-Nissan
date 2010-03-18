@@ -920,7 +920,7 @@ resend:
         If LOG_BUTTONS_STATUS <> "" Then LOG_SAVE_FILE()
 
         'RESET 
-        LOG_BUTTONS_STATUS = "" : frmMain.tsStatus.Text = "" : frmMain.tsStatus2.Text = "" : frmMain.tsStatus3.Text = ""
+        LOG_BUTTONS_STATUS = "" : frmMain.tsStatus.Text = "" : frmMain.tsStatus2.Text = "" : frmMain.tsStatus3.Text = "" : frmMain.tsStatus4.Text = ""
 
         'CLOSE THE FORMS
         frmC1Output.Close() : frmC1Sensors.Close() : frmC1ActiveTest.Close() : frmRegSelection.Close() : frmC1Faults.Close()

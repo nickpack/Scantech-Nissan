@@ -113,6 +113,7 @@ Partial Class frmMain
         Me.tmrRateSample = New System.Windows.Forms.Timer(Me.components)
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
+        Me.tsStatus4 = New System.Windows.Forms.ToolStripStatusLabel
         Me.StatusStrip.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
@@ -121,10 +122,10 @@ Partial Class frmMain
         'StatusStrip
         '
         Me.StatusStrip.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.statusPort, Me.statusRx, Me.tsFrameTrack, Me.tsProgress, Me.tsStatus, Me.tsStatus2, Me.tsStatus3})
-        Me.StatusStrip.Location = New System.Drawing.Point(0, 478)
+        Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.statusPort, Me.statusRx, Me.tsFrameTrack, Me.tsProgress, Me.tsStatus, Me.tsStatus2, Me.tsStatus3, Me.tsStatus4})
+        Me.StatusStrip.Location = New System.Drawing.Point(0, 476)
         Me.StatusStrip.Name = "StatusStrip"
-        Me.StatusStrip.Size = New System.Drawing.Size(1094, 26)
+        Me.StatusStrip.Size = New System.Drawing.Size(1094, 28)
         Me.StatusStrip.TabIndex = 7
         Me.StatusStrip.Text = "StatusStrip"
         '
@@ -132,7 +133,7 @@ Partial Class frmMain
         '
         Me.statusPort.Image = Global.Scantech.Nissan.My.Resources.Resources.LedBlack
         Me.statusPort.Name = "statusPort"
-        Me.statusPort.Size = New System.Drawing.Size(62, 21)
+        Me.statusPort.Size = New System.Drawing.Size(62, 23)
         Me.statusPort.Text = "COM"
         Me.statusPort.ToolTipText = "COM PORT STATUS"
         '
@@ -140,7 +141,7 @@ Partial Class frmMain
         '
         Me.statusRx.Image = Global.Scantech.Nissan.My.Resources.Resources.LedBlack
         Me.statusRx.Name = "statusRx"
-        Me.statusRx.Size = New System.Drawing.Size(43, 21)
+        Me.statusRx.Size = New System.Drawing.Size(43, 23)
         Me.statusRx.Text = "Rx"
         Me.statusRx.ToolTipText = "IN BUFFER STATUS"
         '
@@ -148,7 +149,7 @@ Partial Class frmMain
         '
         Me.tsFrameTrack.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left
         Me.tsFrameTrack.Name = "tsFrameTrack"
-        Me.tsFrameTrack.Size = New System.Drawing.Size(4, 21)
+        Me.tsFrameTrack.Size = New System.Drawing.Size(4, 23)
         '
         'tsProgress
         '
@@ -161,19 +162,19 @@ Partial Class frmMain
         '
         Me.tsStatus.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left
         Me.tsStatus.Name = "tsStatus"
-        Me.tsStatus.Size = New System.Drawing.Size(4, 21)
+        Me.tsStatus.Size = New System.Drawing.Size(4, 23)
         '
         'tsStatus2
         '
         Me.tsStatus2.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left
         Me.tsStatus2.Name = "tsStatus2"
-        Me.tsStatus2.Size = New System.Drawing.Size(4, 21)
+        Me.tsStatus2.Size = New System.Drawing.Size(4, 23)
         '
         'tsStatus3
         '
         Me.tsStatus3.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left
         Me.tsStatus3.Name = "tsStatus3"
-        Me.tsStatus3.Size = New System.Drawing.Size(4, 21)
+        Me.tsStatus3.Size = New System.Drawing.Size(4, 23)
         '
         'tmrPortStatus
         '
@@ -721,6 +722,12 @@ Partial Class frmMain
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'tsStatus4
+        '
+        Me.tsStatus4.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left
+        Me.tsStatus4.Name = "tsStatus4"
+        Me.tsStatus4.Size = New System.Drawing.Size(4, 23)
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -836,5 +843,6 @@ Partial Class frmMain
     Friend WithEvents SaveFileDialog1 As System.Windows.Forms.SaveFileDialog
     Friend WithEvents tsOpen As System.Windows.Forms.ToolStripButton
     Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
+    Friend WithEvents tsStatus4 As System.Windows.Forms.ToolStripStatusLabel
 
 End Class

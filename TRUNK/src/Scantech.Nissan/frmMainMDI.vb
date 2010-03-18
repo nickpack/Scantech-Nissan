@@ -116,13 +116,15 @@ Public Class frmMain
     End Sub
 
     Private Sub tbDisconnect_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tbDisconnect.Click
-        'MAKE SURE QUERY IS STOPPED BEFORE EXITING
         Me.Tag = "Disconnect"
+
+        'MAKE SURE QUERY IS STOPPED BEFORE EXITING
         If LOOP_IN_PROGRESS = True Then
             USER_REQUEST_STOP = True
             Exit Sub
         End If
 
+        'IF LOOP NOT IN PROGRESS MAKE SURE YOU CLOSE FORMS AND RESET
         CLOSE_C1_FORMS()
     End Sub
 
@@ -161,13 +163,14 @@ Public Class frmMain
     Private Sub tsFastBackward_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsFastBackward.Click
         LOG_BUTTONS_STATUS = "FastBackward" : ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1, 0)
 
+        'MAX SPEED
         If BackwardSpeed = 5 Then
-            BackwardSpeed = 0
-            PlaySpeed = 0
+            BackwardSpeed = 0 : PlaySpeed = 0
             Me.tsStatus3.Text = "Max Speed"
             Exit Sub
         End If
 
+        'INCREASE SPEED LIMIT
         If BackwardSpeed = 0 Then BackwardSpeed = 640
         BackwardSpeed = BackwardSpeed / 2
         PlaySpeed = BackwardSpeed
@@ -176,7 +179,6 @@ Public Class frmMain
 
     Private Sub tsPlay_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsPlay.Click
         If LOG_BUTTONS_STATUS = "Play" Then Exit Sub
-
         LOG_BUTTONS_STATUS = "Play"
         ENABLE_STATE_FOR_MENUS(0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
         ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1, 0)
@@ -206,13 +208,14 @@ Public Class frmMain
                 If LOG_BUTTONS_STATUS = "FastBackward" Then RECORD_NUMBER = RECORD_NUMBER - 1
 
                 Select Case USER_FORM_SELECT                                                    'WHAT FORM SELECTED
-                    Case 1 : RESULT_GRID_STYLE(DATA_FILTERED_RECEIVED)                          'SHOW DECODED DATA 
+                    Case 1 : RESULT_GRID_STYLE(DATA_FILTERED_RECEIVED)
+                        Me.tsStatus4.Text = DATA_FILTERED_RECEIVED.Substring _
+                                            (DATA_FILTERED_RECEIVED.LastIndexOf(">") + 1)       'SHOW DECODED DATA 
                 End Select
 
                 'STOP LOG PLAYING IF BEGINNING/END OF RECORD
                 If RECORD_NUMBER - 3000 = TOTAL_RECORD_FRAME Or RECORD_NUMBER = 3000 Then
-                    LOG_BUTTONS_STATUS = "Stop"
-                    ENABLE_STATE_FOR_INSPECTOR(0, 0, 1, 0, 0, 0, 0)
+                    LOG_BUTTONS_STATUS = "Stop" : ENABLE_STATE_FOR_INSPECTOR(0, 0, 1, 0, 0, 0, 0)
                     RECORD_NUMBER = 3001
                 End If
             End If
@@ -224,13 +227,14 @@ Public Class frmMain
     Private Sub tsFastForward_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsFastForward.Click
         LOG_BUTTONS_STATUS = "FastForward" : ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1, 0)
 
+        'MAX SPEED
         If ForwardSpeed = 5 Then
-            ForwardSpeed = 0
-            PlaySpeed = 0
+            ForwardSpeed = 0 : PlaySpeed = 0
             Me.tsStatus3.Text = "Max Speed"
             Exit Sub
         End If
 
+        'INCREASE SPEED LIMIT
         If ForwardSpeed = 0 Then ForwardSpeed = 640
         ForwardSpeed = ForwardSpeed / 2
         PlaySpeed = ForwardSpeed
