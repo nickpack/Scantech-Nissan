@@ -916,9 +916,6 @@ resend:
         'RESET 
         USER_REQUEST_STOP = True : LOOP_IN_PROGRESS = False : frmMain.tmrTimeout.Enabled = False : USER_FORM_SELECT = 0
 
-        'IF NOT "" THEN LOG RECORDING WAS PERFORMED.  ASK SAVE FILE
-        If LOG_BUTTONS_STATUS <> "" Then LOG_SAVE_FILE()
-
         'RESET 
         LOG_BUTTONS_STATUS = "" : frmMain.tsStatus.Text = "" : frmMain.tsStatus2.Text = "" : frmMain.tsStatus3.Text = "" : frmMain.tsStatus4.Text = ""
 
@@ -958,7 +955,7 @@ resend:
         If LogStop <> 2 Then frmMain.tsStop.Enabled = LogStop
         If LogBackward <> 2 Then frmMain.tsFastBackward.Enabled = LogBackward
         If LogForward <> 2 Then frmMain.tsFastForward.Enabled = LogForward
-        If LogForward <> 2 Then frmMain.tsOpen.Enabled = LogOpen
+        If LogOpen <> 2 Then frmMain.tsOpen.Enabled = LogOpen
     End Sub
     Public Sub ENABLE_STATE_FOR_MENUS(ByVal MenuConnect As Integer, ByVal MenuDisconnect As Integer, ByVal MenuSelfDiag As Integer, _
                     ByVal MenuAlert As Integer, ByVal MenuGrid As Integer, ByVal MenuGauges As Integer, _

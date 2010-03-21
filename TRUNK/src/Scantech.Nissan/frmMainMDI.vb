@@ -87,6 +87,7 @@ Public Class frmMain
             RESET_GRID_STYLE_FOR_SENSORS() : RESET_GRID_STYLE_FOR_OUTPUT() : RESET_GRID_STYLE_FOR_ACTIVE()
             REQUEST_C1_SENSOR_DATA()
             Me.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY) : Me.SerialPort1.DiscardInBuffer()
+            If LOG_BUTTONS_STATUS <> "" Then LOG_SAVE_FILE() '.......................IF NOT "" THEN LOG RECORDING WAS PERFORMED.  ASK SAVE FILE
         ElseIf LOG_BUTTONS_STATUS = "Open" Then                                     'LOG FUNCTION
             RESET_GRID_STYLE_FOR_SENSORS() : RESET_GRID_STYLE_FOR_OUTPUT()
             LOG_REQUEST_C1_SENSOR_DATA()
@@ -143,7 +144,9 @@ Public Class frmMain
                 Exit Sub
             Case "Stop"                                                                         'ASK TO SAVE EXISTING UNTITLED LOG
                 LOG_SAVE_FILE()
-                LOG_BUTTONS_STATUS = ""                                                         'RESET
+                LOG_BUTTONS_STATUS = "Record"                                                   'RESET
+                LOG_CREATE_FILE()                                                               'CREATE LOG FILE FOR INITIAL RECORD
+                LOG_CREATE_SELECTED_REGISTERS_FILE(1)                                           'GET SELECTED REGISTER NAMES AND STORE IN FILE STARTING AT RECORD 1
             Case Else                                                                           'FIRST TIME RUN: SET STATUS AS RECORD AND SET LOG BUTTONS ENABLE STATES ACCORDINGLY
                 LOG_BUTTONS_STATUS = "Record"
                 LOG_CREATE_FILE()                                                               'CREATE LOG FILE FOR INITIAL RECORD
@@ -153,15 +156,17 @@ Public Class frmMain
     End Sub
 
     Private Sub tsPause_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsPause.Click
-        LOG_BUTTONS_STATUS = "Pause" : ENABLE_STATE_FOR_INSPECTOR(2, 1, 2, 2, 0, 0, 0)
+        LOG_BUTTONS_STATUS = "Pause" : ENABLE_STATE_FOR_INSPECTOR(2, 1, 2, 2, 0, 0, 2)
     End Sub
 
     Private Sub tsStop_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsStop.Click
-        LOG_BUTTONS_STATUS = "Stop" : ENABLE_STATE_FOR_INSPECTOR(2, 0, 2, 0, 0, 0, 1)
+        LOG_BUTTONS_STATUS = "Stop"
+        ENABLE_STATE_FOR_MENUS(0, 2, 0, 0, 1, 1, 1, 0, 0, 0, 0, 2, 0, 0, 0, 0)
+        ENABLE_STATE_FOR_INSPECTOR(2, 0, 2, 0, 0, 0, 2)
     End Sub
 
     Private Sub tsFastBackward_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsFastBackward.Click
-        LOG_BUTTONS_STATUS = "FastBackward" : ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1, 0)
+        LOG_BUTTONS_STATUS = "FastBackward" : ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1, 2)
 
         'MAX SPEED
         If BackwardSpeed = 5 Then
@@ -180,8 +185,8 @@ Public Class frmMain
     Private Sub tsPlay_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsPlay.Click
         If LOG_BUTTONS_STATUS = "Play" Then Exit Sub
         LOG_BUTTONS_STATUS = "Play"
-        ENABLE_STATE_FOR_MENUS(0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-        ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1, 0)
+        ENABLE_STATE_FOR_MENUS(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1, 1)
         PlaySpeed = 320 : ForwardSpeed = 320 : BackwardSpeed = 320 : Me.tsStatus3.Text = "1x"
     End Sub
     Private Sub LOG_REQUEST_C1_SENSOR_DATA()
@@ -225,7 +230,7 @@ Public Class frmMain
         LOG_BUTTONS_STATUS = "" : Me.Tag = "Disconnect"
     End Sub
     Private Sub tsFastForward_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsFastForward.Click
-        LOG_BUTTONS_STATUS = "FastForward" : ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1, 0)
+        LOG_BUTTONS_STATUS = "FastForward" : ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1, 2)
 
         'MAX SPEED
         If ForwardSpeed = 5 Then
@@ -310,6 +315,7 @@ Public Class frmMain
 
     Private Sub tsOpen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsOpen.Click
         LOG_BUTTONS_STATUS = "Open"
+        ENABLE_STATE_FOR_INSPECTOR(0, 0, 2, 0, 0, 0, 1)
 
         'RESET FORMS AND ENABLE STATE WHEN LOG FILE HAS BEEN SELECTED
         If LOG_OPEN_FILE() = True Then
@@ -317,7 +323,6 @@ Public Class frmMain
                 Case 1 : RESET_GRID_STYLE_FOR_SENSORS() : RESET_GRID_STYLE_FOR_OUTPUT()
             End Select
 
-            ENABLE_STATE_FOR_INSPECTOR(0, 0, 2, 0, 0, 0, 1)
             ENABLE_STATE_FOR_MENUS(2, 0, 0, 0, 1, 1, 1, 0, 0, 0, 2, 0, 0, 0, 0, 0)
         End If
     End Sub
