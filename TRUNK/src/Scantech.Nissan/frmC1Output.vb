@@ -39,7 +39,7 @@
             ENABLE_STATE_FOR_MENUS(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0)
 
             'ENABLE/DISABLE LOG INSPECTOR
-            ENABLE_STATE_FOR_INSPECTOR(0, 0, 1, 0, 0, 0, 0)
+            ENABLE_STATE_FOR_INSPECTOR(0, 0, 1, 0, 0, 0, 1)
         End If
     End Sub
 End Class

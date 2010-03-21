@@ -912,9 +912,9 @@ resend:
     Public Sub RESET_VARIABLES()
         DATA_FILTERED_RECEIVED = "" : IN_BUFFER_BYTE = "" : FF_BYTE_DETECTOR = False : REGISTER_DATA_ONLY = False
     End Sub
-    Public Sub CLOSE_C1_FORMS()
+    Public Sub RESET_C1_FORMS()
         'RESET 
-        USER_REQUEST_STOP = True : LOOP_IN_PROGRESS = False : frmMain.tmrTimeout.Enabled = False
+        USER_REQUEST_STOP = True : LOOP_IN_PROGRESS = False : frmMain.tmrTimeout.Enabled = False : USER_FORM_SELECT = 0
 
         'IF NOT "" THEN LOG RECORDING WAS PERFORMED.  ASK SAVE FILE
         If LOG_BUTTONS_STATUS <> "" Then LOG_SAVE_FILE()
@@ -960,48 +960,52 @@ resend:
         If LogForward <> 2 Then frmMain.tsFastForward.Enabled = LogForward
         If LogForward <> 2 Then frmMain.tsOpen.Enabled = LogOpen
     End Sub
-    Public Sub ENABLE_STATE_FOR_MENUS(ByVal MenuConnect As Boolean, ByVal MenuDisconnect As Boolean, ByVal MenuSelfDiag As Boolean, _
-                    ByVal MenuAlert As Boolean, ByVal MenuGrid As Boolean, ByVal MenuGauges As Boolean, _
-                    ByVal MenuGraphing As Boolean, ByVal MenuDetectReg As Boolean, ByVal MenuDetectECU As Boolean, _
-                    ByVal MenuDecodeReg As Boolean, ByVal tbConnect As Boolean, ByVal tbDisconnect As Boolean, _
-                    ByVal MenuMonitorManager As Boolean, ByVal MenuSpeedTrial As Boolean, ByVal MenuDyno As Boolean, ByVal MenuProfile As Boolean)
+    Public Sub ENABLE_STATE_FOR_MENUS(ByVal MenuConnect As Integer, ByVal MenuDisconnect As Integer, ByVal MenuSelfDiag As Integer, _
+                    ByVal MenuAlert As Integer, ByVal MenuGrid As Integer, ByVal MenuGauges As Integer, _
+                    ByVal MenuGraphing As Integer, ByVal MenuDetectReg As Integer, ByVal MenuDetectECU As Integer, _
+                    ByVal MenuDecodeReg As Integer, ByVal tbConnect As Integer, ByVal tbDisconnect As Integer, _
+                    ByVal MenuMonitorManager As Integer, ByVal MenuSpeedTrial As Integer, ByVal MenuDyno As Integer, ByVal MenuProfile As Integer)
 
-        frmMain.ConnectToolStripMenuItem.Enabled = MenuConnect
-        frmMain.DisconnectToolStripMenuItem.Enabled = MenuDisconnect
-        frmMain.DiagnosticFaultsToolStripMenuItem.Enabled = MenuSelfDiag
-        frmMain.AlertMonitoringSystemToolStripMenuItem.Enabled = MenuAlert
-        frmMain.GridStyleToolStripMenuItem.Enabled = MenuGrid
-        frmMain.GaugesToolStripMenuItem.Enabled = MenuGauges
-        frmMain.GraphingToolStripMenuItem.Enabled = MenuGraphing
-        frmMain.RegisterTest.Enabled = MenuDetectReg
-        frmMain.ConductECUTestToolStripMenuItem.Enabled = MenuDetectECU
-        frmMain.RegisterDecoderToolStripMenuItem.Enabled = MenuDecodeReg
-        frmMain.tbConnect.Enabled = tbConnect
-        frmMain.tbDisconnect.Enabled = tbDisconnect
-        frmMain.MonitorManagerToolStripMenuItem.Enabled = MenuMonitorManager
-        frmMain.SpeedTrialToolStripMenuItem.Enabled = MenuSpeedTrial
-        frmMain.RoadDynoToolStripMenuItem.Enabled = MenuDyno
-        frmMain.CreateECUProfileToolStripMenuItem.Enabled = MenuProfile
+        If MenuConnect <> 2 Then frmMain.ConnectToolStripMenuItem.Enabled = MenuConnect
+        If MenuDisconnect <> 2 Then frmMain.DisconnectToolStripMenuItem.Enabled = MenuDisconnect
+        If MenuSelfDiag <> 2 Then frmMain.DiagnosticFaultsToolStripMenuItem.Enabled = MenuSelfDiag
+        If MenuAlert <> 2 Then frmMain.AlertMonitoringSystemToolStripMenuItem.Enabled = MenuAlert
+        If MenuGrid <> 2 Then frmMain.GridStyleToolStripMenuItem.Enabled = MenuGrid
+        If MenuGauges <> 2 Then frmMain.GaugesToolStripMenuItem.Enabled = MenuGauges
+        If MenuGraphing <> 2 Then frmMain.GraphingToolStripMenuItem.Enabled = MenuGraphing
+        If MenuDetectReg <> 2 Then frmMain.RegisterTest.Enabled = MenuDetectReg
+        If MenuDetectECU <> 2 Then frmMain.ConductECUTestToolStripMenuItem.Enabled = MenuDetectECU
+        If MenuDecodeReg <> 2 Then frmMain.RegisterDecoderToolStripMenuItem.Enabled = MenuDecodeReg
+        If tbConnect <> 2 Then frmMain.tbConnect.Enabled = tbConnect
+        If tbDisconnect <> 2 Then frmMain.tbDisconnect.Enabled = tbDisconnect
+        If MenuMonitorManager <> 2 Then frmMain.MonitorManagerToolStripMenuItem.Enabled = MenuMonitorManager
+        If MenuSpeedTrial <> 2 Then frmMain.SpeedTrialToolStripMenuItem.Enabled = MenuSpeedTrial
+        If MenuDyno <> 2 Then frmMain.RoadDynoToolStripMenuItem.Enabled = MenuDyno
+        If MenuProfile <> 2 Then frmMain.CreateECUProfileToolStripMenuItem.Enabled = MenuProfile
     End Sub
-    Public Sub LOG_OPEN_FILE()
+    Function LOG_OPEN_FILE() As Boolean
+        LOG_OPEN_FILE = False
+
         'OPEN FILE DIALOG DEFAULTS
         frmMain.OpenFileDialog1.InitialDirectory = Application.StartupPath & "\Logs"
         frmMain.OpenFileDialog1.Filter = "C1 log files (*.c1log)|*.c1log|All files (*.*)|*.*"
         frmMain.OpenFileDialog1.FilterIndex = 1
         frmMain.OpenFileDialog1.RestoreDirectory = True
-        FileClose(1)
 
         If frmMain.OpenFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+            FileClose(1)
             FileOpen(1, frmMain.OpenFileDialog1.FileName, OpenMode.Binary)
             FileGetObject(1, TOTAL_RECORD_FRAME, 2502 * 100)
             FileGetObject(1, START_BYTE_FOR_SENSOR, 2510 * 100)
             FileGetObject(1, END_BYTE_FOR_SENSOR, 2511 * 100)
             frmMain.tsStatus2.Text = "0 of " & TOTAL_RECORD_FRAME
             frmMain.tsStatus3.Text = frmMain.OpenFileDialog1.FileName.Substring(frmMain.OpenFileDialog1.FileName.LastIndexOf("\") + 1)
+            frmMain.tsStatus4.Text = ""
             RECORD_NUMBER = 3001
             LOG_GET_SUPPORTED_REGISTERS()
+            LOG_OPEN_FILE = True
         End If
-    End Sub
+    End Function
     Public Sub LOG_GET_SUPPORTED_REGISTERS()
         Dim x As Integer
 

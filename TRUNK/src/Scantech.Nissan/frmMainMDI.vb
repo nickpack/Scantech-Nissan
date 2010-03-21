@@ -92,7 +92,7 @@ Public Class frmMain
             LOG_REQUEST_C1_SENSOR_DATA()
         End If
 
-        CLOSE_C1_FORMS()
+        RESET_C1_FORMS()
     End Sub
     Private Sub RegisterTest_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RegisterTest.Click
         frmScannerRegister.MdiParent = Me : frmScannerRegister.Show()
@@ -125,7 +125,7 @@ Public Class frmMain
         End If
 
         'IF LOOP NOT IN PROGRESS MAKE SURE YOU CLOSE FORMS AND RESET
-        CLOSE_C1_FORMS()
+        RESET_C1_FORMS()
     End Sub
 
     Private Sub DisconnectToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DisconnectToolStripMenuItem.Click
@@ -157,7 +157,7 @@ Public Class frmMain
     End Sub
 
     Private Sub tsStop_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsStop.Click
-        LOG_BUTTONS_STATUS = "Stop" : ENABLE_STATE_FOR_INSPECTOR(2, 0, 2, 0, 0, 0, 0)
+        LOG_BUTTONS_STATUS = "Stop" : ENABLE_STATE_FOR_INSPECTOR(2, 0, 2, 0, 0, 0, 1)
     End Sub
 
     Private Sub tsFastBackward_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsFastBackward.Click
@@ -215,7 +215,7 @@ Public Class frmMain
 
                 'STOP LOG PLAYING IF BEGINNING/END OF RECORD
                 If RECORD_NUMBER - 3000 = TOTAL_RECORD_FRAME Or RECORD_NUMBER = 3000 Then
-                    LOG_BUTTONS_STATUS = "Stop" : ENABLE_STATE_FOR_INSPECTOR(0, 0, 1, 0, 0, 0, 0)
+                    LOG_BUTTONS_STATUS = "Stop" : ENABLE_STATE_FOR_INSPECTOR(0, 0, 1, 0, 0, 0, 1)
                     RECORD_NUMBER = 3001
                 End If
             End If
@@ -310,9 +310,17 @@ Public Class frmMain
 
     Private Sub tsOpen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsOpen.Click
         LOG_BUTTONS_STATUS = "Open"
-        LOG_OPEN_FILE()
-        ENABLE_STATE_FOR_INSPECTOR(0, 0, 0, 0, 0, 0, 1)
-        ENABLE_STATE_FOR_MENUS(1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0)
+
+        If LOG_OPEN_FILE() = True Then
+            Select Case USER_FORM_SELECT
+                Case 1 : RESET_GRID_STYLE_FOR_SENSORS() : RESET_GRID_STYLE_FOR_OUTPUT()
+            End Select
+
+            ENABLE_STATE_FOR_INSPECTOR(0, 0, 2, 0, 0, 0, 1)
+            ENABLE_STATE_FOR_MENUS(2, 0, 0, 0, 1, 1, 1, 0, 0, 0, 2, 0, 0, 0, 0, 0)
+        End If
+
+
     End Sub
 
 End Class

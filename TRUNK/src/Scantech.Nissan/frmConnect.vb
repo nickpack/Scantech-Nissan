@@ -38,6 +38,7 @@ Public Class frmConnect
             'IF IT GETS HERE THEN ECU INITIALIZATION AND REGISTER VALIDATION (IF SELECTED) IS SUCCESS
             Me.Close()
             frmMain.MonitorManagerToolStripMenuItem_Click(1, e)
+            'frmMain.tsStatus4.Text = VEHICLE_YEAR & " " & VEHICLE_MAKE & " " & VEHICLE_MODEL & " " & " " & VEHICLE_MODULE
             Exit Sub
         Else
             'INITIALIZE ECU FAILED
