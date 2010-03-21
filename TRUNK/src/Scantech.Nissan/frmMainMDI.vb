@@ -311,6 +311,7 @@ Public Class frmMain
     Private Sub tsOpen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsOpen.Click
         LOG_BUTTONS_STATUS = "Open"
 
+        'RESET FORMS AND ENABLE STATE WHEN LOG FILE HAS BEEN SELECTED
         If LOG_OPEN_FILE() = True Then
             Select Case USER_FORM_SELECT
                 Case 1 : RESET_GRID_STYLE_FOR_SENSORS() : RESET_GRID_STYLE_FOR_OUTPUT()
@@ -319,8 +320,6 @@ Public Class frmMain
             ENABLE_STATE_FOR_INSPECTOR(0, 0, 2, 0, 0, 0, 1)
             ENABLE_STATE_FOR_MENUS(2, 0, 0, 0, 1, 1, 1, 0, 0, 0, 2, 0, 0, 0, 0, 0)
         End If
-
-
     End Sub
 
 End Class

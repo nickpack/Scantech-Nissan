@@ -422,7 +422,7 @@ resend:
                         End If
                     End If
                 Next G
-                DATA_FILTERED_RECEIVED = Mid(DATA_FILTERED_RECEIVED, 3)
+                DataFrame = Mid(DataFrame, 3)
             Else
                 '--------------------------------------------------------------------------------------------------------------------------------
                 'THIS IS ANALOG SENSOR DATA
@@ -433,17 +433,17 @@ resend:
                         '4 BYTE REGISTER TYPE
                         frmC1Sensors.Grid1.Item(2, WhatRowSensors).Value = _
                             DECODE_DATA_C1_SENSORS(REGISTERS_SCALE_TYPE(K, 0), "&H" & _
-                            Left(DATA_FILTERED_RECEIVED, 2), "&H" & Mid(DATA_FILTERED_RECEIVED, 3, 2), 0)       'SCALE 1
+                            Left(DataFrame, 2), "&H" & Mid(DataFrame, 3, 2), 0)       'SCALE 1
                         frmC1Sensors.Grid1.Item(3, WhatRowSensors).Value = _
                             DECODE_DATA_C1_SENSORS_UNIT_TYPE(REGISTERS_UNIT_TYPE(K), 0)                         'UNIT 1
                         frmC1Sensors.Grid1.Item(4, WhatRowSensors).Value = _
                             DECODE_DATA_C1_SENSORS(REGISTERS_SCALE_TYPE(K, 0), "&H" & _
-                            Left(DATA_FILTERED_RECEIVED, 2), "&H" & Mid(DATA_FILTERED_RECEIVED, 3, 2), 1)       'SCALE 2
+                            Left(DataFrame, 2), "&H" & Mid(DataFrame, 3, 2), 1)       'SCALE 2
                         frmC1Sensors.Grid1.Item(5, WhatRowSensors).Value = _
                             DECODE_DATA_C1_SENSORS_UNIT_TYPE(REGISTERS_UNIT_TYPE(K), 1)                         'UNIT 2
 
                         Value = DECODE_DATA_C1_SENSORS(REGISTERS_SCALE_TYPE(K, 0), "&H" & _
-                            Left(DATA_FILTERED_RECEIVED, 2), "&H" & Mid(DATA_FILTERED_RECEIVED, 3, 2), 0)       'MIN SCALE 1
+                            Left(DataFrame, 2), "&H" & Mid(DataFrame, 3, 2), 0)       'MIN SCALE 1
                         If frmC1Sensors.Grid1.Item(6, WhatRowSensors).Value <> "" Then
                             If Val(Value) < Val(frmC1Sensors.Grid1.Item(6, WhatRowSensors).Value) Then
                                 frmC1Sensors.Grid1.Item(6, WhatRowSensors).Value = Value
@@ -469,23 +469,23 @@ resend:
                         End If
 
                         'CLEAR FIRST 4 DATA BYTES FROM VARIABLE
-                        DATA_FILTERED_RECEIVED = Mid(DATA_FILTERED_RECEIVED, 5)
+                        DataFrame = Mid(DataFrame, 5)
                         WhatRowSensors = WhatRowSensors + 1
                     Else
                         '2 BYTE REGISTER TYPE
                         frmC1Sensors.Grid1.Item(2, WhatRowSensors).Value = _
                             DECODE_DATA_C1_SENSORS(REGISTERS_SCALE_TYPE(K, 0), 0, "&H" & _
-                            Left(DATA_FILTERED_RECEIVED, 2), 0)                                                 'SCALE 1
+                            Left(DataFrame, 2), 0)                                                 'SCALE 1
                         frmC1Sensors.Grid1.Item(3, WhatRowSensors).Value = _
                             DECODE_DATA_C1_SENSORS_UNIT_TYPE(REGISTERS_UNIT_TYPE(K), 0)                         'UNIT 1
                         frmC1Sensors.Grid1.Item(4, WhatRowSensors).Value = _
                             DECODE_DATA_C1_SENSORS(REGISTERS_SCALE_TYPE(K, 0), 0, "&H" & _
-                            Left(DATA_FILTERED_RECEIVED, 2), 1)                                                 'SCALE 2
+                            Left(DataFrame, 2), 1)                                                 'SCALE 2
                         frmC1Sensors.Grid1.Item(5, WhatRowSensors).Value = _
                             DECODE_DATA_C1_SENSORS_UNIT_TYPE(REGISTERS_UNIT_TYPE(K), 1)                         'UNIT 2
 
                         Value = DECODE_DATA_C1_SENSORS(REGISTERS_SCALE_TYPE(K, 0), 0, "&H" & _
-                            Left(DATA_FILTERED_RECEIVED, 2), 0)                                                 'SCALE 1 MIN
+                            Left(DataFrame, 2), 0)                                                 'SCALE 1 MIN
                         If frmC1Sensors.Grid1.Item(6, WhatRowSensors).Value <> "" Then
                             If Val(Value) < Val(frmC1Sensors.Grid1.Item(6, WhatRowSensors).Value) Then
                                 frmC1Sensors.Grid1.Item(6, WhatRowSensors).Value = Value
@@ -511,7 +511,7 @@ resend:
                         End If
 
                         'CLEAR FIRST 2 DATA BYTES FROM VARIABLE
-                        DATA_FILTERED_RECEIVED = Mid(DATA_FILTERED_RECEIVED, 3)
+                        DataFrame = Mid(DataFrame, 3)
                         WhatRowSensors = WhatRowSensors + 1
                     End If
                 End If
@@ -1042,7 +1042,7 @@ resend:
                         SUPPORTED_REGISTERS(RegAddr + 1, 1, 0) = True '..............................................REGISTER LSB/MSB TYPE
                     ElseIf Left(BitValue, 1) = "b" Then
                         SUPPORTED_REGISTERS(RegAddr, 0, 1) = True                                                   'DIGITAL OUTPUT TYPE
-                        REGISTERS_NAME(RegAddr, Right(BitValue, 1)) = Mid(Value, 12)
+                        REGISTERS_NAME(RegAddr, Right(BitValue, 1) + 1) = Mid(Value, 12)
                         REGISTERS_SCALE_TYPE(RegAddr, Right(BitValue, 1)) = ScaleValue
                     End If
                 End If
