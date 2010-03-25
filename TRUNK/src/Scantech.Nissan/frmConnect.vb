@@ -74,6 +74,9 @@ Public Class frmConnect
 
         'ENABLE/DISABLE LOG INSPECTOR
         ENABLE_STATE_FOR_INSPECTOR(0, 0, 0, 0, 0, 0, 0)
+        ENABLE_STATE_FOR_MENUS(1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1)
+
+        RESET_C1_FORMS()
     End Sub
     Private Sub cmdClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdClose.Click
         Me.Close()

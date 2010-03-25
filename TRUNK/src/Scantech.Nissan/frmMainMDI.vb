@@ -2,9 +2,6 @@
 'CLEAN CLEAN
 
 Public Class frmMain
-    Dim ForwardSpeed As Integer = 320
-    Dim BackwardSpeed As Integer = 320
-    Dim PlaySpeed As Integer
     Private Sub frmMain_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         'DOES NOT EXIT IF DATA IS QUERYING
         If LOOP_IN_PROGRESS = True Then
@@ -107,11 +104,6 @@ Public Class frmMain
     Private Sub DiagnosticFaultsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DiagnosticFaultsToolStripMenuItem.Click
         frmC1Faults.MdiParent = Me : frmC1Faults.Show()
     End Sub
-
-    Private Sub tbComPort_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsComPort.Click
-
-    End Sub
-
     Private Sub AboutToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AboutToolStripMenuItem.Click
         AboutBox1.Show()
     End Sub
@@ -166,19 +158,19 @@ Public Class frmMain
     End Sub
 
     Private Sub tsFastBackward_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsFastBackward.Click
+        If LOG_BUTTONS_STATUS <> "FastBackward" Then PlaySpeed = 640
         LOG_BUTTONS_STATUS = "FastBackward" : ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1, 2)
 
         'MAX SPEED
-        If BackwardSpeed = 5 Then
-            BackwardSpeed = 0 : PlaySpeed = 0
+        If PlaySpeed = 5 Then
+            PlaySpeed = 0
             Me.tsStatus3.Text = "Max Speed"
             Exit Sub
         End If
 
         'INCREASE SPEED LIMIT
-        If BackwardSpeed = 0 Then BackwardSpeed = 640
-        BackwardSpeed = BackwardSpeed / 2
-        PlaySpeed = BackwardSpeed
+        If PlaySpeed = 0 Then PlaySpeed = 640
+        PlaySpeed = PlaySpeed / 2
         Me.tsStatus3.Text = 320 / PlaySpeed & "x"
     End Sub
 
@@ -187,62 +179,24 @@ Public Class frmMain
         LOG_BUTTONS_STATUS = "Play"
         ENABLE_STATE_FOR_MENUS(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
         ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1, 1)
-        PlaySpeed = 320 : ForwardSpeed = 320 : BackwardSpeed = 320 : Me.tsStatus3.Text = "1x"
+        PlaySpeed = 320 : Me.tsStatus3.Text = "1x"
     End Sub
-    Private Sub LOG_REQUEST_C1_SENSOR_DATA()
-        ENABLE_STATE_FOR_MENUS(0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
-        'FLAG DO LOOP EVENT IN PROGRESS AND RESET USER_REQUEST_STOP
-        LOOP_IN_PROGRESS = True : USER_REQUEST_STOP = False
-
-        Do Until USER_REQUEST_STOP = True
-            'PLAY SPEED ADJUSTED BY FORWARD OR BACKWARD BUTTON
-            System.Threading.Thread.Sleep(PlaySpeed)
-            System.Windows.Forms.Application.DoEvents()
-
-            'DO THIS ONLY IF PLAYING
-            If LOG_BUTTONS_STATUS = "Play" Or LOG_BUTTONS_STATUS = "FastForward" Or LOG_BUTTONS_STATUS = "FastBackward" Then
-                FileGetObject(1, DATA_FILTERED_RECEIVED, RECORD_NUMBER * 100)                   'GET DATAFRAME FROM RECORD
-
-                'GO FORWARD ON PLAYBACK
-                If LOG_BUTTONS_STATUS = "FastForward" Or LOG_BUTTONS_STATUS = "Play" Then RECORD_NUMBER = RECORD_NUMBER + 1
-
-                tsStatus2.Text = RECORD_NUMBER - 3000 & " of " & TOTAL_RECORD_FRAME             'STATUS CURRENT FRAME
-
-                'GO BACKWARD ON PLAYBACK
-                If LOG_BUTTONS_STATUS = "FastBackward" Then RECORD_NUMBER = RECORD_NUMBER - 1
-
-                Select Case USER_FORM_SELECT                                                    'WHAT FORM SELECTED
-                    Case 1 : RESULT_GRID_STYLE(DATA_FILTERED_RECEIVED)
-                        Me.tsStatus4.Text = DATA_FILTERED_RECEIVED.Substring _
-                                            (DATA_FILTERED_RECEIVED.LastIndexOf(">") + 1)       'SHOW DECODED DATA 
-                End Select
-
-                'STOP LOG PLAYING IF BEGINNING/END OF RECORD
-                If RECORD_NUMBER - 3000 = TOTAL_RECORD_FRAME Or RECORD_NUMBER = 3000 Then
-                    LOG_BUTTONS_STATUS = "Stop" : ENABLE_STATE_FOR_INSPECTOR(0, 0, 1, 0, 0, 0, 1)
-                    RECORD_NUMBER = 3001
-                End If
-            End If
-        Loop
-
-        'RESET
-        LOG_BUTTONS_STATUS = "" : Me.Tag = "Disconnect"
-    End Sub
     Private Sub tsFastForward_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsFastForward.Click
+        If LOG_BUTTONS_STATUS <> "FastForward" Then PlaySpeed = 640
+        If LOG_BUTTONS_STATUS = "Play" Then PlaySpeed = 320
         LOG_BUTTONS_STATUS = "FastForward" : ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1, 2)
 
         'MAX SPEED
-        If ForwardSpeed = 5 Then
-            ForwardSpeed = 0 : PlaySpeed = 0
+        If PlaySpeed = 5 Then
+            PlaySpeed = 0
             Me.tsStatus3.Text = "Max Speed"
             Exit Sub
         End If
 
         'INCREASE SPEED LIMIT
-        If ForwardSpeed = 0 Then ForwardSpeed = 640
-        ForwardSpeed = ForwardSpeed / 2
-        PlaySpeed = ForwardSpeed
+        If PlaySpeed = 0 Then PlaySpeed = 640
+        PlaySpeed = PlaySpeed / 2
         Me.tsStatus3.Text = 320 / PlaySpeed & "x"
     End Sub
 
@@ -314,17 +268,21 @@ Public Class frmMain
     End Sub
 
     Private Sub tsOpen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsOpen.Click
-        LOG_BUTTONS_STATUS = "Open"
-        ENABLE_STATE_FOR_INSPECTOR(0, 0, 2, 0, 0, 0, 1)
+        LOG_BUTTONS_STATUS = "Open" : ENABLE_STATE_FOR_INSPECTOR(0, 0, 2, 0, 0, 0, 0)
 
         'RESET FORMS AND ENABLE STATE WHEN LOG FILE HAS BEEN SELECTED
         If LOG_OPEN_FILE() = True Then
             Select Case USER_FORM_SELECT
                 Case 1 : RESET_GRID_STYLE_FOR_SENSORS() : RESET_GRID_STYLE_FOR_OUTPUT()
             End Select
-
             ENABLE_STATE_FOR_MENUS(2, 0, 0, 0, 1, 1, 1, 0, 0, 0, 2, 0, 0, 0, 0, 0)
         End If
+
+        ENABLE_STATE_FOR_INSPECTOR(0, 0, 2, 0, 0, 0, 1)
     End Sub
 
+    Private Sub TrackBar1_Scroll(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TrackBar1.Scroll
+        RECORD_NUMBER = TrackBar1.Value + 3000
+        tsStatus2.Text = RECORD_NUMBER - 3000 & " of " & TOTAL_RECORD_FRAME     'STATUS CURRENT FRAME
+    End Sub
 End Class

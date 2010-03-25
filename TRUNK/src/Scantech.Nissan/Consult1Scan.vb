@@ -60,6 +60,8 @@
     Public TOTAL_RECORD_FRAME As VariantType                    'TOTAL FRAME RECORDS FOR LOG PLAYING
     Public X_RATE_SAMPLE As Long                                'FRAME PER SECOND STATUS COUNTER
 
+    Public PlaySpeed As Integer
+
     Private Declare Unicode Function GetPrivateProfileString Lib "kernel32.dll" _
                             Alias "GetPrivateProfileStringW" (ByVal lpApplicationName As String, _
                             ByVal lpKeyName As String, ByVal lpDefault As String, _
@@ -914,7 +916,7 @@ resend:
     End Sub
     Public Sub RESET_C1_FORMS()
         'RESET 
-        USER_REQUEST_STOP = True : LOOP_IN_PROGRESS = False : frmMain.tmrTimeout.Enabled = False : USER_FORM_SELECT = 0
+        USER_REQUEST_STOP = True : LOOP_IN_PROGRESS = False : frmMain.tmrTimeout.Enabled = False : USER_FORM_SELECT = 0 : frmMain.TrackBar1.Visible = False
 
         'RESET 
         LOG_BUTTONS_STATUS = "" : frmMain.tsStatus.Text = "" : frmMain.tsStatus2.Text = "" : frmMain.tsStatus3.Text = "" : frmMain.tsStatus4.Text = ""
@@ -995,12 +997,15 @@ resend:
             FileGetObject(1, TOTAL_RECORD_FRAME, 2502 * 100)
             FileGetObject(1, START_BYTE_FOR_SENSOR, 2510 * 100)
             FileGetObject(1, END_BYTE_FOR_SENSOR, 2511 * 100)
-            frmMain.tsStatus2.Text = "0 of " & TOTAL_RECORD_FRAME
+            frmMain.tsStatus2.Text = "1 of " & TOTAL_RECORD_FRAME
             frmMain.tsStatus3.Text = frmMain.OpenFileDialog1.FileName.Substring(frmMain.OpenFileDialog1.FileName.LastIndexOf("\") + 1)
             frmMain.tsStatus4.Text = ""
             RECORD_NUMBER = 3001
             LOG_GET_SUPPORTED_REGISTERS()
             LOG_OPEN_FILE = True
+            frmMain.TrackBar1.Visible = True
+            frmMain.TrackBar1.Minimum = 1
+            frmMain.TrackBar1.Maximum = TOTAL_RECORD_FRAME
         End If
     End Function
     Public Sub LOG_GET_SUPPORTED_REGISTERS()
@@ -1142,5 +1147,46 @@ resend:
                 End If
             End If
         Next
+    End Sub
+    Public Sub LOG_REQUEST_C1_SENSOR_DATA()
+        ENABLE_STATE_FOR_MENUS(0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+
+        'FLAG DO LOOP EVENT IN PROGRESS AND RESET USER_REQUEST_STOP
+        LOOP_IN_PROGRESS = True : USER_REQUEST_STOP = False
+
+        Do Until USER_REQUEST_STOP = True
+            'PLAY SPEED ADJUSTED BY FORWARD OR BACKWARD BUTTON
+            System.Threading.Thread.Sleep(PlaySpeed)
+            System.Windows.Forms.Application.DoEvents()
+
+            'DO THIS ONLY IF PLAYING
+            If LOG_BUTTONS_STATUS = "Play" Or LOG_BUTTONS_STATUS = "FastForward" Or LOG_BUTTONS_STATUS = "FastBackward" Then
+                FileGetObject(1, DATA_FILTERED_RECEIVED, RECORD_NUMBER * 100)                   'GET DATAFRAME FROM RECORD
+
+                'GO FORWARD ON PLAYBACK
+                If LOG_BUTTONS_STATUS = "FastForward" Or LOG_BUTTONS_STATUS = "Play" Then RECORD_NUMBER = RECORD_NUMBER + 1
+
+                frmMain.tsStatus2.Text = RECORD_NUMBER - 3000 & " of " & TOTAL_RECORD_FRAME     'STATUS CURRENT FRAME
+                frmMain.TrackBar1.Value = RECORD_NUMBER - 3000
+
+                'GO BACKWARD ON PLAYBACK
+                If LOG_BUTTONS_STATUS = "FastBackward" Then RECORD_NUMBER = RECORD_NUMBER - 1
+
+                Select Case USER_FORM_SELECT                                                    'WHAT FORM SELECTED
+                    Case 1 : RESULT_GRID_STYLE(DATA_FILTERED_RECEIVED)
+                        frmMain.tsStatus4.Text = DATA_FILTERED_RECEIVED.Substring _
+                                            (DATA_FILTERED_RECEIVED.LastIndexOf(">") + 1)       'SHOW DECODED DATA 
+                End Select
+
+                'STOP LOG PLAYING IF BEGINNING/END OF RECORD
+                If RECORD_NUMBER - 3000 = TOTAL_RECORD_FRAME Or RECORD_NUMBER = 3000 Then
+                    LOG_BUTTONS_STATUS = "Stop" : ENABLE_STATE_FOR_INSPECTOR(0, 0, 1, 0, 0, 0, 1)
+                    RECORD_NUMBER = 3001
+                End If
+            End If
+        Loop
+
+        'RESET
+        LOG_BUTTONS_STATUS = "" : frmMain.Tag = "Disconnect"
     End Sub
 End Module
