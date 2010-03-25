@@ -1161,28 +1161,29 @@ resend:
 
             'DO THIS ONLY IF PLAYING
             If LOG_BUTTONS_STATUS = "Play" Or LOG_BUTTONS_STATUS = "FastForward" Or LOG_BUTTONS_STATUS = "FastBackward" Then
-                FileGetObject(1, DATA_FILTERED_RECEIVED, RECORD_NUMBER * 100)                   'GET DATAFRAME FROM RECORD
 
-                'GO FORWARD ON PLAYBACK
-                If LOG_BUTTONS_STATUS = "FastForward" Or LOG_BUTTONS_STATUS = "Play" Then RECORD_NUMBER = RECORD_NUMBER + 1
-
-                frmMain.tsStatus2.Text = RECORD_NUMBER - 3000 & " of " & TOTAL_RECORD_FRAME     'STATUS CURRENT FRAME
-                frmMain.TrackBar1.Value = RECORD_NUMBER - 3000
-
-                'GO BACKWARD ON PLAYBACK
-                If LOG_BUTTONS_STATUS = "FastBackward" Then RECORD_NUMBER = RECORD_NUMBER - 1
-
-                Select Case USER_FORM_SELECT                                                    'WHAT FORM SELECTED
-                    Case 1 : RESULT_GRID_STYLE(DATA_FILTERED_RECEIVED)
-                        frmMain.tsStatus4.Text = DATA_FILTERED_RECEIVED.Substring _
-                                            (DATA_FILTERED_RECEIVED.LastIndexOf(">") + 1)       'SHOW DECODED DATA 
-                End Select
-
-                'STOP LOG PLAYING IF BEGINNING/END OF RECORD
-                If RECORD_NUMBER - 3000 = TOTAL_RECORD_FRAME Or RECORD_NUMBER = 3000 Then
+                If RECORD_NUMBER - 3000 = TOTAL_RECORD_FRAME + 1 Or RECORD_NUMBER = 3000 Then           'STOP LOG PLAYING IF BEGINNING/END OF RECORD
                     LOG_BUTTONS_STATUS = "Stop" : ENABLE_STATE_FOR_INSPECTOR(0, 0, 1, 0, 0, 0, 1)
                     RECORD_NUMBER = 3001
+                Else
+                    FileGetObject(1, DATA_FILTERED_RECEIVED, RECORD_NUMBER * 100)                       'GET DATAFRAME FROM RECORD
+
+                    frmMain.TrackBar1.Value = RECORD_NUMBER - 3000
+
+                    Select Case USER_FORM_SELECT                                                        'WHAT FORM SELECTED
+                        Case 1 : RESULT_GRID_STYLE(DATA_FILTERED_RECEIVED)
+                            frmMain.tsStatus4.Text = DATA_FILTERED_RECEIVED.Substring _
+                                                (DATA_FILTERED_RECEIVED.LastIndexOf(">") + 1)           'SHOW DECODED DATA 
+                    End Select
+
+                    'STATUS CURRENT FRAME
+                    frmMain.tsStatus2.Text = RECORD_NUMBER - 3000 & " of " & TOTAL_RECORD_FRAME
+                    'GO FORWARD ON PLAYBACK
+                    If LOG_BUTTONS_STATUS = "FastForward" Or LOG_BUTTONS_STATUS = "Play" Then RECORD_NUMBER = RECORD_NUMBER + 1
+                    'GO BACKWARD ON PLAYBACK
+                    If LOG_BUTTONS_STATUS = "FastBackward" Then RECORD_NUMBER = RECORD_NUMBER - 1
                 End If
+
             End If
         Loop
 
