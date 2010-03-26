@@ -108,7 +108,7 @@ Public Class frmMain
         AboutBox1.Show()
     End Sub
 
-    Private Sub tbDisconnect_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tbDisconnect.Click
+    Private Sub tbDisconnect_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tbDisconnect.Click, DisconnectToolStripMenuItem.Click
         Me.Tag = "Disconnect"
 
         'MAKE SURE QUERY IS STOPPED BEFORE EXITING
@@ -120,11 +120,6 @@ Public Class frmMain
         'IF LOOP NOT IN PROGRESS MAKE SURE YOU CLOSE FORMS AND RESET
         RESET_C1_FORMS()
     End Sub
-
-    Private Sub DisconnectToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DisconnectToolStripMenuItem.Click
-        tbDisconnect_Click(1, e)
-    End Sub
-
     Private Sub tsRecord_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsRecord.Click
         ENABLE_STATE_FOR_INSPECTOR(2, 1, 0, 1, 0, 0, 0)
 
