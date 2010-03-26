@@ -88,10 +88,10 @@
             frmMain.tsProgress.Value = xCounter
 
             'STOP COMMAND
-            frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
+            frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : Wait(INTERBYTE_DELAY)
 
             'SENSOR REQUEST COMMAND
-            frmMain.SerialPort1.Write(SEND_5A_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
+            frmMain.SerialPort1.Write(SEND_5A_BYTE, 0, 1) : Wait(INTERBYTE_DELAY)
 
             'DOEVENTS
             System.Windows.Forms.Application.DoEvents()
@@ -100,7 +100,7 @@
             frmMain.SerialPort1.DiscardInBuffer()
 
             'REGISTER BYTE ADDRESS
-            frmMain.SerialPort1.Write(Buffer, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
+            frmMain.SerialPort1.Write(Buffer, 0, 1) : Wait(INTERBYTE_DELAY)
             InData = frmMain.SerialPort1.ReadByte
 
             'REGISTERS IN FILE IS INVALID TO ECU REGISTERS
@@ -132,10 +132,10 @@ Restart:
         'TRANSMIT 3 INTIALIZE ECU BYTES WITH INTERBYTE DELAY.  CLEAR BUFFER EXCEPT LAST SENT COMMAND.  JUST NEED TO LOOK FOR LAST BYTE
         Dim Buffer As Byte() = {ECU_ID_1, ECU_ID_2, Addr}
 
-        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
-        frmMain.SerialPort1.Write(Buffer, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
-        frmMain.SerialPort1.Write(Buffer, 1, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY) : frmMain.SerialPort1.DiscardInBuffer()
-        frmMain.SerialPort1.Write(Buffer, 2, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
+        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : Wait(INTERBYTE_DELAY)
+        frmMain.SerialPort1.Write(Buffer, 0, 1) : Wait(INTERBYTE_DELAY)
+        frmMain.SerialPort1.Write(Buffer, 1, 1) : Wait(INTERBYTE_DELAY) : frmMain.SerialPort1.DiscardInBuffer()
+        frmMain.SerialPort1.Write(Buffer, 2, 1) : Wait(INTERBYTE_DELAY)
 
         'DOEVENTS
         System.Windows.Forms.Application.DoEvents()
@@ -222,13 +222,13 @@ Restart:
         Dim x As Integer
         For x = START_BYTE_FOR_SENSOR To END_BYTE_FOR_SENSOR
             If SELECTED_REGISTERS(x) = True Then
-                frmMain.SerialPort1.Write(SEND_5A_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
-                frmMain.SerialPort1.Write(Chr(x)) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
+                frmMain.SerialPort1.Write(SEND_5A_BYTE, 0, 1) : Wait(INTERBYTE_DELAY)
+                frmMain.SerialPort1.Write(Chr(x)) : Wait(INTERBYTE_DELAY)
             End If
         Next
 
         '0XF0 = START COMMAND
-        frmMain.SerialPort1.Write(SEND_F0_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
+        frmMain.SerialPort1.Write(SEND_F0_BYTE, 0, 1) : Wait(INTERBYTE_DELAY)
     End Sub
     Public Sub PRE_REQUEST_C1_SENSOR_TYPE_2()
         'SOME ECU WILL NOT ALLOW PRE_REQUEST_C1_SENSOR_TYPE_1() ROUTINE.  
@@ -237,10 +237,10 @@ Restart:
         Dim SEND_BYTE() As Byte = {SEND_STREAM_AVAILABLE_SENSOR_BYTE}
 
         'REQUEST ALL AVAILABLE SENSOR AND FIND THE LENGTH BYTE, SO WE CAN STORE THAT VALUE IN THE VARIABLE
-        frmMain.SerialPort1.Write(SEND_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)         'REQUEST COMMAND
+        frmMain.SerialPort1.Write(SEND_BYTE, 0, 1) : Wait(INTERBYTE_DELAY)                                  'REQUEST COMMAND
         frmMain.SerialPort1.DiscardInBuffer()                                                               'CLEAR BUFFER
-        frmMain.SerialPort1.Write(SEND_F0_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)      'START COMMAND
-        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)      'STOP COMMAND
+        frmMain.SerialPort1.Write(SEND_F0_BYTE, 0, 1) : Wait(INTERBYTE_DELAY)                               'START COMMAND
+        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : Wait(INTERBYTE_DELAY)                               'STOP COMMAND
 
         'ASSIGN THE LENGTH BYTE TO TOTAL SELECTED REGISTER VARIABLE
         Dim InData As String
@@ -248,8 +248,8 @@ Restart:
         If InData = "FF" Then TOTAL_SELECTED_REGISTERS = frmMain.SerialPort1.ReadByte
 
         'REQUEST ALL AVAILABLE SENSOR
-        frmMain.SerialPort1.Write(SEND_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)         'REQUEST COMMAND
-        frmMain.SerialPort1.Write(SEND_F0_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)      'START COMMAND
+        frmMain.SerialPort1.Write(SEND_BYTE, 0, 1) : Wait(INTERBYTE_DELAY)                                  'REQUEST COMMAND
+        frmMain.SerialPort1.Write(SEND_F0_BYTE, 0, 1) : Wait(INTERBYTE_DELAY)                               'START COMMAND
 
     End Sub
     Public Sub REQUEST_C1_SENSOR_DATA()
@@ -304,7 +304,7 @@ resend:
                 GoTo Resend
             ElseIf BLN_ACTIVE_TEST_COMMAND_REQUEST(1) = True Then
                 BLN_ACTIVE_TEST_COMMAND_REQUEST(1) = False
-                frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
+                frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : Wait(INTERBYTE_DELAY)
                 GoTo Resend
             End If
         Loop
@@ -317,10 +317,10 @@ resend:
         Dim SCALE_BYTE As Byte = Val(frmC1ActiveTest.ComboBox1.Text)                                        'SCALE BYTE..DEFINED BY USER FROM INI FILE
         Dim DATA_BYTE() As Byte = {ACTIVE_BYTE, SCALE_BYTE}
 
-        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)      'STOP COMMAND
-        frmMain.SerialPort1.Write(SEND_0A_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)      'ACTIVE TEST COMMAND
-        frmMain.SerialPort1.Write(DATA_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)         'REGISTER BYTE
-        frmMain.SerialPort1.Write(DATA_BYTE, 1, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)         'COMBOBOX (SCALE BYTE)
+        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : Wait(INTERBYTE_DELAY)                               'STOP COMMAND
+        frmMain.SerialPort1.Write(SEND_0A_BYTE, 0, 1) : Wait(INTERBYTE_DELAY)                               'ACTIVE TEST COMMAND
+        frmMain.SerialPort1.Write(DATA_BYTE, 0, 1) : Wait(INTERBYTE_DELAY)                                  'REGISTER BYTE
+        frmMain.SerialPort1.Write(DATA_BYTE, 1, 1) : Wait(INTERBYTE_DELAY)                                  'COMBOBOX (SCALE BYTE)
 
         frmMain.SerialPort1.DiscardInBuffer()                                                               'CLEAR ANY BUFFER
     End Sub
@@ -329,11 +329,11 @@ resend:
         Dim SEND_BYTE() As Byte = {SEND_CLEAR_FAULTS_BYTE}
         RESET_VARIABLES()
 
-        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)      '0X30 = STOP COMMAND
+        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : Wait(INTERBYTE_DELAY)                               '0X30 = STOP COMMAND
         frmMain.SerialPort1.DiscardInBuffer()                                                               'CLEAR BUFFER
-        frmMain.SerialPort1.Write(SEND_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)         'CLEAR FAULT COMMAND FROM INI FILE
-        frmMain.SerialPort1.Write(SEND_F0_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)      '0XFO = START COMMAND
-        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)      '0X30 = STOP COMMAND
+        frmMain.SerialPort1.Write(SEND_BYTE, 0, 1) : Wait(INTERBYTE_DELAY)                                  'CLEAR FAULT COMMAND FROM INI FILE
+        frmMain.SerialPort1.Write(SEND_F0_BYTE, 0, 1) : Wait(INTERBYTE_DELAY)                               '0XFO = START COMMAND
+        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : Wait(INTERBYTE_DELAY)                               '0X30 = STOP COMMAND
         frmMain.SerialPort1.DiscardInBuffer()                                                               'CLEAR BUFFER
     End Sub
 
@@ -344,10 +344,10 @@ resend:
         Dim SEND_BYTE() As Byte = {SEND_CHECK_FAULTS_BYTE}
         RESET_VARIABLES()
 
-        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)      '0X30 = STOP COMMAND
+        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : Wait(INTERBYTE_DELAY)                               '0X30 = STOP COMMAND
         frmMain.SerialPort1.DiscardInBuffer()                                                               'CLEAR BUFFER
-        frmMain.SerialPort1.Write(SEND_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)         'FAULT COMMAND FROM INI FILE
-        frmMain.SerialPort1.Write(SEND_F0_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)      '0XFO = START COMMAND
+        frmMain.SerialPort1.Write(SEND_BYTE, 0, 1) : Wait(INTERBYTE_DELAY)                                  'FAULT COMMAND FROM INI FILE
+        frmMain.SerialPort1.Write(SEND_F0_BYTE, 0, 1) : Wait(INTERBYTE_DELAY)                               '0XFO = START COMMAND
         frmMain.tmrTimeout.Enabled = True                                                                   'SET TIMEOUT
 
         'FRAME DATA WILL BE IN DATAFILTERED VARIABLE AND FULLFILLED WHEN SET TRUE
@@ -356,7 +356,7 @@ resend:
         Loop
 
         REQUEST_C1_FAULTS = DATA_FILTERED_RECEIVED                                                          'ADD PROCESSED DATA
-        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)      '0X30 = STOP COMMAND
+        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : Wait(INTERBYTE_DELAY)                               '0X30 = STOP COMMAND
         frmMain.SerialPort1.DiscardInBuffer()                                                               'CLEAR BUFFER
     End Function
 
@@ -917,8 +917,6 @@ resend:
     Public Sub RESET_C1_FORMS()
         'RESET 
         USER_REQUEST_STOP = True : LOOP_IN_PROGRESS = False : frmMain.tmrTimeout.Enabled = False : USER_FORM_SELECT = 0 : frmMain.TrackBar1.Visible = False
-
-        'RESET 
         LOG_BUTTONS_STATUS = "" : frmMain.tsStatus.Text = "" : frmMain.tsStatus2.Text = "" : frmMain.tsStatus3.Text = "" : frmMain.tsStatus4.Text = ""
 
         'CLOSE THE FORMS
@@ -1033,17 +1031,17 @@ resend:
                 Dim UnitValue As String = Mid(Value, 9, 2)
 
                 If Value <> "" Then
-                    REGISTERS_NAME(RegAddr, 0) = Mid(Value, 12)                                                     'REGISTER NAME
-                    SUPPORTED_REGISTERS(RegAddr, 0, 0) = True                                                       'REGISTER SUPPORTED
+                    REGISTERS_NAME(RegAddr, 0) = Mid(Value, 12)                                         'REGISTER NAME
+                    SUPPORTED_REGISTERS(RegAddr, 0, 0) = True                                           'REGISTER SUPPORTED
                     SELECTED_REGISTERS(RegAddr) = True
                     REGISTERS_SCALE_TYPE(RegAddr, 0) = ScaleValue
                     REGISTERS_UNIT_TYPE(RegAddr) = UnitValue
 
                     If LSBMSB = "11" Then
-                        SUPPORTED_REGISTERS(RegAddr + 1, 0, 0) = True                                               'REGISTER SUPPORTED
-                        SUPPORTED_REGISTERS(RegAddr + 1, 1, 0) = True '..............................................REGISTER LSB/MSB TYPE
+                        SUPPORTED_REGISTERS(RegAddr + 1, 0, 0) = True                                   'REGISTER SUPPORTED
+                        SUPPORTED_REGISTERS(RegAddr + 1, 1, 0) = True                                   'REGISTER LSB/MSB TYPE
                     ElseIf Left(BitValue, 1) = "b" Then
-                        SUPPORTED_REGISTERS(RegAddr, 0, 1) = True                                                   'DIGITAL OUTPUT TYPE
+                        SUPPORTED_REGISTERS(RegAddr, 0, 1) = True                                       'DIGITAL OUTPUT TYPE
                         REGISTERS_NAME(RegAddr, Right(BitValue, 1) + 1) = Mid(Value, 12)
                         REGISTERS_SCALE_TYPE(RegAddr, Right(BitValue, 1)) = ScaleValue
                     End If
@@ -1056,7 +1054,9 @@ resend:
 
         'WRITE THE FRAME RECORD COUNTER
         Value = RECORD_NUMBER - 3000
-        FilePutObject(1, Value, 2502 * 100)         'FILE INFO: TOTAL FRAME RECORDS
+
+        'FILE INFO: TOTAL FRAME RECORDS
+        FilePutObject(1, Value, 2502 * 100)
 
         'CLOSE LOG FILE
         FileClose(1)
@@ -1156,7 +1156,7 @@ resend:
 
         Do Until USER_REQUEST_STOP = True
             'PLAY SPEED ADJUSTED BY FORWARD OR BACKWARD BUTTON
-            System.Threading.Thread.Sleep(PlaySpeed)
+            Wait(PlaySpeed)
             System.Windows.Forms.Application.DoEvents()
 
             'DO THIS ONLY IF PLAYING
@@ -1164,11 +1164,10 @@ resend:
 
                 If RECORD_NUMBER - 3000 = TOTAL_RECORD_FRAME + 1 Or RECORD_NUMBER = 3000 Then           'STOP LOG PLAYING IF BEGINNING/END OF RECORD
                     LOG_BUTTONS_STATUS = "Stop" : ENABLE_STATE_FOR_INSPECTOR(0, 0, 1, 0, 0, 0, 1)
-                    RECORD_NUMBER = 3001
+                    RECORD_NUMBER = 3001                                                                'RESET FRAME
                 Else
                     FileGetObject(1, DATA_FILTERED_RECEIVED, RECORD_NUMBER * 100)                       'GET DATAFRAME FROM RECORD
-
-                    frmMain.TrackBar1.Value = RECORD_NUMBER - 3000
+                    frmMain.TrackBar1.Value = RECORD_NUMBER - 3000                                      'UPDATE TRACKER BAR
 
                     Select Case USER_FORM_SELECT                                                        'WHAT FORM SELECTED
                         Case 1 : RESULT_GRID_STYLE(DATA_FILTERED_RECEIVED)
@@ -1176,7 +1175,7 @@ resend:
                                                 (DATA_FILTERED_RECEIVED.LastIndexOf(">") + 1)           'SHOW DECODED DATA 
                     End Select
 
-                    'STATUS CURRENT FRAME
+                    'UPDATE STATUS BAR CURRENT FRAME
                     frmMain.tsStatus2.Text = RECORD_NUMBER - 3000 & " of " & TOTAL_RECORD_FRAME
                     'GO FORWARD ON PLAYBACK
                     If LOG_BUTTONS_STATUS = "FastForward" Or LOG_BUTTONS_STATUS = "Play" Then RECORD_NUMBER = RECORD_NUMBER + 1
@@ -1189,5 +1188,15 @@ resend:
 
         'RESET
         LOG_BUTTONS_STATUS = "" : frmMain.Tag = "Disconnect"
+    End Sub
+    Public Sub Wait(ByVal interval As Integer)
+        'LOOPS FOR A SPECIFIED PERIOD OF TIME (MILLISECONDS)
+        Dim sw As New Stopwatch
+        sw.Start()
+        Do While sw.ElapsedMilliseconds < interval
+            ' Allows UI to remain responsive
+            Application.DoEvents()
+        Loop
+        sw.Stop()
     End Sub
 End Module

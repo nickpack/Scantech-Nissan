@@ -22,17 +22,13 @@
     Private Sub DataGridView1_DataError(ByVal sender As Object, _
                                         ByVal e As DataGridViewDataErrorEventArgs) _
                                         Handles Grid2.DataError
-
     End Sub
     Public Sub cmdGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdGo.Click
-        cmdGo.Enabled = False
-        cmdStop.Enabled = True
-
+        cmdGo.Enabled = False : cmdStop.Enabled = True
     End Sub
 
     Private Sub cmdStop_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdStop.Click
-        cmdGo.Enabled = True
-        cmdStop.Enabled = False
+        cmdGo.Enabled = True : cmdStop.Enabled = False
 
         'TRIGGER ACTIVE TEST STOP COMMAND
         BLN_ACTIVE_TEST_COMMAND_REQUEST(1) = True
@@ -63,6 +59,7 @@
                 frmC1Output.Grid2.Item(1, J).Style.BackColor = Color.White
             End If
         Next
+
         For J = 0 To frmC1Sensors.Grid1.RowCount - 1
             If GridName = frmC1Sensors.Grid1.Item(1, J).Value Then
                 frmC1Sensors.Grid1.Item(1, J).Style.BackColor = Color.LightGreen
@@ -71,11 +68,6 @@
             End If
         Next
     End Sub
-
-    Private Sub Grid2_CellContentClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles Grid2.CellContentClick
-
-    End Sub
-
     Private Sub Grid2_SelectionChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Grid2.SelectionChanged
         If cmdGo.Enabled = True Then Exit Sub
         'STOP ACTIVE TEST BY SENDING STOP COMMAND.  DO THIS IF SELECTION IS CHANGED

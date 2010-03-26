@@ -164,10 +164,10 @@ Reset:
             frmMain.tsProgress.Value = xCounter
 
             'STOP COMMAND
-            frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(25)
+            frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : Wait(25)
 
             'SENSOR REQUEST COMMAND
-            frmMain.SerialPort1.Write(Buffer, 0, 1) : System.Threading.Thread.Sleep(25)
+            frmMain.SerialPort1.Write(Buffer, 0, 1) : Wait(25)
 
             'DOEVENTS
             System.Windows.Forms.Application.DoEvents()
@@ -176,7 +176,7 @@ Reset:
             frmMain.SerialPort1.DiscardInBuffer()
 
             'REGISTER BYTE ADDRESS
-            frmMain.SerialPort1.Write(Buffer, 1, 1) : System.Threading.Thread.Sleep(25)
+            frmMain.SerialPort1.Write(Buffer, 1, 1) : Wait(25)
             InData = frmMain.SerialPort1.ReadByte
 
             'IF VALID THEN UPDATE TREEVIEW

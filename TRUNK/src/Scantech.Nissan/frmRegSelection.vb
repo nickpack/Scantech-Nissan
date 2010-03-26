@@ -66,7 +66,7 @@
         End If
 
         'MAKE SURE CONSULT 1 DATA QUERYING IS STOPPED
-        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
+        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : Wait(INTERBYTE_DELAY)
 
         'CLEAR ANY BUFFER
         frmMain.SerialPort1.DiscardInBuffer()

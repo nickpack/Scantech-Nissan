@@ -59,16 +59,16 @@ Reset:
             System.Windows.Forms.Application.DoEvents()
 
             'STOP COMMAND
-            frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(25)
+            frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : Wait(25)
 
             'SENSOR REQUEST COMMAND
-            frmMain.SerialPort1.Write(Buffer, 0, 1) : System.Threading.Thread.Sleep(25)
+            frmMain.SerialPort1.Write(Buffer, 0, 1) : Wait(25)
 
             'CLEAR BUFFER (DISREGARD THOSE BYTES)
             frmMain.SerialPort1.DiscardInBuffer()
 
             'REGISTER BYTE ADDRESS
-            frmMain.SerialPort1.Write(Buffer, 1, 1) : System.Threading.Thread.Sleep(25)
+            frmMain.SerialPort1.Write(Buffer, 1, 1) : Wait(25)
             InData = frmMain.SerialPort1.ReadByte
 
             'IF VALID THEN UPDATE TREEVIEW
@@ -179,7 +179,7 @@ Reset:
         ComboBox1.Enabled = False : ComboBox4.Enabled = False : ComboBox5.Enabled = False : cmdScanEcu.Enabled = False : cmdGo.Enabled = False : cmdStop.Enabled = True
 
         'MAKE SURE CONSULT 1 DATA QUERY IS STOPPED
-        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY)
+        frmMain.SerialPort1.Write(SEND_30_BYTE, 0, 1) : Wait(INTERBYTE_DELAY)
 
         'CLEAR ANY BUFFER
         frmMain.SerialPort1.DiscardInBuffer()

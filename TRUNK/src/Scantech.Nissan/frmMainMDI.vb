@@ -83,7 +83,7 @@ Public Class frmMain
         If LOG_BUTTONS_STATUS = "" Then                                             'REAL CONSULT PORT FUNCTION (BYPASS LOGGING)
             RESET_GRID_STYLE_FOR_SENSORS() : RESET_GRID_STYLE_FOR_OUTPUT() : RESET_GRID_STYLE_FOR_ACTIVE()
             REQUEST_C1_SENSOR_DATA()
-            Me.SerialPort1.Write(SEND_30_BYTE, 0, 1) : System.Threading.Thread.Sleep(INTERBYTE_DELAY) : Me.SerialPort1.DiscardInBuffer()
+            Me.SerialPort1.Write(SEND_30_BYTE, 0, 1) : Wait(INTERBYTE_DELAY) : Me.SerialPort1.DiscardInBuffer()
             If LOG_BUTTONS_STATUS <> "" Then LOG_SAVE_FILE() '.......................IF NOT "" THEN LOG RECORDING WAS PERFORMED.  ASK SAVE FILE
         ElseIf LOG_BUTTONS_STATUS = "Open" Then                                     'LOG FUNCTION
             RESET_GRID_STYLE_FOR_SENSORS() : RESET_GRID_STYLE_FOR_OUTPUT()
