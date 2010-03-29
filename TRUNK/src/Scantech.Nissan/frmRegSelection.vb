@@ -112,15 +112,28 @@
         '------------------------
         'ANALOG SENSOR SELECTIONS
         '------------------------
-        'CHECK ALL
+
+        'DO A CHECK ON CHECKMARKS
+        Dim X As Integer
+        Dim Y As Integer
         If e.ColumnIndex = 0 And e.RowIndex = -1 Then
-            Dim X As Integer
+            For Y = 0 To Grid1.RowCount - 1
+                If Me.Grid1.Item(0, Y).Value = False Then
+                    'CHECK ALL
+                    For X = 0 To Me.Grid1.RowCount - 1
+                        Me.Grid1.Item(0, X).Value = True
+                    Next
+                    Exit Sub
+                End If
+            Next Y
+            'UNCHECK ALL
             For X = 0 To Me.Grid1.RowCount - 1
-                Me.Grid1.Item(0, X).Value = True
+                Me.Grid1.Item(0, X).Value = False
             Next
             Exit Sub
         End If
 
+        'NOT USED
         If e.RowIndex < 0 Or e.ColumnIndex < 0 Then Exit Sub
 
         'CHECK/UNCHECK INDIVIDUALLY
@@ -130,15 +143,28 @@
         '-----------------------------
         'ACTIVE/OUTPUT TEST SELECTIONS
         '-----------------------------
-        'CHECK ALL
+
+        'DO A CHECK ON CHECKMARKS
+        Dim X As Integer
+        Dim Y As Integer
         If e.ColumnIndex = 0 And e.RowIndex = -1 Then
-            Dim X As Integer
+            For Y = 0 To Grid2.RowCount - 1
+                If Me.Grid2.Item(0, Y).Value = False Then
+                    'CHECK ALL
+                    For X = 0 To Me.Grid2.RowCount - 1
+                        Me.Grid2.Item(0, X).Value = True
+                    Next
+                    Exit Sub
+                End If
+            Next Y
+            'UNCHECK ALL
             For X = 0 To Me.Grid2.RowCount - 1
-                Me.Grid2.Item(0, X).Value = True
+                Me.Grid2.Item(0, X).Value = False
             Next
             Exit Sub
         End If
 
+        'NOT USED
         If e.RowIndex < 0 Or e.ColumnIndex < 0 Then Exit Sub
 
         'CHECK/UNCHECK INDIVIDUALLY

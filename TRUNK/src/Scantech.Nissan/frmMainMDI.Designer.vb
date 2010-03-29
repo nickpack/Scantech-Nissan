@@ -43,13 +43,16 @@ Partial Class frmMain
         Me.ToolStripSeparator9 = New System.Windows.Forms.ToolStripSeparator
         Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator
         Me.tsRecord = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator10 = New System.Windows.Forms.ToolStripSeparator
         Me.tsPause = New System.Windows.Forms.ToolStripButton
         Me.tsStop = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator
         Me.tsFastBackward = New System.Windows.Forms.ToolStripButton
         Me.tsPlay = New System.Windows.Forms.ToolStripButton
         Me.tsFastForward = New System.Windows.Forms.ToolStripButton
         Me.ToolStripSeparator7 = New System.Windows.Forms.ToolStripSeparator
         Me.tsOpen = New System.Windows.Forms.ToolStripButton
+        Me.ToolStripSeparator11 = New System.Windows.Forms.ToolStripSeparator
         Me.tmrTimeout = New System.Windows.Forms.Timer(Me.components)
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ConnectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -115,7 +118,6 @@ Partial Class frmMain
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
         Me.TrackBar1 = New System.Windows.Forms.TrackBar
-        Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator
         Me.StatusStrip.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         Me.MenuStrip.SuspendLayout()
@@ -126,9 +128,9 @@ Partial Class frmMain
         '
         Me.StatusStrip.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.statusPort, Me.statusRx, Me.tsFrameTrack, Me.tsProgress, Me.tsStatus, Me.tsStatus2, Me.tsStatus3, Me.tsStatus4})
-        Me.StatusStrip.Location = New System.Drawing.Point(0, 478)
+        Me.StatusStrip.Location = New System.Drawing.Point(0, 476)
         Me.StatusStrip.Name = "StatusStrip"
-        Me.StatusStrip.Size = New System.Drawing.Size(1094, 26)
+        Me.StatusStrip.Size = New System.Drawing.Size(1094, 28)
         Me.StatusStrip.TabIndex = 7
         Me.StatusStrip.Text = "StatusStrip"
         '
@@ -136,7 +138,7 @@ Partial Class frmMain
         '
         Me.statusPort.Image = Global.Scantech.Nissan.My.Resources.Resources.LedBlack
         Me.statusPort.Name = "statusPort"
-        Me.statusPort.Size = New System.Drawing.Size(62, 21)
+        Me.statusPort.Size = New System.Drawing.Size(62, 23)
         Me.statusPort.Text = "COM"
         Me.statusPort.ToolTipText = "COM PORT STATUS"
         '
@@ -144,7 +146,7 @@ Partial Class frmMain
         '
         Me.statusRx.Image = Global.Scantech.Nissan.My.Resources.Resources.LedBlack
         Me.statusRx.Name = "statusRx"
-        Me.statusRx.Size = New System.Drawing.Size(43, 21)
+        Me.statusRx.Size = New System.Drawing.Size(43, 23)
         Me.statusRx.Text = "Rx"
         Me.statusRx.ToolTipText = "IN BUFFER STATUS"
         '
@@ -152,7 +154,7 @@ Partial Class frmMain
         '
         Me.tsFrameTrack.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left
         Me.tsFrameTrack.Name = "tsFrameTrack"
-        Me.tsFrameTrack.Size = New System.Drawing.Size(4, 21)
+        Me.tsFrameTrack.Size = New System.Drawing.Size(4, 23)
         '
         'tsProgress
         '
@@ -165,25 +167,25 @@ Partial Class frmMain
         '
         Me.tsStatus.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left
         Me.tsStatus.Name = "tsStatus"
-        Me.tsStatus.Size = New System.Drawing.Size(4, 21)
+        Me.tsStatus.Size = New System.Drawing.Size(4, 23)
         '
         'tsStatus2
         '
         Me.tsStatus2.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left
         Me.tsStatus2.Name = "tsStatus2"
-        Me.tsStatus2.Size = New System.Drawing.Size(4, 21)
+        Me.tsStatus2.Size = New System.Drawing.Size(4, 23)
         '
         'tsStatus3
         '
         Me.tsStatus3.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left
         Me.tsStatus3.Name = "tsStatus3"
-        Me.tsStatus3.Size = New System.Drawing.Size(4, 21)
+        Me.tsStatus3.Size = New System.Drawing.Size(4, 23)
         '
         'tsStatus4
         '
         Me.tsStatus4.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left
         Me.tsStatus4.Name = "tsStatus4"
-        Me.tsStatus4.Size = New System.Drawing.Size(4, 21)
+        Me.tsStatus4.Size = New System.Drawing.Size(4, 23)
         '
         'tmrPortStatus
         '
@@ -210,7 +212,7 @@ Partial Class frmMain
         '
         'ToolStrip1
         '
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tbConnect, Me.tbDisconnect, Me.ToolStripSeparator9, Me.tsComPort, Me.ToolStripSeparator6, Me.tsRecord, Me.tsPause, Me.tsStop, Me.tsFastBackward, Me.tsPlay, Me.tsFastForward, Me.ToolStripSeparator7, Me.tsOpen, Me.ToolStripSeparator8})
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tbConnect, Me.tbDisconnect, Me.ToolStripSeparator9, Me.tsComPort, Me.ToolStripSeparator6, Me.tsRecord, Me.ToolStripSeparator10, Me.tsPause, Me.tsStop, Me.ToolStripSeparator8, Me.tsFastBackward, Me.tsPlay, Me.tsFastForward, Me.ToolStripSeparator7, Me.tsOpen, Me.ToolStripSeparator11})
         Me.ToolStrip1.Location = New System.Drawing.Point(0, 29)
         Me.ToolStrip1.Name = "ToolStrip1"
         Me.ToolStrip1.Size = New System.Drawing.Size(1094, 39)
@@ -249,6 +251,11 @@ Partial Class frmMain
         Me.tsRecord.Size = New System.Drawing.Size(36, 36)
         Me.tsRecord.ToolTipText = "RECORD"
         '
+        'ToolStripSeparator10
+        '
+        Me.ToolStripSeparator10.Name = "ToolStripSeparator10"
+        Me.ToolStripSeparator10.Size = New System.Drawing.Size(6, 39)
+        '
         'tsPause
         '
         Me.tsPause.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
@@ -270,6 +277,11 @@ Partial Class frmMain
         Me.tsStop.Name = "tsStop"
         Me.tsStop.Size = New System.Drawing.Size(36, 36)
         Me.tsStop.ToolTipText = "STOP"
+        '
+        'ToolStripSeparator8
+        '
+        Me.ToolStripSeparator8.Name = "ToolStripSeparator8"
+        Me.ToolStripSeparator8.Size = New System.Drawing.Size(6, 39)
         '
         'tsFastBackward
         '
@@ -319,6 +331,11 @@ Partial Class frmMain
         Me.tsOpen.Name = "tsOpen"
         Me.tsOpen.Size = New System.Drawing.Size(36, 36)
         Me.tsOpen.ToolTipText = "OPEN LOG FILE"
+        '
+        'ToolStripSeparator11
+        '
+        Me.ToolStripSeparator11.Name = "ToolStripSeparator11"
+        Me.ToolStripSeparator11.Size = New System.Drawing.Size(6, 39)
         '
         'tmrTimeout
         '
@@ -745,11 +762,6 @@ Partial Class frmMain
         Me.TrackBar1.TickStyle = System.Windows.Forms.TickStyle.None
         Me.TrackBar1.Visible = False
         '
-        'ToolStripSeparator8
-        '
-        Me.ToolStripSeparator8.Name = "ToolStripSeparator8"
-        Me.ToolStripSeparator8.Size = New System.Drawing.Size(6, 39)
-        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -870,5 +882,7 @@ Partial Class frmMain
     Friend WithEvents tsStatus4 As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents TrackBar1 As System.Windows.Forms.TrackBar
     Friend WithEvents ToolStripSeparator8 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripSeparator10 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripSeparator11 As System.Windows.Forms.ToolStripSeparator
 
 End Class

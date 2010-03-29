@@ -60,7 +60,7 @@
     Public TOTAL_RECORD_FRAME As VariantType                    'TOTAL FRAME RECORDS FOR LOG PLAYING
     Public X_RATE_SAMPLE As Long                                'FRAME PER SECOND STATUS COUNTER
 
-    Public PlaySpeed As Integer
+    Public PLAY_SPEED As Integer                                'LOG PLAYBACK DELAY INTERVAL
 
     Private Declare Unicode Function GetPrivateProfileString Lib "kernel32.dll" _
                             Alias "GetPrivateProfileStringW" (ByVal lpApplicationName As String, _
@@ -259,9 +259,9 @@ resend:
 
         'I HAVE CAME ACROSS WITH 2 DIFFERENT WAYS REQUESTING DATA SENSORS
         If SEND_STREAM_AVAILABLE_SENSOR_BYTE = "N/A" Then
-            PRE_REQUEST_C1_SENSOR_TYPE_1()                          'MOST COMMON TYPE
+            PRE_REQUEST_C1_SENSOR_TYPE_1()                                              'MOST COMMON TYPE
         Else
-            PRE_REQUEST_C1_SENSOR_TYPE_2()                          'COMMON ON TRANS MODULE
+            PRE_REQUEST_C1_SENSOR_TYPE_2()                                              'COMMON ON TRANS MODULE
         End If
 
         'FLAG DO LOOP EVENT IN PROGRESS AND RESET USER_REQUEST_STOP
@@ -477,17 +477,17 @@ resend:
                         '2 BYTE REGISTER TYPE
                         frmC1Sensors.Grid1.Item(2, WhatRowSensors).Value = _
                             DECODE_DATA_C1_SENSORS(REGISTERS_SCALE_TYPE(K, 0), 0, "&H" & _
-                            Left(DataFrame, 2), 0)                                                 'SCALE 1
+                            Left(DataFrame, 2), 0)                                                              'SCALE 1
                         frmC1Sensors.Grid1.Item(3, WhatRowSensors).Value = _
                             DECODE_DATA_C1_SENSORS_UNIT_TYPE(REGISTERS_UNIT_TYPE(K), 0)                         'UNIT 1
                         frmC1Sensors.Grid1.Item(4, WhatRowSensors).Value = _
                             DECODE_DATA_C1_SENSORS(REGISTERS_SCALE_TYPE(K, 0), 0, "&H" & _
-                            Left(DataFrame, 2), 1)                                                 'SCALE 2
+                            Left(DataFrame, 2), 1)                                                              'SCALE 2
                         frmC1Sensors.Grid1.Item(5, WhatRowSensors).Value = _
                             DECODE_DATA_C1_SENSORS_UNIT_TYPE(REGISTERS_UNIT_TYPE(K), 1)                         'UNIT 2
 
                         Value = DECODE_DATA_C1_SENSORS(REGISTERS_SCALE_TYPE(K, 0), 0, "&H" & _
-                            Left(DataFrame, 2), 0)                                                 'SCALE 1 MIN
+                            Left(DataFrame, 2), 0)                                                              'SCALE 1 MIN
                         If frmC1Sensors.Grid1.Item(6, WhatRowSensors).Value <> "" Then
                             If Val(Value) < Val(frmC1Sensors.Grid1.Item(6, WhatRowSensors).Value) Then
                                 frmC1Sensors.Grid1.Item(6, WhatRowSensors).Value = Value
@@ -916,8 +916,10 @@ resend:
     End Sub
     Public Sub RESET_C1_FORMS()
         'RESET 
-        USER_REQUEST_STOP = True : LOOP_IN_PROGRESS = False : frmMain.tmrTimeout.Enabled = False : USER_FORM_SELECT = 0 : frmMain.TrackBar1.Visible = False
-        LOG_BUTTONS_STATUS = "" : frmMain.tsStatus.Text = "" : frmMain.tsStatus2.Text = "" : frmMain.tsStatus3.Text = "" : frmMain.tsStatus4.Text = ""
+        USER_REQUEST_STOP = True : LOOP_IN_PROGRESS = False
+        frmMain.tmrTimeout.Enabled = False : USER_FORM_SELECT = 0 : frmMain.TrackBar1.Visible = False : LOG_BUTTONS_STATUS = ""
+        frmMain.tsStatus.Text = "" : frmMain.tsStatus2.Text = "" : frmMain.tsStatus3.Text = "" : frmMain.tsStatus4.Text = ""
+        FileClose(1)
 
         'CLOSE THE FORMS
         frmC1Output.Close() : frmC1Sensors.Close() : frmC1ActiveTest.Close() : frmRegSelection.Close() : frmC1Faults.Close()
@@ -1156,7 +1158,7 @@ resend:
 
         Do Until USER_REQUEST_STOP = True
             'PLAY SPEED ADJUSTED BY FORWARD OR BACKWARD BUTTON
-            Wait(PlaySpeed)
+            Wait(PLAY_SPEED)
             System.Windows.Forms.Application.DoEvents()
 
             'DO THIS ONLY IF PLAYING
@@ -1194,7 +1196,7 @@ resend:
         Dim sw As New Stopwatch
         sw.Start()
         Do While sw.ElapsedMilliseconds < interval
-            ' Allows UI to remain responsive
+            'ALLOWS UI TO REMAIN RESPONSIVE
             Application.DoEvents()
         Loop
         sw.Stop()

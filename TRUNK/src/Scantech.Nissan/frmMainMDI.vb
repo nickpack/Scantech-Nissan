@@ -153,20 +153,20 @@ Public Class frmMain
     End Sub
 
     Private Sub tsFastBackward_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsFastBackward.Click
-        If LOG_BUTTONS_STATUS <> "FastBackward" Then PlaySpeed = 640
+        If LOG_BUTTONS_STATUS <> "FastBackward" Then PLAY_SPEED = 640
         LOG_BUTTONS_STATUS = "FastBackward" : ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1, 2)
 
         'MAX SPEED
-        If PlaySpeed = 5 Then
-            PlaySpeed = 0
+        If PLAY_SPEED = 5 Then
+            PLAY_SPEED = 0
             Me.tsStatus3.Text = "Max Speed"
             Exit Sub
         End If
 
         'INCREASE SPEED LIMIT
-        If PlaySpeed = 0 Then PlaySpeed = 640
-        PlaySpeed = PlaySpeed / 2
-        Me.tsStatus3.Text = 320 / PlaySpeed & "x"
+        If PLAY_SPEED = 0 Then PLAY_SPEED = 640
+        PLAY_SPEED = PLAY_SPEED / 2
+        Me.tsStatus3.Text = 320 / PLAY_SPEED & "x"
     End Sub
 
     Private Sub tsPlay_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsPlay.Click
@@ -174,25 +174,25 @@ Public Class frmMain
         LOG_BUTTONS_STATUS = "Play"
         ENABLE_STATE_FOR_MENUS(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
         ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1, 1)
-        PlaySpeed = 320 : Me.tsStatus3.Text = "1x"
+        PLAY_SPEED = 320 : Me.tsStatus3.Text = "1x"
     End Sub
 
     Private Sub tsFastForward_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tsFastForward.Click
-        If LOG_BUTTONS_STATUS <> "FastForward" Then PlaySpeed = 640
-        If LOG_BUTTONS_STATUS = "Play" Then PlaySpeed = 320
+        If LOG_BUTTONS_STATUS <> "FastForward" Then PLAY_SPEED = 640
+        If LOG_BUTTONS_STATUS = "Play" Then PLAY_SPEED = 320
         LOG_BUTTONS_STATUS = "FastForward" : ENABLE_STATE_FOR_INSPECTOR(0, 1, 1, 1, 1, 1, 2)
 
         'MAX SPEED
-        If PlaySpeed = 5 Then
-            PlaySpeed = 0
+        If PLAY_SPEED = 5 Then
+            PLAY_SPEED = 0
             Me.tsStatus3.Text = "Max Speed"
             Exit Sub
         End If
 
         'INCREASE SPEED LIMIT
-        If PlaySpeed = 0 Then PlaySpeed = 640
-        PlaySpeed = PlaySpeed / 2
-        Me.tsStatus3.Text = 320 / PlaySpeed & "x"
+        If PLAY_SPEED = 0 Then PLAY_SPEED = 640
+        PLAY_SPEED = PLAY_SPEED / 2
+        Me.tsStatus3.Text = 320 / PLAY_SPEED & "x"
     End Sub
 
     Private Sub tmrLogStatus_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrLogStatus.Tick
@@ -238,8 +238,6 @@ Public Class frmMain
                 Else
                     tsPause.Image = My.Resources.PauseNormal
                 End If
-            Case "Stop"
-
             Case "Play" : tsPlay.Image = My.Resources.PlayHot
             Case "FastForward"
                 If X = True Then
